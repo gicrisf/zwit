@@ -1,6 +1,6 @@
 # The URL the site will be built for
 base_url = "https://zwit.link"
-title = "zwit"
+title = "(zwit)"
 description = "blog"
 generate_feeds = true
 default_language = "en"
@@ -36,7 +36,7 @@ main_menu = [
 
 logo_text = "(zwit)"
 author = "Giovanni Crisalfi"
-show_author = false
+show_author = true
 show_categories = true
 show_tags = true
 read_more = "read more"
