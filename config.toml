@@ -31,6 +31,7 @@ theme_color = "orange"
 main_menu = [
 {url="categories", name = "categories" },
 {url="tags", name = "tags" },
+{url="about", name = "about"},
 {url="atom.xml", name = "feed"}
 ]
 
