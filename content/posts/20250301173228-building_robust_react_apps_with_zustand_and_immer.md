@@ -2,12 +2,7 @@
 title = "Building Robust React Apps with Zustand and Immer"
 author = ["Giovanni Crisalfi"]
 date = 2025-03-10
-tags = ["react", "zustand", "immer", "typescript"]
-categories = ["web", "gui"]
 draft = false
-[taxonomies]
-  tags = ["react", "zustand", "immer", "typescript"]
-  categories = ["web", "gui"]
 +++
 
 ## Introduction {#introduction}
