@@ -4,7 +4,7 @@ author = ["Giovanni Crisalfi"]
 date = 2025-03-10
 draft = false
 [taxonomies]
-  tags = ["react", "zustand", "immer", "typescript"]
+  tags = ["react", "typescript"]
   categories = ["web", "gui"]
 +++
 
@@ -343,4 +343,4 @@ We’ve done it! The `addPoint` action demonstrates handling asynchronous operat
 
 In the end, Zustand and Immer make a strong pair for state management in React. Missing Rust/Elm’s guarantees? You’ll never fully replicate them in JS, but TypeScript, paired with modern tooling, partially bridges the gap. Zustand cuts through the noise with its clean, focused approach. Immer smooths out the rough edges of immutable updates, especially in nested states. Together, they let you build solid, fast apps with less code and fewer mistakes.
 
-The example discussed demonstrates how these tools can handle both synchronous and asynchronous operations seamlessly. To explore the implementation further, check out the repository [here](https://github.com/gicrisf/canvas-glow).
+The discussed example demonstrates how these tools can handle both synchronous and asynchronous operations seamlessly. To explore the implementation further, check out the repository [here](https://github.com/gicrisf/canvas-glow). If you find it useful and enjoyed this blog post, don't forget to leave a star!
