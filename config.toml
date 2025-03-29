@@ -1,6 +1,6 @@
 # The URL the site will be built for
 base_url = "https://zwit.link"
-title = "zwit"
+title = "Zwit"
 description = "blog"
 generate_feeds = true
 default_language = "en"

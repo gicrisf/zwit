@@ -1,7 +1,7 @@
 {% macro og_preview() %}
     <meta property="og:title" content="{{ social::og_title() }}" />
     <meta property="og:type" content="website"/>
-    <meta property="og:author" content="{{ social::og_author() }}"/>
+    <meta property="author" content="{{ social::author() }}"/>
     {%- if current_url -%}
         <meta property="og:url" content="{{ current_url }}"/>
     {%- endif -%}
@@ -19,7 +19,7 @@
             {{ config.description }}
         {%- endif -%}
     {%- elif page -%}
-        {%- if page.summary | string -%}
+        {%- if page.summary -%}
             {{ page.summary | striptags | truncate(length=200) }}
         {%- elif page.description -%}
             {{ page.description }}
@@ -30,7 +30,7 @@
 {% endmacro og_description %}
 
 
-{% macro og_author() %}
+{% macro author() %}
     {%- if section -%}
         {%-  if section.author -%}
             {{ section.author }}
@@ -44,7 +44,7 @@
             {{ config.extra.author }}
         {%- endif -%}
     {%- endif -%}
-{% endmacro og_author %}
+{% endmacro author %}
 
 {% macro og_title() -%}
     {{ config.title }} -&nbsp;
