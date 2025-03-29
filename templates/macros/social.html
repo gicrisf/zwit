@@ -1,7 +1,7 @@
 {% macro og_preview() %}
-    <meta property="og:title" content="{{ social::og_title() }}" />
+    <meta name="title" property="og:title" content="{{ social::og_title() }}" />
     <meta property="og:type" content="website"/>
-    <meta property="author" content="{{ social::author() }}"/>
+    <meta name="author" property="og:author" content="{{ social::author() }}"/>
     {%- if current_url -%}
         <meta property="og:url" content="{{ current_url }}"/>
     {%- endif -%}
