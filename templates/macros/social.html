@@ -1,11 +1,11 @@
 {% macro og_preview() %}
     <meta name="title" property="og:title" content="{{ social::og_title() }}" />
     <meta property="og:type" content="website"/>
-    <meta name="author" property="og:author" content="{{ social::author() }}"/>
+    <meta name="author" content="{{ social::author() }}"/>
     {%- if current_url -%}
         <meta property="og:url" content="{{ current_url }}"/>
     {%- endif -%}
-    <meta property="og:description" content="{{ social::og_description() }}"/>
+    <meta name="description" property="og:description" content="{{ social::og_description() }}"/>
     {%- if config.extra.og_preview_img -%}
         <meta property="og:image" content="{{ get_url(path=config.extra.og_preview_img) }}"/>
     {%- endif -%}
