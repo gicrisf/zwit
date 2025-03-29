@@ -8,9 +8,9 @@ draft = false
   categories = ["web", "gui"]
 +++
 
-## Introduction {#introduction}
-
 For years, I dodged React like the plague. In fact, I avoided JavaScript altogether, even in web-related tasks. Take static site generators, for example. For my old chemistry blog, I experimented with a variety of tools, year by year: Pelican, Jekyll, Hugo, Grav... In the end, I settled on Zola. Fast, robust, no JS needed, perfect for CI/CD workflows. Just prerendered HTML and sprinkle scripts for flair (e.g. comments, a masonry in the home page ecc.).
+
+<!-- more -->
 
 Rust’s elegance and stability, though less prominent in web development, shine through in Zola, more than compensating for any niche limitations.
 This, however, is a particular case, since we're just presenting static content: basically, most of the work is collapsed on the backend. But actual **web apps**? Rust’s Yew or Dioxus are promising but young.
