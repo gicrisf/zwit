@@ -35,7 +35,7 @@ main_menu = [
 {url="atom.xml", name = "feed"}
 ]
 
-logo_text = "(zwit)"
+logo_text = "zwit"
 author = "Giovanni Crisalfi"
 show_author = true
 show_categories = true
