@@ -2,6 +2,7 @@
 title = "Kaomel: a snappy kaomoji picker for Emacs"
 author = ["Giovanni Crisalfi"]
 date = 2025-08-13
+updated = 2025-10-18
 draft = false
 [taxonomies]
   tags = ["emacs", "lisp"]
@@ -193,3 +194,7 @@ What started as a simple utility became an occasion to explore different complet
 ---
 
 *Kaomel is available on GitHub and I've submitted the recipe to MELPA. If you're curious about the implementation details or want to contribute, the codebase is [here](https://github.com/gicrisf/kaomel).*
+
+> **Update:** Kaomel is now on MELPA!
+
+Install it with `M-x package-install RET kaomel RET`
