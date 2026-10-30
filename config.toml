@@ -58,21 +58,25 @@ custom_css = "custom.css"
 media = "(max-width: 640px)"
 srcset = [
   { src = "bg-grain-384.webp", width = 384 },
-  { src = "bg-grain-512.webp", width = 512 },
+]
+
+[[extra.background_image_animated]]
+media = "(max-width: 768px)"
+srcset = [
+  { src = "bg-grain-384.webp", width = 384 },
+  { src = "bg-grain-640.webp", width = 640 },
 ]
 
 [[extra.background_image_animated]]
 media = "(max-width: 1024px)"
 srcset = [
-  { src = "bg-grain-512.webp", width = 512 },
-  { src = "bg-grain-640.webp", width = 640 },
+  { src = "bg-grain-384.webp", width = 384 },
   { src = "bg-grain-768.webp", width = 768 },
 ]
 
 [[extra.background_image_animated]]
 srcset = [
-  { src = "bg-grain-640.webp", width = 640 },
-  { src = "bg-grain-768.webp", width = 768 },
+  { src = "bg-grain-384.webp", width = 384 },
   { src = "bg-grain-1024.webp", width = 1024 },
 ]
 

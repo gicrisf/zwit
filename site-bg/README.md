@@ -11,35 +11,53 @@ grain layer, delivered as responsive animated WebP files.
 The page renders:
 
 - `static/bg.jpg` as the photographic base and static fallback.
-- `static/bg-grain-384.webp`, `512`, `640`, `768`, and `1024` as animated,
+- `static/bg-grain-384.webp`, `640`, `768`, and `1024` as animated,
   pre-grained variants generated from the same source.
 - A CSS opacity fade from `0` to the value in `static/custom.css`.
 
 The markup lives in `templates/index.html` and uses `<picture>`:
 
-1. Media-capped animated WebP sources select the appropriate size:
-   - viewport up to `640px`: `384w` and `512w`
-   - viewport up to `1024px`: `512w`, `640w`, and `768w`
-   - larger viewports: `640w`, `768w`, and `1024w`
+1. Every WebP `<source>` starts with `sizes="1px"`, so the browser always
+   selects `384w` first.
 2. The `<img>` rendered by `image.render` remains the static fallback.
-3. The inline script adds `is-loaded` when the selected image loads, which
-   starts the CSS fade.
+3. The inline script adds `is-loaded` when the `384w` image loads, which starts
+   the CSS fade.
+4. After the first paint, if the viewport is wider than `640px` and the
+   connection is not Save-Data/2G/3G, the script sets `sizes="100vw"` on the
+   sources. The browser then upgrades to the media-capped target.
 
 The media caps are in `config.toml` as
-`[[extra.background_image_animated]]` groups. They are intentional: a plain
-`srcset` would still let a high-DPR phone select the largest file. The caps
-guarantee that small viewports never request the `1024w` variant.
+`[[extra.background_image_animated]]` groups:
+
+- viewport up to `640px`: `384w`
+- viewport up to `768px`: `384w` and `640w`
+- viewport up to `1024px`: `384w` and `768w`
+- larger viewports: `384w` and `1024w`
+
+They are intentional: a plain `srcset` would still let a high-DPR phone select
+the largest file. The caps guarantee that small viewports never request the
+`1024w` variant.
 
 | Variant | Approx. size |
 | --- | --- |
 | `bg-grain-384.webp` | 0.37 MiB |
-| `bg-grain-512.webp` | 0.63 MiB |
 | `bg-grain-640.webp` | 0.97 MiB |
 | `bg-grain-768.webp` | 1.36 MiB |
 | `bg-grain-1024.webp` | 2.35 MiB |
 
-Only one variant is downloaded by a client and the browser caches it across
-page navigations.
+Small screens (`<=640px`) keep `384w` and do not upgrade. Larger screens
+download `384w` first and then the selected variant, so the background appears
+quickly at the cost of one extra small request. Save-Data and 2G/3G connections
+also stay on `384w`.
+
+| Screen | Downloads |
+| --- | --- |
+| `<=640px` | `384w` only |
+| `641–768px` | `384w` + `640w` |
+| `769–1024px` | `384w` + `768w` |
+| `>1024px` | `384w` + `1024w` |
+
+The browser caches both files across page navigations.
 
 ### Why not let Zola resize the WebP?
 
@@ -65,7 +83,7 @@ Optional environment variables:
 
 | Variable | Default | Meaning |
 | --- | --- | --- |
-| `BG_SIZES` | `384,512,640,768,1024` | Comma-separated square sizes |
+| `BG_SIZES` | `384,640,768,1024` | Comma-separated square sizes |
 | `BG_FPS` | `10` | Frames per second |
 | `BG_SECONDS` | `1.5` | Loop length |
 | `BG_QUALITY` | `75` | Lossy WebP quality |

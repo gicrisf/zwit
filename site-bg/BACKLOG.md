@@ -63,13 +63,38 @@ The single WebP still meant every client could download the same large file.
 A plain `srcset` was not enough because high-DPR phones can still choose the
 largest candidate. The current solution uses media-capped `<source>` groups:
 
-- up to 640px: 384w and 512w
-- up to 1024px: 512w, 640w, and 768w
-- larger: 640w, 768w, and 1024w
+- up to 640px: 384w
+- up to 768px: 384w and 640w
+- up to 1024px: 384w and 768w
+- larger: 384w and 1024w
 
 This guarantees that a small viewport cannot select the 1024w asset. The tradeoff
 is that small high-DPR screens may upscale a smaller image; at the current
 opacity and with grain, this is acceptable.
+
+## 6. Smallest-first loading
+
+The browser used to select the final variant immediately. The background now
+always starts with `384w`:
+
+- every `<source>` initially has `sizes="1px"`
+- after the `384w` image paints, JavaScript sets `sizes="100vw"` when the
+  viewport is wider than `640px`
+- Save-Data and `slow-2g`/`2g`/`3g` connections keep `384w`
+- small screens (`<=640px`) keep `384w` permanently
+
+The browser re-selects the media-capped variant when `sizes` changes. Tested in
+Firefox:
+
+- 390px: `384w` only, no upgrade
+- 700px: `384w` then `640w`
+- 800px: `384w` then `768w`
+- 1280px: `384w` then `1024w`
+
+The tradeoff is an extra `0.37 MiB` download on upgraded screens. Small screens
+now download only `0.37 MiB` instead of `0.63 MiB`. The `512w` variant was
+removed because it was unreachable under this policy; `640w` is now reachable
+for the `641–768px` group.
 
 ## Lessons
 
@@ -80,6 +105,10 @@ opacity and with grain, this is acceptable.
   the geometry rather than adding a visual zoom hack.
 - Browser selection with `srcset` respects DPR; media caps are required to
   enforce hard data limits.
+- Changing `sizes` on the sources is enough to trigger the upgrade; no manual
+  image swap is needed.
+- Smallest-first is a perceived-speed optimization, not a total-bandwidth
+  optimization for upgraded screens.
 
 ## Open items
 
@@ -88,6 +117,8 @@ opacity and with grain, this is acceptable.
 - Measure real-world LCP with the 1024w asset on slow connections.
 - Consider replacing the 1024w file with 896w or quality 70 if its size is too
   high in practice.
+- Review whether capping the `641–768px` range at `640w` looks acceptable on
+  `768px` displays.
 - Decide whether reduced-motion users should receive a static background. The
   current implementation does not branch on `prefers-reduced-motion`.
 - Add a deploy-time check that all `bg-grain-*` files referenced by

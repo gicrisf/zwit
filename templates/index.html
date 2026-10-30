@@ -18,7 +18,7 @@
       <source
         {% if group.media %}media="{{ group.media }}"{% endif %}
         srcset="{% for image in group.srcset %}{{ get_url(path=image.src) }} {{ image.width }}w{% if not loop.last %}, {% endif %}{% endfor %}"
-        sizes="100vw"
+        sizes="1px"
         type="image/webp">
       {% endfor %}
       {% endif %}
@@ -39,8 +39,40 @@
       var image = document.querySelector('.site-bg__image');
       if (!image) return;
 
+      var picture = image.closest('.site-bg__picture');
+      var sources = picture ? picture.querySelectorAll('source') : null;
+      var upgraded = false;
+
+      function connectionAllowsUpgrade() {
+        var connection = navigator.connection ||
+          navigator.mozConnection ||
+          navigator.webkitConnection;
+        if (!connection) return true;
+        if (connection.saveData) return false;
+        var type = connection.effectiveType;
+        return type !== 'slow-2g' && type !== '2g' && type !== '3g';
+      }
+
+      function canUpgrade() {
+        return window.innerWidth > 640 && connectionAllowsUpgrade();
+      }
+
+      function upgrade() {
+        if (upgraded || !sources || !sources.length || !canUpgrade()) return;
+        upgraded = true;
+
+        for (var i = 0; i < sources.length; i += 1) {
+          sources[i].setAttribute('sizes', '100vw');
+        }
+      }
+
       function reveal() {
         image.classList.add('is-loaded');
+        if (!canUpgrade()) return;
+
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(upgrade);
+        });
       }
 
       if (image.complete) {
@@ -48,6 +80,10 @@
       } else {
         image.addEventListener('load', reveal, { once: true });
       }
+
+      window.addEventListener('resize', function () {
+        if (!upgraded && canUpgrade()) upgrade();
+      }, false);
     })();
   </script>
 

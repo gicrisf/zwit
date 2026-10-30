@@ -11,7 +11,7 @@ OUT_DIR = ROOT / "static"
 
 SIZES = [
     int(value)
-    for value in os.environ.get("BG_SIZES", "384,512,640,768,1024").split(",")
+    for value in os.environ.get("BG_SIZES", "384,640,768,1024").split(",")
     if value.strip()
 ]
 FPS = int(os.environ.get("BG_FPS", "10"))
