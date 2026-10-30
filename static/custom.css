@@ -3,31 +3,45 @@
   transform: scale(1.06);
 }
 
-.masthead__rule {
-  --masthead-wave: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDQwIDE2Ij48ZyBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiI+PGxpbmUgeDE9IjAiIHkxPSI2LjAwIiB4Mj0iMCIgeTI9IjEwLjAwIi8+PGxpbmUgeDE9IjQiIHkxPSIzLjA2IiB4Mj0iNCIgeTI9IjcuMDYiLz48bGluZSB4MT0iOCIgeTE9IjEuMjQiIHgyPSI4IiB5Mj0iNS4yNCIvPjxsaW5lIHgxPSIxMiIgeTE9IjEuMjQiIHgyPSIxMiIgeTI9IjUuMjQiLz48bGluZSB4MT0iMTYiIHkxPSIzLjA2IiB4Mj0iMTYiIHkyPSI3LjA2Ii8+PGxpbmUgeDE9IjIwIiB5MT0iNi4wMCIgeDI9IjIwIiB5Mj0iMTAuMDAiLz48bGluZSB4MT0iMjQiIHkxPSI4Ljk0IiB4Mj0iMjQiIHkyPSIxMi45NCIvPjxsaW5lIHgxPSIyOCIgeTE9IjEwLjc2IiB4Mj0iMjgiIHkyPSIxNC43NiIvPjxsaW5lIHgxPSIzMiIgeTE9IjEwLjc2IiB4Mj0iMzIiIHkyPSIxNC43NiIvPjxsaW5lIHgxPSIzNiIgeTE9IjguOTQiIHgyPSIzNiIgeTI9IjEyLjk0Ii8+PC9nPjwvc3ZnPg==");
-  background-image: linear-gradient(
-    90deg,
-    var(--color-rule) 0 4px,
-    transparent 4px 10px
-  );
-  background-position: left center;
-  background-repeat: repeat-x;
-  background-size: 10px 4px;
+.sheet {
+  background: transparent;
+  position: relative;
+  z-index: 0;
 }
 
-@supports (mask-image: url("")) or (-webkit-mask-image: url("")) {
-  .masthead__rule {
-    background-color: var(--color-rule);
-    background-image: none;
-    -webkit-mask-image: var(--masthead-wave);
-    mask-image: var(--masthead-wave);
-    -webkit-mask-position: left center;
-    mask-position: left center;
-    -webkit-mask-repeat: repeat-x;
-    mask-repeat: repeat-x;
-    -webkit-mask-size: 40px 16px;
-    mask-size: 40px 16px;
-  }
+.sheet::before {
+  background: var(--color-paper);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  -webkit-mask-image:
+    linear-gradient(#000, #000),
+    linear-gradient(#000, #000);
+  -webkit-mask-position:
+    0 0,
+    var(--masthead-window-x, 0) var(--masthead-window-y, 0);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size:
+    100% 100%,
+    var(--masthead-window-w, 0) var(--masthead-window-h, 0);
+  -webkit-mask-composite: xor;
+  mask-image:
+    linear-gradient(#000, #000),
+    linear-gradient(#000, #000);
+  mask-position:
+    0 0,
+    var(--masthead-window-x, 0) var(--masthead-window-y, 0);
+  mask-repeat: no-repeat;
+  mask-size:
+    100% 100%,
+    var(--masthead-window-w, 0) var(--masthead-window-h, 0);
+  mask-composite: exclude;
+}
+
+.masthead__rule {
+  background: none;
 }
 
 .site-bg {

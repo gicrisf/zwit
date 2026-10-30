@@ -101,6 +101,42 @@
     </div>
   </div>
 
+  <script>
+    (function () {
+      var sheet = document.querySelector('.sheet');
+      var masthead = document.querySelector('.masthead');
+      if (!sheet || !masthead) return;
+
+      function placeWindow() {
+        var sheetRect = sheet.getBoundingClientRect();
+        var mastheadRect = masthead.getBoundingClientRect();
+
+        sheet.style.setProperty(
+          '--masthead-window-x',
+          (mastheadRect.left - sheetRect.left - sheet.clientLeft) + 'px'
+        );
+        sheet.style.setProperty(
+          '--masthead-window-y',
+          (mastheadRect.top - sheetRect.top - sheet.clientTop) + 'px'
+        );
+        sheet.style.setProperty('--masthead-window-w', mastheadRect.width + 'px');
+        sheet.style.setProperty('--masthead-window-h', mastheadRect.height + 'px');
+      }
+
+      placeWindow();
+      window.addEventListener('resize', placeWindow, false);
+      window.addEventListener('load', placeWindow, { once: true });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(placeWindow);
+      }
+
+      if (window.ResizeObserver) {
+        new ResizeObserver(placeWindow).observe(masthead);
+      }
+    })();
+  </script>
+
   {% block script %}
   {% include "partials/scripts.html" %}
   {% endblock script %}
