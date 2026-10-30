@@ -1,0 +1,10 @@
+.paper-texture {
+  background-color: #e7e7e7;
+  background-image:
+    url("paper-grain.svg"),
+    url("paper-specks.svg"),
+    url("paper-mottle.svg");
+  background-blend-mode: overlay, multiply, soft-light;
+  background-repeat: repeat;
+  background-size: 180px 180px, 480px 480px, 900px 900px;
+}
