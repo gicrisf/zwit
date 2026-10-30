@@ -1,43 +1,56 @@
 # The URL the site will be built for
 base_url = "https://zwit.link"
+
 title = "Zwit"
-description = "blog"
-generate_feeds = true
+description = "Giovanni Crisalfi's blog about code, tools, and the occasional weekend project."
+
 default_language = "en"
+
+generate_feeds = true
+feed_filenames = ["atom.xml"]
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
 
-# Whether to build a search index to be used later on by a JavaScript library
+theme = "mono"
+
+taxonomies = [
+  {name = "tags"},
+  {name = "categories"},
+]
+
 build_search_index = false
 
-theme = "zerm"
-
-# Built in taxonomies of zerm.
-taxonomies = [
-           {name = "tags"},
-           {name = "categories"},
-]
-
 [markdown]
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = true
-highlight_theme = "1337"
+insert_anchor_links = "right"
+bottom_footnotes = true
+
+[markdown.highlighting]
+style = "class"
+light_theme = "github-light"
+dark_theme = "github-light"
 
 [extra]
-theme_color = "orange"
+logo_text = "zwit"
+logo_home_link = "/"
+background_image = "bg.jpg"
 
+# Collapse the navigation into the Menu toggle at every width.
+compact_nav = true
+
+# `section` marks the entry as current when the path starts with its URL.
 main_menu = [
-{url="categories", name = "categories" },
-{url="tags", name = "tags" },
-{url="about", name = "about"},
-{url="atom.xml", name = "feed"}
+  {url = "/posts/", name = "posts", section = "posts"},
+  {url = "/categories/", name = "categories", section = "categories"},
+  {url = "/tags/", name = "tags", section = "tags"},
+  {url = "atom.xml", name = "feed", trailing_slash = false},
 ]
 
-logo_text = "zwit"
-author = "Giovanni Crisalfi"
-show_author = true
-show_categories = true
-show_tags = true
-read_more = "read more"
+github_url = "https://github.com/gicrisf"
+
+favicon = "logo/favicon.ico"
+apple_touch_icon = "logo/apple-touch-icon.png"
+
+# Optional custom CSS placed in static/.
+custom_css = "custom.css"
+

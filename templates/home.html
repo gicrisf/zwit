@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+
+{% block main %}
+<section class="home-hero">
+  <div class="home-copy">
+    <p class="home-kicker">{{ section.extra.kicker | default(value="Blog") }}</p>
+    <h1>{{ section.title | default(value=config.title) }}</h1>
+
+    {% if section.extra.lead %}
+    <p class="home-lede">{{ section.extra.lead | safe }}</p>
+    {% endif %}
+
+    <p class="home-calls">
+      {% if section.extra.primary_url %}
+      <a class="button-primary" href="{{ section.extra.primary_url }}">{{ section.extra.primary_label | default(value="Read the Blog →") }}</a>
+      {% else %}
+      <a class="button-primary" href="{{ get_url(path='blog', trailing_slash=true) }}">{{ section.extra.primary_label | default(value="Read the Blog →") }}</a>
+      {% endif %}
+
+      {% if section.extra.secondary_url %}
+      <a class="button-secondary" href="{{ section.extra.secondary_url }}">{{ section.extra.secondary_label | default(value="Source →") }}</a>
+      {% endif %}
+    </p>
+  </div>
+
+  {% if section.extra.home_image %}
+  {% set home_image_alt = section.extra.home_image_alt | default(value="") %}
+  <figure class="home-art">
+    <div class="home-art__frame">
+      {{<image.render src={section.extra.home_image} alt={home_image_alt} sizes="(max-width: 22rem) 106vw, 23.5rem" loading="eager" />}}
+    </div>
+    {% if section.extra.home_image_caption %}
+    <figcaption class="home-art__caption">{{ section.extra.home_image_caption }}</figcaption>
+    {% endif %}
+  </figure>
+  {% else %}
+  <div class="home-plate" aria-hidden="true">
+    <div class="home-plate__chain">{% include "partials/shell/chain.html" %}</div>
+    <div class="home-plate__commits">{% include "partials/shell/commits.html" %}</div>
+    <p class="home-plate__caption">source → compile → svg</p>
+  </div>
+  {% endif %}
+</section>
+
+<div class="home-content prose">
+  {{ section.content | safe }}
+</div>
+{% endblock main %}

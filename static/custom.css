@@ -1,0 +1,24 @@
+.home-art__frame img {
+  filter: contrast(1.2) brightness(1.1) saturate(0.9);
+  transform: scale(1.06);
+}
+
+.site-bg {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+}
+
+.site-bg__image {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.desk {
+  position: relative;
+  z-index: 1;
+}

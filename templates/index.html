@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ lang | default(value=config.default_language) | default(value='en') }}">
+<head>
+  <script>
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+  {% include "partials/head.html" %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {% if config.extra.background_image %}
+  <div class="site-bg" aria-hidden="true">
+    {{<image.render
+      src={config.extra.background_image}
+      alt=""
+      sizes="100vw"
+      widths="512,1024"
+      class_name="site-bg__image"
+      loading="eager"
+    />}}
+  </div>
+  {% endif %}
+
+  <div class="desk">
+    <div class="sheet{% if config.extra.full_width %} sheet--wide{% endif %}">
+      {% include "partials/header.html" %}
+      {% include "partials/extended_header.html" %}
+
+      <main class="site-main" id="main">
+        {% block main %}{% endblock main %}
+      </main>
+
+      {% include "partials/footer.html" %}
+      {% include "partials/extended_footer.html" %}
+    </div>
+  </div>
+
+  {% block script %}
+  {% include "partials/scripts.html" %}
+  {% endblock script %}
+</body>
+</html>

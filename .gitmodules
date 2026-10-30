@@ -1,3 +1,4 @@
-[submodule "themes/zerm"]
-	path = themes/zerm
-	url = https://github.com/ejmg/zerm
+[submodule "themes/mono"]
+	path = themes/mono
+	url = git@github.com:gicrisf/mono.git
+	branch = blog-only
