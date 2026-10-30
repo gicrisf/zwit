@@ -3,6 +3,33 @@
   transform: scale(1.06);
 }
 
+.masthead__rule {
+  --masthead-wave: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDQwIDE2Ij48cGF0aCBkPSJNMCA4IEM1IDEgMTUgMSAyMCA4IFMzNSAxNSA0MCA4IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==");
+  background-image: linear-gradient(
+    90deg,
+    var(--color-rule) 0 4px,
+    transparent 4px 10px
+  );
+  background-position: left center;
+  background-repeat: repeat-x;
+  background-size: 10px 4px;
+}
+
+@supports (mask-image: url("")) or (-webkit-mask-image: url("")) {
+  .masthead__rule {
+    background-color: var(--color-rule);
+    background-image: none;
+    -webkit-mask-image: var(--masthead-wave);
+    mask-image: var(--masthead-wave);
+    -webkit-mask-position: left center;
+    mask-position: left center;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-size: 40px 16px;
+    mask-size: 40px 16px;
+  }
+}
+
 .site-bg {
   inset: 0;
   overflow: hidden;
