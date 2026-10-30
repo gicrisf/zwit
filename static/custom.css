@@ -3,6 +3,22 @@
   transform: scale(1.06);
 }
 
+.brand {
+  background: var(--color-paper);
+  box-shadow: var(--shadow-hard);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  padding-block: var(--space-xs);
+  padding-inline: var(--space-sm);
+  text-transform: uppercase;
+}
+
+.brand:hover {
+  background: var(--color-tint);
+}
+
 .sheet {
   background: transparent;
   position: relative;
