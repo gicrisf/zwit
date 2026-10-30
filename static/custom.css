@@ -11,11 +11,32 @@
   z-index: 0;
 }
 
+.site-bg__picture {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 .site-bg__image {
   display: block;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
   width: 100%;
+}
+
+.site-bg__image.is-loaded {
+  animation: site-bg-fade-in 0.8s ease forwards;
+}
+
+@keyframes site-bg-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.5;
+  }
 }
 
 .desk {

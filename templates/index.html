@@ -12,16 +12,44 @@
 
   {% if config.extra.background_image %}
   <div class="site-bg" aria-hidden="true">
-    {{<image.render
-      src={config.extra.background_image}
-      alt=""
-      sizes="100vw"
-      widths="512,1024"
-      class_name="site-bg__image"
-      loading="eager"
-    />}}
+    <picture class="site-bg__picture">
+      {% if config.extra.background_image_animated %}
+      {% for group in config.extra.background_image_animated %}
+      <source
+        {% if group.media %}media="{{ group.media }}"{% endif %}
+        srcset="{% for image in group.srcset %}{{ get_url(path=image.src) }} {{ image.width }}w{% if not loop.last %}, {% endif %}{% endfor %}"
+        sizes="100vw"
+        type="image/webp">
+      {% endfor %}
+      {% endif %}
+      {{<image.render
+        src={config.extra.background_image}
+        alt=""
+        sizes="100vw"
+        widths="512,1024"
+        class_name="site-bg__image"
+        loading="eager"
+      />}}
+    </picture>
   </div>
   {% endif %}
+
+  <script>
+    (function () {
+      var image = document.querySelector('.site-bg__image');
+      if (!image) return;
+
+      function reveal() {
+        image.classList.add('is-loaded');
+      }
+
+      if (image.complete) {
+        reveal();
+      } else {
+        image.addEventListener('load', reveal, { once: true });
+      }
+    })();
+  </script>
 
   <div class="desk">
     <div class="sheet{% if config.extra.full_width %} sheet--wide{% endif %}">

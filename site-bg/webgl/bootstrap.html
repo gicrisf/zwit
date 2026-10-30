@@ -1,0 +1,58 @@
+<div class="site-bg" aria-hidden="true">
+  {{<image.render
+    src={config.extra.background_image}
+    alt=""
+    sizes="100vw"
+    widths="512,1024"
+    class_name="site-bg__image"
+    loading="eager"
+  />}}
+  <canvas class="site-bg__canvas"></canvas>
+</div>
+<script defer src="{{ get_url(path='js/site-bg-grain.js') }}"></script>
+
+<script>
+  (function () {
+    var bg = document.querySelector('.site-bg');
+    if (!bg) return;
+
+    var image = bg.querySelector('.site-bg__image');
+    var canvas = bg.querySelector('.site-bg__canvas');
+    if (!image || !canvas) return;
+
+    function fallback() {
+      image.classList.add('is-loaded');
+    }
+
+    function start() {
+      var init = window.siteBgGrain && window.siteBgGrain.init;
+
+      if (!init) {
+        fallback();
+        return;
+      }
+
+      try {
+        Promise.resolve(init(bg, image, canvas)).then(function (ready) {
+          if (!ready) fallback();
+        }).catch(fallback);
+      } catch (e) {
+        fallback();
+      }
+    }
+
+    function wait() {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start, { once: true });
+      } else {
+        start();
+      }
+    }
+
+    if (image.complete && image.naturalWidth) {
+      wait();
+    } else {
+      image.addEventListener('load', wait, { once: true });
+    }
+  })();
+</script>

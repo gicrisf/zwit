@@ -1,0 +1,44 @@
+.site-bg {
+  background: #000;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+}
+
+.site-bg__image {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  width: 100%;
+}
+
+.site-bg__canvas {
+  display: block;
+  height: 100%;
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.site-bg__image.is-loaded,
+.site-bg__canvas.is-loaded {
+  animation: site-bg-fade-in 0.8s ease forwards;
+}
+
+.site-bg--webgl .site-bg__image {
+  visibility: hidden;
+}
+
+@keyframes site-bg-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
