@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- d_xy / D: fat lobes, open void. Grid 200, centre (100,100), bell r=88, lobe tip r=65, inner r=18. -->
+  <g fill="none" stroke="#1B2A57" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="100" cy="100" r="88"/>
+    <path d="M 18 0 C 20 -17 32 -25 48 -19 C 58 -14 65 -8 65 0 C 65 8 58 14 48 19 C 32 25 20 17 18 0 Z" transform="translate(100,100) rotate(-45)" fill="#1B2A57"/>
+    <path d="M 18 0 C 20 -17 32 -25 48 -19 C 58 -14 65 -8 65 0 C 65 8 58 14 48 19 C 32 25 20 17 18 0 Z" transform="translate(100,100) rotate(-135)"/>
+    <path d="M 18 0 C 20 -17 32 -25 48 -19 C 58 -14 65 -8 65 0 C 65 8 58 14 48 19 C 32 25 20 17 18 0 Z" transform="translate(100,100) rotate(135)" fill="#1B2A57"/>
+    <path d="M 18 0 C 20 -17 32 -25 48 -19 C 58 -14 65 -8 65 0 C 65 8 58 14 48 19 C 32 25 20 17 18 0 Z" transform="translate(100,100) rotate(45)"/>
+  </g>
+</svg>

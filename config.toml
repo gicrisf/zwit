@@ -48,7 +48,7 @@ main_menu = [
 
 github_url = "https://github.com/gicrisf"
 
-favicon = "logo/favicon.ico"
+favicon = "logo/orbital-D-favicon.ico"
 apple_touch_icon = "logo/apple-touch-icon.png"
 
 # Optional custom CSS placed in static/.

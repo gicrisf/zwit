@@ -8,11 +8,20 @@
   box-shadow: var(--shadow-hard);
   color: var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0;
+  justify-content: center;
   letter-spacing: 0.08em;
   padding-block: var(--space-xs);
   padding-inline: var(--space-sm);
   text-transform: uppercase;
+}
+
+.brand::before {
+  background: url("logo/orbital-D-icon.svg") center / contain no-repeat;
+  content: "";
+  display: block;
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .brand:hover {
