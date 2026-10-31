@@ -1,0 +1,26 @@
+{% set has_docs = (section.pages | length > 0) or (section.subsections | length > 0) %}
+{% if has_docs %}
+<section class="project-docs-index" aria-label="Documentation">
+  <h2>Documentation</h2>
+  <div class="docs-index">
+    {% for entry in section.pages %}
+    <a class="docs-card" href="{{ entry.permalink }}">
+      <span class="docs-card__title">{{ entry.title }} →</span>
+      {% if entry.description %}
+      <span class="docs-card__description">{{ entry.description }}</span>
+      {% endif %}
+    </a>
+    {% endfor %}
+
+    {% for path in section.subsections %}
+    {% set subsection = get_section(path=path) %}
+    <a class="docs-card" href="{{ subsection.permalink }}">
+      <span class="docs-card__title">{{ subsection.title }} →</span>
+      {% if subsection.description %}
+      <span class="docs-card__description">{{ subsection.description }}</span>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

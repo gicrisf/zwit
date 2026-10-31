@@ -1,7 +1,8 @@
 +++
 title = "Internal Links"
 description = "How ox-zola converts Org links to Zola's native path syntax."
-weight = 20
+weight = 150
+aliases = ["/projects/ox-zola/internal-links/"]
 
 [extra]
 lead = "Ox-zola turns Org links into Zola-compatible Markdown, including cross-file links and heading anchors."

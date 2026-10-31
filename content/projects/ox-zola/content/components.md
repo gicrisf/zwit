@@ -1,11 +1,14 @@
 +++
 title = "Components and Special Blocks"
 description = "How ox-zola handles Org special blocks in the Tera component era."
-weight = 30
+weight = 160
+aliases = ["/projects/ox-zola/components/"]
 
 [extra]
 lead = "Zola 0.23 replaced shortcodes with Tera components. Here is what ox-zola handles directly and what needs a component."
 toc = true
+adapted_from = "ox-hugo"
+adapted_url = "https://ox-hugo.scripter.co/doc/shortcodes/"
 +++
 
 {% raw %}
@@ -100,7 +103,7 @@ The body still parses as **Markdown**.
 Or use a self-closing component:
 
 ```markdown
-{{<ui.card title="A card" to="/docs/" />}}
+{{<ui.card title="A card" to="/projects/" />}}
 ```
 
 Component arguments use quoted strings for text and `{...}` for non-string values.

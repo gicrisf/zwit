@@ -1,11 +1,13 @@
 +++
-title = "Getting Started"
-description = "Install ox-zola, configure a Zola site, and export a first post."
+title = "Quick Start"
+description = "Create a Zola site and export a first Org post with ox-zola."
 weight = 10
 
 [extra]
-lead = "Install ox-zola, point it at a Zola site, and export a first Org subtree."
+lead = "Create a Zola site, install ox-zola, and export a first Org subtree."
 toc = true
+adapted_from = "ox-hugo"
+adapted_url = "https://ox-hugo.scripter.co/doc/quick-start/"
 +++
 
 ## Requirements
@@ -114,4 +116,4 @@ Put a post and its assets in the same directory by exporting an `index` file:
 
 The existing `EXPORT_HUGO_*` property keeps working for compatibility.
 
-Next, see [Internal Links](@/projects/ox-zola/internal-links.md) and [Components and Special Blocks](@/projects/ox-zola/components.md).
+Next, see [Internal Links](@/projects/ox-zola/content/internal-links.md) and [Components and Special Blocks](@/projects/ox-zola/content/components.md).

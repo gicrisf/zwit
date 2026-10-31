@@ -1,7 +1,8 @@
 +++
 title = "Migrating from ox-hugo"
 description = "Move an Org-based blog from Hugo to Zola with ox-zola."
-weight = 40
+weight = 50
+aliases = ["/projects/ox-zola/migration-from-ox-hugo/"]
 
 [extra]
 lead = "Keep your Org files, switch the exporter, and update the few Hugo-specific constructs that Zola does not share."
@@ -127,7 +128,7 @@ Content here
 {{<site.youtube id="abc123" />}}
 ```
 
-If you still target Zola 0.22, ox-zola can emit the legacy shortcode syntax for Org special blocks. For 0.23 and newer, define and call Tera components instead. See [Components and Special Blocks](@/projects/ox-zola/components.md).
+If you still target Zola 0.22, ox-zola can emit the legacy shortcode syntax for Org special blocks. For 0.23 and newer, define and call Tera components instead. See [Components and Special Blocks](@/projects/ox-zola/content/components.md).
 
 ## Figures
 

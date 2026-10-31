@@ -25,11 +25,13 @@
   {% endset %}
   {% set content_parts = section.content | split(pat='<section class="footnotes">') %}
   {{ content_parts[0] | safe }}
+  {% include "partials/projects/docs_index.html" %}
   {{ timeline | safe }}
   {% if content_parts | length > 1 %}
   <section class="footnotes">{{ content_parts[1] | safe }}</section>
   {% endif %}
   {% else %}
   {{ section.content | safe }}
+  {% include "partials/projects/docs_index.html" %}
   {% endif %}
 </div>
