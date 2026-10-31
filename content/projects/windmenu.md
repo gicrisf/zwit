@@ -4,7 +4,7 @@ description = "A minimal, keyboard-driven application launcher for Windows."
 
 [extra]
 repo = "https://github.com/gicrisf/windmenu"
-language = "Rust"
+language = ["Rust"]
 +++
 
 I've spent years bouncing between different operating systems, and I always found a pillar in dmenu's simplicity and portability. That minimal, keyboard-driven launcher that lets you summon any application without touching the mouse. I wanted something like that on Windows too.

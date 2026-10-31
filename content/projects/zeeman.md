@@ -4,7 +4,7 @@ description = "A minimal periodic table focused on isotope data."
 
 [extra]
 repo = "https://github.com/gicrisf/zeeman"
-language = "JavaScript"
+language = ["JavaScript"]
 +++
 
 Zeeman is an interactive periodic table for people who work with isotopes. Selecting an element shows its symbol, atomic number, isotopic abundances, and nuclear spin clusters in a compact visualisation designed to make the data readable at a glance.

@@ -28,7 +28,7 @@
         <span class="card__description">{{ project.description }}</span>
         {% endif %}
         <span class="project-card__meta">
-          {% if project.extra.language %}{{ project.extra.language }}{% endif %}
+          {% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}
           {% if project_term %}
           {% if project.extra.language %} · {% endif %}{{ project_term.page_count }} post{{ project_term.page_count | pluralize }}
           {% endif %}

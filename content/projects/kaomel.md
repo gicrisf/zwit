@@ -4,7 +4,7 @@ description = "A keyboard-driven kaomoji picker for Emacs."
 
 [extra]
 repo = "https://github.com/gicrisf/kaomel"
-language = "Emacs Lisp"
+language = ["Emacs Lisp"]
 +++
 
 Kaomel is a kaomoji picker for Emacs. It opens a fuzzy-searchable list of kaomojis, lets you choose one without touching the mouse, and inserts it at point or copies it to the clipboard.

@@ -54,7 +54,7 @@
       <dl class="project-meta">
         {% if page.extra.language %}
         <dt>Language</dt>
-        <dd>{{ page.extra.language }}</dd>
+        <dd>{{ page.extra.language | join(sep=", ") }}</dd>
         {% endif %}
         {% if page.extra.status %}
         <dt>Status</dt>

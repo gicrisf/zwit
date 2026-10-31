@@ -4,7 +4,7 @@ description = "A QR code Telegram bot built on a vanilla Zustand store."
 
 [extra]
 repo = "https://github.com/gicrisf/qrbot"
-language = "TypeScript"
+language = ["TypeScript"]
 +++
 
 QR Bot is a Telegram bot for generating QR codes without ads, paywalls, or questionable privacy practices. Send it text, get a QR code back.
