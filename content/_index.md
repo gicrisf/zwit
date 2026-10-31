@@ -11,14 +11,55 @@ primary_url = "/posts/"
 primary_label = "Read the posts →"
 home_image = "me.jpg"
 home_image_alt = "Portrait of Giovanni Crisalfi"
+
+[[extra.home_links]]
+category = "Code"
+label = "GitHub"
+url = "https://github.com/gicrisf"
+
+[[extra.home_links]]
+category = "Thoughts"
+label = "Mastodon"
+url = "https://fosstodon.org/@gicrisf"
+
+[[extra.home_links]]
+category = "Older writings (in Italian)"
+label = "my previous blog"
+url = "https://digressions.zwit.link/"
+
+[[extra.pinned_projects]]
+name = "ox-zola"
+url = "https://github.com/gicrisf/ox-zola"
+description = "A carefully crafted Org exporter back-end for Zola"
+language = "Emacs Lisp"
+
+[[extra.pinned_projects]]
+name = "windmenu"
+url = "https://github.com/gicrisf/windmenu"
+description = "A minimalist Windows launcher"
+language = "Rust"
+
+[[extra.pinned_projects]]
+name = "tochemfig"
+url = "https://github.com/gicrisf/tochemfig"
+description = "Make Emacs write chemfig code from molfile or SMILES."
+language = "Emacs Lisp"
+
+[[extra.pinned_projects]]
+name = "qwen-asr-rs"
+url = "https://github.com/gicrisf/qwen-asr-rs"
+description = "Pure rust inference for Qwen3 ASR models (0.6b/1.7b)"
+language = "Rust"
+
+[[extra.pinned_projects]]
+name = "emacs-indigo"
+url = "https://github.com/gicrisf/emacs-indigo"
+description = "Emacs Lisp bindings for the Indigo cheminformatics library"
+language = "Emacs Lisp"
+
+[[extra.pinned_projects]]
+name = "swapforqute"
+url = "https://github.com/gicrisf/swapforqute"
+description = "Redirect and clean URLs in qutebrowser."
+language = "Python"
 +++
-
----
-
-Find me outside:
-
-| Category                    | Link                                               |
-|-----------------------------|----------------------------------------------------|
-| Code                        | [GitHub](https://github.com/gicrisf)               |
-| Thoughts                    | [Mastodon](https://fosstodon.org/@gicrisf)         |
-| Older writings (in Italian) | [my previous blog](https://digressions.zwit.link/) |

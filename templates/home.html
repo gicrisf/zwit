@@ -42,7 +42,42 @@
   {% endif %}
 </section>
 
-<div class="home-content prose">
-  {{ section.content | safe }}
+<div class="home-content">
+  <hr>
+
+  <div class="home-columns">
+    <div class="home-column prose">
+      <p class="home-column__title">Find me outside:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for link in section.extra.home_links %}
+          <tr>
+            <td>{{ link.category }}</td>
+            <td><a href="{{ link.url }}">{{ link.label }}</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="home-column">
+      <p class="home-column__title">Pinned projects</p>
+      <ul class="project-list">
+        {% for project in section.extra.pinned_projects %}
+        <li class="project-list__item">
+          <a class="project-list__name" href="{{ project.url }}">{{ project.name }}</a>
+          <p class="project-list__description">{{ project.description }}</p>
+          <p class="project-list__meta">{{ project.language }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </div>
 {% endblock main %}
