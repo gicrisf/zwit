@@ -37,6 +37,11 @@ label = "Digressions"
 url = "https://digressions.zwit.link/"
 category = "blog"
 
+[[extra.home_links]]
+label = "Unsplash"
+url = "https://unsplash.com/@gicrisf"
+category = "photo"
+
 [[extra.pinned_projects]]
 name = "ox-zola"
 url = "https://github.com/gicrisf/ox-zola"
@@ -63,7 +68,7 @@ url = "https://github.com/gicrisf/emacs-indigo"
 language = "Emacs Lisp"
 
 [[extra.pinned_projects]]
-name = "swapforqute"
-url = "https://github.com/gicrisf/swapforqute"
-language = "Python"
+name = "ox-skills"
+url = "https://github.com/gicrisf/ox-skills"
+language = "Emacs Lisp"
 +++
