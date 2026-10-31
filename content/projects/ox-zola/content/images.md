@@ -52,7 +52,7 @@ The normal Markdown image link then resolves against the page bundle.
 
 ## Figures
 
-Zola does not need a Hugo figure shortcode. Use Markdown or plain HTML:
+Use Markdown or plain HTML for figures:
 
 ```html
 <figure>

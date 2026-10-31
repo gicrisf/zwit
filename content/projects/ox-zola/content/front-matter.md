@@ -18,14 +18,14 @@ For subtree exports, the post heading and its property drawer provide most front
 |------------|------------|
 | `title` | Subtree heading |
 | `date` | `CLOSED` property or `EXPORT_DATE` |
-| `updated` | `EXPORT_HUGO_LASTMOD` or automatic last-modified tracking |
-| `draft` | `TODO` state or `EXPORT_HUGO_DRAFT` |
-| `weight` | `EXPORT_HUGO_WEIGHT` |
+| `updated` | `ZOLA_UPDATED` keyword, `:LOGBOOK:` history, or automatic tracking |
+| `draft` | `TODO` state or `ZOLA_DRAFT` keyword |
+| `weight` | `EXPORT_ZOLA_WEIGHT` |
 | `taxonomies.tags` | Subtree tags without `@` |
 | `taxonomies.categories` | Subtree tags with `@` |
 | `path` / output file | `EXPORT_FILE_NAME`, section, and bundle properties |
 
-Zola uses TOML front matter. The Hugo YAML front-matter option is not carried over.
+Zola uses TOML front matter.
 
 ## File exports
 
@@ -38,7 +38,7 @@ For whole-file exports, use file-level keywords:
 #+zola_categories: blogging
 ```
 
-`HUGO_*` keywords remain accepted for compatibility and are translated to their Zola equivalents where possible.
+Legacy `HUGO_*` keywords remain accepted; see [Migrating from ox-hugo](@/projects/ox-zola/getting-started/migration-from-ox-hugo.md) for compatibility details.
 
 ## Precedence
 
@@ -49,6 +49,6 @@ Dates are resolved in this order:
 3. `EXPORT_DATE`
 4. The `#+date:` keyword
 
-`updated` follows the `:LOGBOOK:` history when available, then automatic last-modified tracking, then an explicit last-modified property.
+`updated` follows the `:LOGBOOK:` history when available, then automatic last-modified tracking, then an explicit `ZOLA_UPDATED` keyword.
 
-Hugo-only fields such as `publishDate`, `expiryDate`, `menu`, and `resources` are removed from the exported front matter.
+Fields that are not part of Zola's front matter (`publishDate`, `expiryDate`, `menu`, `resources`) are not emitted.

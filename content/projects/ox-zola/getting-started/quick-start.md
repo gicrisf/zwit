@@ -12,7 +12,7 @@ adapted_url = "https://ox-hugo.scripter.co/doc/quick-start/"
 
 ## Requirements
 
-Ox-Zola runs in Emacs 27.2 or newer and builds on [ox-hugo](https://github.com/kaushalmodi/ox-hugo), which is installed as a package dependency. You also need a Zola site to export into.
+Ox-Zola requires Emacs 27.2 or newer and a Zola site. See [Installation](@/projects/ox-zola/getting-started/installation.md) for package setup.
 
 ## Install
 
@@ -109,11 +109,10 @@ Put a post and its assets in the same directory by exporting an `index` file:
 ```org
 * My First Post :@blogging:emacs:
 :PROPERTIES:
-:EXPORT_HUGO_SECTION: posts/my-first-post
+:EXPORT_ZOLA_SECTION: posts/my-first-post
 :EXPORT_FILE_NAME: index
 :END:
 ```
 
-The existing `EXPORT_HUGO_*` property keeps working for compatibility.
 
 Next, see [Internal Links](@/projects/ox-zola/content/internal-links.md) and [Components and Special Blocks](@/projects/ox-zola/content/components.md).

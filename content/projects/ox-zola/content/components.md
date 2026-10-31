@@ -49,38 +49,9 @@ Hidden content revealed on click.
 </details>
 ```
 
-## Legacy shortcode export
+## Legacy shortcode output
 
-Any other special block can be exported with Zola's legacy shortcode syntax. Declare which blocks are paired:
-
-```org
-#+zola_paired_shortcodes: quote
-#+begin_quote
-A famous quote.
-#+end_quote
-```
-
-This exports as:
-
-```markdown
-{% quote() %}
-A famous quote.
-{% end %}
-```
-
-Non-paired blocks use inline syntax:
-
-```org
-#+attr_shortcode: :id abc123
-#+begin_youtube
-#+end_youtube
-```
-
-```markdown
-{{ youtube(id="abc123") }}
-```
-
-This is the format for Zola 0.22 and earlier. Zola 0.23 no longer parses shortcode syntax, so use components instead if your site targets 0.23 or newer.
+Zola 0.22 and earlier used shortcode syntax for reusable blocks. Zola 0.23 uses components instead. For migration details, see [Migrating from ox-hugo](@/projects/ox-zola/getting-started/migration-from-ox-hugo.md).
 
 ## Components in Zola 0.23
 
@@ -108,12 +79,11 @@ Or use a self-closing component:
 
 Component arguments use quoted strings for text and `{...}` for non-string values.
 
-## Current ox-zola behavior
+## Current behavior
 
-Ox-Zola's special-block exporter still emits the legacy shortcode syntax. If you target Zola 0.23 or newer:
+For Zola 0.23 and newer:
 
 - Use the `description`, `details`, and `aside` blocks, which produce front matter or plain HTML.
 - Write component calls directly in Markdown when you need reusable markup.
-- Avoid relying on paired or non-paired shortcode export unless the site targets an older Zola version.
 
 {% endraw %}

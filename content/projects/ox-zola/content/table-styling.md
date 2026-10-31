@@ -4,7 +4,7 @@ description = "Export Org tables and style them in the Zola site."
 weight = 90
 
 [extra]
-lead = "Standard Org tables become Markdown tables; ox-hugo's table-class wrappers are not part of Zola's Markdown model."
+lead = "Standard Org tables become Markdown tables; style them with site CSS or raw HTML."
 toc = true
 adapted_from = "ox-hugo"
 adapted_url = "https://ox-hugo.scripter.co/doc/table-styling/"
@@ -39,4 +39,4 @@ Markdown has no native table caption syntax. If you need a caption and a stable 
 
 ## Styling
 
-The `#+attr_html :class` and `#+attr_css` wrappers documented for ox-hugo are Hugo-specific. In Zola, style tables with site CSS or write the HTML wrapper directly. This keeps the exported Markdown portable and avoids carrying Hugo template assumptions into the Zola site.
+Style tables with site CSS or write the HTML wrapper directly. This keeps the exported Markdown portable.

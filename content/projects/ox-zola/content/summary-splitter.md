@@ -4,13 +4,13 @@ description = "Split a post summary for lists and feeds with Zola's more marker.
 weight = 120
 
 [extra]
-lead = "Zola uses an HTML comment marker, not ox-hugo's Hugo-specific summary directive."
+lead = "Zola uses an HTML comment marker to split a post summary."
 toc = true
 adapted_from = "ox-hugo"
 adapted_url = "https://ox-hugo.scripter.co/doc/hugo-summary-splitter/"
 +++
 
-Hugo uses `<!--more-->` to mark the end of a summary. Zola uses:
+Zola uses:
 
 ```html
 <!-- more -->
@@ -36,4 +36,3 @@ or, for a short marker:
 
 The exported Markdown then contains the marker, and Zola uses the content before it as the post summary.
 
-The old `#+hugo: more` directive is Hugo-specific and is not the Zola marker. Use `<!-- more -->` when targeting Zola.

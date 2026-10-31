@@ -36,4 +36,4 @@ Ox-Zola's language handling is about the Org export, not a full translation mana
 
 ## Scope
 
-This page covers the translated strings and language metadata inherited from ox-hugo. It does not promise automatic translation of post bodies or automatic generation of every Zola language variant.
+This page covers translated export strings and language metadata. It does not promise automatic translation of post bodies or automatic generation of every Zola language variant.

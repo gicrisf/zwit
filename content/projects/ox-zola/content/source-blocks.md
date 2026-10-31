@@ -4,7 +4,7 @@ description = "Export code fences, line references, and source examples."
 weight = 50
 
 [extra]
-lead = "Org source blocks become fenced code blocks; some Hugo/Chroma options are not portable to Zola."
+lead = "Org source blocks become fenced code blocks; line-number and highlight annotations are not portable to Zola."
 toc = true
 adapted_from = "ox-hugo"
 adapted_url = "https://ox-hugo.scripter.co/doc/source-blocks/"
@@ -30,9 +30,7 @@ Zola's highlighter is configured in `config.toml`; the exported fence language i
 
 ## Line numbers and highlighting
 
-Org's `-n`/`+n` switches and ox-hugo's `:hl_lines` parameter were designed around Hugo/Chroma. Zola does not interpret the same code-fence attributes, so do not rely on those annotations surviving as Zola line-number or highlight settings.
-
-If a code block needs special presentation, use plain Markdown/HTML or handle it in the site template.
+Zola does not interpret line-number or line-highlight annotations on fenced code blocks. If a code block needs special presentation, use plain Markdown/HTML or handle it in the site template.
 
 ## Code references
 

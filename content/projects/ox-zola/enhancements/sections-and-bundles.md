@@ -4,7 +4,7 @@ description = "Control where exported posts and assets land in the Zola content 
 weight = 10
 
 [extra]
-lead = "Ox-Zola inherits ox-hugo's section and bundle properties, with Zola's section/page structure as the target."
+lead = "Ox-Zola controls where exported posts and assets land in the Zola content tree."
 toc = true
 adapted_from = "ox-hugo"
 adapted_url = "https://ox-hugo.scripter.co/doc/hugo-section/"
@@ -12,7 +12,7 @@ adapted_url = "https://ox-hugo.scripter.co/doc/hugo-section/"
 
 ## Default section
 
-Exports go to `content/<section>/` under the site root. The default section is controlled by `ox-zola-section` or the `ZOLA_SECTION` / `HUGO_SECTION` keyword:
+Exports go to `content/<section>/` under the site root. The default section is controlled by `ox-zola-section` or the `ZOLA_SECTION` keyword:
 
 ```org
 #+zola_base_dir: .
@@ -28,26 +28,26 @@ This exports to `content/posts/my-post.md`.
 
 ## Override the section per post
 
-Use `EXPORT_HUGO_SECTION` to override the file-level section:
+Use `EXPORT_ZOLA_SECTION` to override the file-level section:
 
 ```org
 * My post
 :PROPERTIES:
-:EXPORT_HUGO_SECTION: articles
+:EXPORT_ZOLA_SECTION: articles
 :EXPORT_FILE_NAME: my-post
 :END:
 ```
 
-The property can be inherited by child subtrees, and `EXPORT_HUGO_SECTION_FRAG` appends path fragments when you need nested section paths.
+The property can be inherited by child subtrees, and `EXPORT_ZOLA_SECTION_FRAG` appends path fragments when you need nested section paths.
 
 ## Page bundles
 
-Zola page bundles use a directory containing `index.md` plus colocated assets. Export one with `EXPORT_HUGO_BUNDLE` and `EXPORT_FILE_NAME: index`:
+Zola page bundles use a directory containing `index.md` plus colocated assets. Export one with `EXPORT_ZOLA_BUNDLE` and `EXPORT_FILE_NAME: index`:
 
 ```org
 * Page title
 :PROPERTIES:
-:EXPORT_HUGO_BUNDLE: xyz
+:EXPORT_ZOLA_BUNDLE: xyz
 :EXPORT_FILE_NAME: index
 :END:
 ```
@@ -57,8 +57,8 @@ This produces `content/xyz/index.md`.
 For a Zola section or branch bundle, export `_index.md` instead:
 
 ```org
-:EXPORT_HUGO_BUNDLE: uvw
+:EXPORT_ZOLA_BUNDLE: uvw
 :EXPORT_FILE_NAME: _index
 ```
 
-The Hugo property names remain because ox-zola inherits ox-hugo's export model, but the resulting directory layout matches Zola's page-bundle and section conventions.
+The exported directory layout matches Zola's page-bundle and section conventions.

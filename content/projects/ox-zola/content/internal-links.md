@@ -10,19 +10,19 @@ toc = true
 +++
 
 {% raw %}
-Ox-Zola converts Org links to Zola's native `@/` path syntax instead of Hugo's `relref` shortcodes. Cross-references between posts, same-file heading links, external URLs, and file attachments all produce Zola-compatible Markdown.
+Ox-Zola converts Org links to Zola's native `@/` path syntax. Cross-references between posts, same-file heading links, external URLs, and file attachments all produce Zola-compatible Markdown.
 
 ## Quick reference
 
-| Org link | Hugo output | Zola output |
-|----------|-------------|-------------|
-| `[[*Some Heading]]` | `[Some Heading](#some-heading)` | `[Some Heading](#some-heading)` |
-| `[[#custom-id]]` | `[custom-id](#custom-id)` | `[custom-id](#custom-id)` |
-| `[[id:uuid-here][Post]]` | `[Post]({{< relref "post.md" >}})` | `[Post](@/section/post.md)` |
-| `[[file:other.org][Other]]` | `[Other]({{< relref "other.md" >}})` | `[Other](@/section/other.md)` |
-| `[[file:other.org::*Heading][Link]]` | `[Link]({{< relref "other.md#heading" >}})` | `[Link](@/section/other.md#heading)` |
-| `[[https://example.com][Site]]` | `[Site](https://example.com)` | `[Site](https://example.com)` |
-| `[[file:image.png]]` | `![img](path/to/image.png)` | `![img](path/to/image.png)` |
+| Org link | Zola output |
+|----------|-------------|
+| `[[*Some Heading]]` | `[Some Heading](#some-heading)` |
+| `[[#custom-id]]` | `[custom-id](#custom-id)` |
+| `[[id:uuid-here][Post]]` | `[Post](@/section/post.md)` |
+| `[[file:other.org][Other]]` | `[Other](@/section/other.md)` |
+| `[[file:other.org::*Heading][Link]]` | `[Link](@/section/other.md#heading)` |
+| `[[https://example.com][Site]]` | `[Site](https://example.com)` |
+| `[[file:image.png]]` | `![img](path/to/image.png)` |
 
 ## Same-file links
 
@@ -91,7 +91,7 @@ If the section cannot be determined, the current document's section is used as a
 
 ## External URLs and attachments
 
-HTTP, HTTPS, FTP, and `mailto:` links pass through unchanged. Links to non-Org files such as images and PDFs are handled by ox-hugo's attachment rewrite mechanism.
+HTTP, HTTPS, FTP, and `mailto:` links pass through unchanged. Links to non-Org files such as images and PDFs are handled by the attachment rewrite mechanism.
 
 ## Images and figures
 
@@ -101,9 +101,9 @@ Inline images use regular Markdown:
 ![alt](src)
 ```
 
-For standalone figures, use raw HTML or a site-specific component. Zola 0.23 no longer supports the old shortcode form that earlier ox-hugo/ox-zola output used.
+For standalone figures, use raw HTML or a site-specific component.
 
 ## No more relref
 
-The Hugo-specific `{{< relref "..." >}}` syntax never appears in output. Internal references use Zola's native `@/` path syntax, so exported Markdown works directly with Zola.
+Internal references use Zola's native `@/` path syntax, so exported Markdown works directly with Zola.
 {% endraw %}

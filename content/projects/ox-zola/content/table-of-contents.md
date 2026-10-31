@@ -32,4 +32,3 @@ or:
 
 The first form inserts the TOC where the keyword appears; the option form places it near the top of the exported content. Org-generated TOCs support headline depth, local TOCs, and numbered or unnumbered headings.
 
-Unlike Hugo, Zola does not need a TOC marker in the Markdown for templates to access the heading tree.

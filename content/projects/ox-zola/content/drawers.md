@@ -30,7 +30,7 @@ or in a subtree:
 
 Notes stored under a post heading are exported into structured front matter, grouped by heading. This preserves the note text and timestamps as data.
 
-The ox-hugo examples render that data with Hugo templates. In a Zola site, access the same front-matter data from Tera templates instead. The data export is independent of the template language; the rendering layer is site-specific.
+Render that data with Zola templates. The data export is independent of the template layer; the rendering side is site-specific.
 
 ## Caveats
 

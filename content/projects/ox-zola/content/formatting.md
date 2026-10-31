@@ -21,7 +21,7 @@ adapted_url = "https://ox-hugo.scripter.co/doc/formatting/"
 
 Lists, block quotes, tables, horizontal rules, links, images, source blocks, and footnotes are exported as CommonMark or HTML that Zola can render.
 
-For inline keyboard bindings, set `org-hugo-use-code-for-kbd` to export `<kbd>` elements instead of code spans. Style the element in your site CSS if needed.
+For inline keyboard bindings, set `#+zola_use_code_for_kbd: t` to export `<kbd>` elements instead of code spans. Style the element in your site CSS if needed.
 
 Raw HTML from `#+begin_export html` blocks passes through to the exported Markdown.
 

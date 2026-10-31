@@ -12,7 +12,7 @@ adapted_url = "https://ox-hugo.scripter.co/doc/usage/"
 
 ## Before you export
 
-Set `ox-zola-base-dir` or the `ZOLA_BASE_DIR` / `HUGO_BASE_DIR` keyword. Set `ox-zola-section` or the matching section keyword for the default output section.
+Set `ox-zola-base-dir` or the `ZOLA_BASE_DIR` keyword. Set `ox-zola-section` or the matching section keyword for the default output section.
 
 For subtree exports, the post subtree must have `EXPORT_FILE_NAME`. A subtree with `EXPORT_FILE_NAME` cannot contain another subtree with that property; post subtrees are leaves.
 

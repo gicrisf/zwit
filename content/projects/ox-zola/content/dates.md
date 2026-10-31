@@ -33,20 +33,20 @@ CLOSED: [2026-10-31 Sat 14:10]
 
 That timestamp becomes the post's `date`. If `CLOSED` is absent, `EXPORT_DATE` is used, then the file-level `#+date:` keyword.
 
-`SCHEDULED` is an Org planning timestamp and is not a Zola publishing date. Hugo's `publishDate` and `expiryDate` fields are removed from the exported front matter; use Zola's own publishing workflow if you need scheduling.
+`SCHEDULED` is an Org planning timestamp and is not a Zola publishing date. Front matter does not schedule posts; use your site's publishing workflow if you need that.
 
 ## Last modified
 
 Set an explicit updated date:
 
 ```org
-:EXPORT_HUGO_LASTMOD: 2026-11-02
+#+zola_updated: 2026-11-02
 ```
 
 Or enable automatic tracking:
 
 ```org
-#+hugo_auto_set_lastmod: t
+#+zola_auto_set_lastmod: t
 ```
 
 When `:LOGBOOK:` state changes are available, they take precedence over the automatic value.

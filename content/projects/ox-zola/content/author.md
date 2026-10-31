@@ -34,6 +34,4 @@ authors = ["First Author", "Second Author"]
 
 The mono theme renders the list as a comma-separated byline and uses the first author for feed metadata.
 
-## Hugo differences
-
-Hugo supports both `author` and `authors`, and its templates often treat them differently. Zola's page model uses `authors`; if an export produces a single `author` key, normalize it with a custom front-matter setting or in the template layer.
+If an export produces a single `author` key, normalize it to `authors = [...]` or handle it in the template layer.

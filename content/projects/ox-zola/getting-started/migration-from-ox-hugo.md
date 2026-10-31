@@ -40,9 +40,26 @@ Both `HUGO_*` and `ZOLA_*` keywords are recognized. You can keep existing keywor
 #+zola_tags: emacs org-mode
 ```
 
+## Subtree properties
+
+Both Hugo-named and Zola-named properties are accepted. New files should use the Zola names:
+
+| Hugo property | Zola property |
+|---------------|---------------|
+| `EXPORT_HUGO_SECTION` | `EXPORT_ZOLA_SECTION` |
+| `EXPORT_HUGO_SECTION_FRAG` | `EXPORT_ZOLA_SECTION_FRAG` |
+| `EXPORT_HUGO_BUNDLE` | `EXPORT_ZOLA_BUNDLE` |
+| `EXPORT_HUGO_TAGS` | `EXPORT_ZOLA_TAGS` |
+| `EXPORT_HUGO_CATEGORIES` | `EXPORT_ZOLA_CATEGORIES` |
+| `EXPORT_HUGO_WEIGHT` | `EXPORT_ZOLA_WEIGHT` |
+| `EXPORT_HUGO_LAYOUT` | `EXPORT_ZOLA_TEMPLATE` |
+| `EXPORT_HUGO_AUTO_SET_LASTMOD` | `EXPORT_ZOLA_AUTO_SET_LASTMOD` |
+
+Additional Zola-named keywords include `ZOLA_AUTO_SET_LASTMOD`, `ZOLA_USE_CODE_FOR_KBD`, `ZOLA_PREFER_HYPHEN_IN_TAGS`, `ZOLA_ALLOW_SPACES_IN_TAGS`, `ZOLA_BUNDLE`, `ZOLA_DATE_FORMAT`, and `ZOLA_LEVEL_OFFSET`.
+
 ## Subtree and file export
 
-The WIM export works like ox-hugo's: it detects whether to export the current subtree or the whole file.
+The WIM export detects whether to export the current subtree or the whole file.
 
 ## Front matter transformations
 

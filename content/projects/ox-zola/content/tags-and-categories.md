@@ -26,7 +26,7 @@ tags = ["emacs", "org-mode"]
 categories = ["blogging"]
 ```
 
-Tags and categories are inherited from parent headings and `#+filetags` according to `org-use-tag-inheritance`. `EXPORT_HUGO_TAGS` and `EXPORT_HUGO_CATEGORIES` override the inherited values.
+Tags and categories are inherited from parent headings and `#+filetags` according to `org-use-tag-inheritance`. `EXPORT_ZOLA_TAGS` and `EXPORT_ZOLA_CATEGORIES` override the inherited values.
 
 ## File exports
 
@@ -37,11 +37,11 @@ For whole-file exports, use file-level keywords:
 #+zola_categories: blogging
 ```
 
-`HUGO_*` keywords remain accepted for compatibility.
+See [Migrating from ox-hugo](@/projects/ox-zola/getting-started/migration-from-ox-hugo.md) for legacy `HUGO_*` keyword compatibility.
 
 ## Names with spaces and hyphens
 
-Org tags cannot contain spaces. Ox-Zola follows ox-hugo's tag transformation rules:
+Org tags cannot contain spaces. Ox-Zola transforms tags as follows:
 
 - `abc_def` becomes `abc-def`
 - `abc__def` becomes `abc def`

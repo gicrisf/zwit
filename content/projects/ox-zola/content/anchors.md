@@ -29,14 +29,14 @@ Zola's Markdown parser also understands heading attributes, so an explicit ID ca
 
 ## Anchor precedence
 
-Ox-Zola follows ox-hugo's anchor derivation. The default precedence is:
+Ox-Zola derives heading anchors with this precedence:
 
 1. Page or bundle name from `EXPORT_FILE_NAME`
 2. `:CUSTOM_ID:`
 3. A slug derived from the heading text
 4. A short MD5-based fallback
 
-The `org-hugo-anchor-functions` variable can adjust that order, including making Org `:ID:` properties take precedence.
+The anchor precedence can be customized, including making Org `:ID:` properties take precedence.
 
 ## Targets
 
