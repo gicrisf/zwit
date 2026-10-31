@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block main %}
+{% set project_term = get_taxonomy_term(kind="projects", term=page.slug, required=false) %}
+<article class="page-single">
+  {{<breadcrumb.trail title={page.title} ancestors={page.ancestors} base_url={config.base_url} />}}
+
+  <header class="page-header">
+    <p class="page-kicker">
+      Project{% if page.extra.language %} · {{ page.extra.language }}{% endif %}{% if page.extra.status %} · {{ page.extra.status }}{% endif %}
+    </p>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}
+    <p class="page-lede">{{ page.description }}</p>
+    {% endif %}
+    {% if page.extra.repo %}
+    <p>
+      <a class="button-secondary" href="{{ page.extra.repo }}">Repository ↗</a>
+    </p>
+    {% endif %}
+  </header>
+
+  <div class="prose">
+    {{ page.content | safe }}
+  </div>
+
+  <section class="project-posts" aria-label="Posts about this project">
+    <p class="page-kicker">Project notes</p>
+    {% if project_term and project_term.pages %}
+    <div class="post-list post-list--flush">
+      {% for post in project_term.pages %}
+      <article class="post-list__item">
+        {% if post.date %}
+        <time datetime="{{ post.date }}">{{ post.date | date(format="%Y.%m.%d") }}</time>
+        {% endif %}
+        <h2><a href="{{ post.permalink }}">{{ post.title }}</a></h2>
+        {% if post.description %}
+        <p>{{ post.description }}</p>
+        {% elif post.summary %}
+        <p>{{ post.summary | striptags | truncate(length=240) }}</p>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>No posts about this project yet.</p>
+    {% endif %}
+  </section>
+</article>
+{% endblock main %}

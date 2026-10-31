@@ -1,0 +1,73 @@
+{% extends "index.html" %}
+
+{% block main %}
+{% set toc_enabled = page.extra.toc | default(value=false) %}
+{% set show_toc = toc_enabled and page.toc %}
+<div class="blog-layout{% if show_toc %} blog-layout--with-toc{% endif %}">
+  {% if show_toc %}
+  <aside class="blog-toc-sidebar">
+    <nav class="post-toc" aria-label="On this page">
+      <h2 class="post-toc__title">On This Page</h2>
+      {% include "partials/blog/toc-links.html" %}
+    </nav>
+  </aside>
+  {% endif %}
+
+  <article class="page-single">
+    {{<breadcrumb.trail title={page.title} ancestors={page.ancestors} base_url={config.base_url} />}}
+
+    {% if show_toc %}
+    <details class="blog-toc-mobile">
+      <summary class="post-toc__title">On This Page</summary>
+      <nav aria-label="On this page">
+        {% include "partials/blog/toc-links.html" %}
+      </nav>
+    </details>
+    {% endif %}
+
+    <header class="page-header">
+      {% set authors = page.authors | join(sep=", ") %}
+      <p class="page-kicker">
+        Blog{% if page.date %} · {{ page.date | date(format="%Y.%m.%d") }}{% endif %} · {{ page.reading_time }} min read{% if authors %} · By {{ authors }}{% endif %}{% if page.updated %} · Updated {{ page.updated | date(format="%Y.%m.%d") }}{% endif %}
+      </p>
+      <h1>{{ page.title }}</h1>
+      {% if page.description %}
+      <p class="page-lede">{{ page.description }}</p>
+      {% endif %}
+    </header>
+
+    <div class="prose">
+      {{ page.content | safe }}
+    </div>
+
+    {% if page.taxonomies.categories or page.taxonomies.tags or page.taxonomies.projects %}
+    <footer class="post-tags">
+      {% if page.taxonomies.projects %}
+      <span class="post-tags__group">
+        {% for project in page.taxonomies.projects %}
+        {% set project_page = get_page(path="projects/" ~ project ~ ".md", allow_missing=true) %}
+        {% if project_page %}
+        <a class="post-project" href="{{ project_page.permalink }}">↳ {{ project_page.title }}</a>
+        {% endif %}
+        {% endfor %}
+      </span>
+      {% endif %}
+      {% if page.taxonomies.categories %}
+      <span class="post-tags__group">
+        {% for category in page.taxonomies.categories %}
+        <a class="post-category" href="{{ get_taxonomy_url(kind='categories', name=category) }}">{{ "{" }}{{ category }}{{ "}" }}</a>
+        {% endfor %}
+      </span>
+      {% endif %}
+      {% if page.taxonomies.tags %}
+      <span class="post-tags__group">
+        {% for tag in page.taxonomies.tags %}
+        <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}">#{{ tag }}</a>
+        {% endfor %}
+      </span>
+      {% endif %}
+    </footer>
+    {% endif %}
+  </article>
+</div>
+{% endblock main %}

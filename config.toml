@@ -17,6 +17,7 @@ theme = "mono"
 taxonomies = [
   {name = "tags"},
   {name = "categories"},
+  {name = "projects", render = false},
 ]
 
 build_search_index = false
@@ -41,6 +42,7 @@ compact_nav = true
 # `section` marks the entry as current when the path starts with its URL.
 main_menu = [
   {url = "/posts/", name = "posts", section = "posts"},
+  {url = "/projects/", name = "projects", section = "projects"},
   {url = "/categories/", name = "categories", section = "categories"},
   {url = "/tags/", name = "tags", section = "tags"},
   {url = "atom.xml", name = "feed", trailing_slash = false},

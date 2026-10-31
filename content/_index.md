@@ -49,7 +49,7 @@ language = "Emacs Lisp"
 
 [[extra.pinned_projects]]
 name = "windmenu"
-url = "https://github.com/gicrisf/windmenu"
+url = "/projects/windmenu/"
 language = "Rust"
 
 [[extra.pinned_projects]]

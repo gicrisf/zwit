@@ -5,7 +5,8 @@ date = 2025-06-15
 draft = false
 [taxonomies]
   tags = ["react", "d3"]
-  categories = ["web", "gui", "chem", "projects"]
+  categories = ["web", "gui", "chem"]
+  projects = ["zeeman"]
 +++
 
 There’s a peculiar frustration familiar to anyone who’s worked with spectroscopic techniques like EPR or NMR: the hunt for isotopic data. You need both the spin and natural abundance of every isotope for an element, but these critical numbers are scattered across PDFs, paper tables, or, even worse, different websites. It takes _minutes_ to look them up! My programmer heart couldn’t bear such inefficiency.

@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block main %}
+<article class="page-single">
+  {{<breadcrumb.trail title={section.title} ancestors={section.ancestors} base_url={config.base_url} />}}
+
+  <header class="page-header">
+    <p class="page-kicker">Projects</p>
+    <h1>{{ section.title }}</h1>
+    {% if section.description %}
+    <p class="page-lede">{{ section.description }}</p>
+    {% endif %}
+  </header>
+
+  {% if section.content %}
+  <div class="prose">
+    {{ section.content | safe }}
+  </div>
+  {% endif %}
+
+  <div class="cards">
+    {% for project in section.pages %}
+    {% set project_term = get_taxonomy_term(kind="projects", term=project.slug, required=false) %}
+    <div class="card project-card">
+      <a class="card__link" href="{{ project.permalink }}">
+        <span class="card__title">{{ project.title }} <span aria-hidden="true">→</span></span>
+        {% if project.description %}
+        <span class="card__description">{{ project.description }}</span>
+        {% endif %}
+        <span class="project-card__meta">
+          {% if project.extra.language %}{{ project.extra.language }}{% endif %}
+          {% if project_term %}
+          {% if project.extra.language %} · {% endif %}{{ project_term.page_count }} post{{ project_term.page_count | pluralize }}
+          {% endif %}
+        </span>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</article>
+{% endblock main %}

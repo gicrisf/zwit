@@ -32,6 +32,7 @@
 }
 
 .project-table__language,
+.project-card__meta,
 .link-table__category {
   color: var(--color-muted);
   display: block;
@@ -39,6 +40,20 @@
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   margin-top: var(--space-xs);
+}
+
+.project-card__meta {
+  margin-top: auto;
+}
+
+.post-tags a.post-project {
+  color: var(--color-ink);
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}
+
+.post-tags a.post-project:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 860px) {
