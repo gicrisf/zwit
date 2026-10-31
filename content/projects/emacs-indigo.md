@@ -25,3 +25,15 @@ Emacs Indigo is a set of Emacs Lisp bindings for the Indigo cheminformatics tool
 The package talks to Indigo through a native dynamic module. `indigo-install` downloads the official Indigo wheel, extracts the shared libraries and headers, and builds the module locally; `indigo-doctor` verifies the setup. The API provides `indigo-do-*` convenience functions for one-off work and scoped `indigo-with-*` macros for longer pipelines, including sequential variants that clean up correctly when a later binding fails.
 
 Emacs Indigo is available on MELPA and targets Emacs 28.1+ on Linux x86_64. The repository contains the bindings, the native module build scripts, and the ERT suite.
+
+{% <social.mastodon
+  url="https://fosstodon.org/@gicrisf/115578820772906228"
+  author="Giovanni Crisalfi"
+  date="2025-11-19"
+  media="/img/emacs-indigo-streams.png"
+  media_alt="Emacs Lisp code demonstrating the Indigo lazy stream API on a benzene molecule"
+> %}
+Remember when I said I was working on a lazy stream abstraction for Emacs Indigo? It's finally here in v0.10.0, and I'm pretty excited about how it turned out.
+
+#emacs #lisp #cheminformatics #chemistry #functionalprogramming #fp
+{% </social.mastodon> %}
