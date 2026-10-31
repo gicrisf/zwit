@@ -1,0 +1,47 @@
+{% component social.twitter(url = "", author = "", date = "") %}
+<aside class="social-embed social-embed--twitter">
+  <p class="social-embed__label">From Twitter</p>
+  <div class="social-embed__body">
+    {{ body | safe }}
+  </div>
+  {% if author or date or url %}
+  <footer class="social-embed__meta">
+    {% if author %}<span>{{ author }}</span>{% endif %}
+    {% if date %}<time datetime="{{ date }}">{{ date }}</time>{% endif %}
+    {% if url %}<a href="{{ url }}">Original ↗</a>{% endif %}
+  </footer>
+  {% endif %}
+</aside>
+{% endcomponent social.twitter %}
+
+{% component social.mastodon(url = "", author = "", date = "") %}
+<aside class="social-embed social-embed--mastodon">
+  <p class="social-embed__label">From Mastodon</p>
+  <div class="social-embed__body">
+    {{ body | safe }}
+  </div>
+  {% if author or date or url %}
+  <footer class="social-embed__meta">
+    {% if author %}<span>{{ author }}</span>{% endif %}
+    {% if date %}<time datetime="{{ date }}">{{ date }}</time>{% endif %}
+    {% if url %}<a href="{{ url }}">Original ↗</a>{% endif %}
+  </footer>
+  {% endif %}
+</aside>
+{% endcomponent social.mastodon %}
+
+{% component social.bluesky(url = "", author = "", date = "") %}
+<aside class="social-embed social-embed--bluesky">
+  <p class="social-embed__label">From Bluesky</p>
+  <div class="social-embed__body">
+    {{ body | safe }}
+  </div>
+  {% if author or date or url %}
+  <footer class="social-embed__meta">
+    {% if author %}<span>{{ author }}</span>{% endif %}
+    {% if date %}<time datetime="{{ date }}">{{ date }}</time>{% endif %}
+    {% if url %}<a href="{{ url }}">Original ↗</a>{% endif %}
+  </footer>
+  {% endif %}
+</aside>
+{% endcomponent social.bluesky %}

@@ -6,7 +6,7 @@ updated = 2025-10-18
 draft = false
 [taxonomies]
   tags = ["emacs", "lisp"]
-  categories = ["projects"]
+  projects = ["kaomel"]
 +++
 
 I always liked kaomojis, but I never liked using the mouse to pick an emoji of any kind. Actually, I just don't like using the mouse. So I thought I could access the kaomoji world through Emacs keymagic. What started as "wouldn't it be nice to have a kaomoji picker in Emacs?" became a journey that would consume more weekends than initially planned.

@@ -5,7 +5,8 @@ date = 2025-08-04
 draft = false
 [taxonomies]
   tags = ["typescript", "bot", "test"]
-  categories = ["web", "projects"]
+  categories = ["web"]
+  projects = ["qrbot"]
 +++
 
 When most developers think of Zustand, they picture React hooks and component state. But what if I told you that Zustand's vanilla store could power a sophisticated Telegram bot with predictable state management and reactive behavior? 
