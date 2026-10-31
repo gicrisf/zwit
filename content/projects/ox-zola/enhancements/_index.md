@@ -1,6 +1,6 @@
 +++
 title = "Enhancements"
-description = "Sections, bundles, multilingual sites, and advanced export features."
+description = "Sections, bundles, custom front matter, multilingual sites, and workflow automation."
 template = "docs/section.html"
 page_template = "docs/page.html"
 sort_by = "weight"
