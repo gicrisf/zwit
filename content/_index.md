@@ -13,19 +13,29 @@ home_image = "me.jpg"
 home_image_alt = "Portrait of Giovanni Crisalfi"
 
 [[extra.home_links]]
-category = "Code"
 label = "GitHub"
 url = "https://github.com/gicrisf"
+category = "code"
 
 [[extra.home_links]]
-category = "Thoughts"
+label = "Codeberg"
+url = "https://codeberg.org/gicrisf"
+category = "code"
+
+[[extra.home_links]]
 label = "Mastodon"
 url = "https://fosstodon.org/@gicrisf"
+category = "thoughts"
 
 [[extra.home_links]]
-category = "Older writings (in Italian)"
-label = "my previous blog"
+label = "Bluesky"
+url = "https://bsky.app/profile/gicrisf.bsky.social"
+category = "thoughts"
+
+[[extra.home_links]]
+label = "Digressions"
 url = "https://digressions.zwit.link/"
+category = "blog"
 
 [[extra.pinned_projects]]
 name = "ox-zola"

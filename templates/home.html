@@ -48,20 +48,19 @@
   <div class="home-columns">
     <div class="home-column prose">
       <p class="home-column__title">Find me outside:</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Link</th>
-          </tr>
-        </thead>
+      <table class="link-table">
         <tbody>
           {% for link in section.extra.home_links %}
-          <tr>
-            <td>{{ link.category }}</td>
-            <td><a href="{{ link.url }}">{{ link.label }}</a></td>
-          </tr>
+          {% if loop.index0 % 3 == 0 %}<tr>{% endif %}
+          <td>
+            <a href="{{ link.url }}">{{ link.label }}</a>
+            <span class="link-table__category">{{ link.category }}</span>
+          </td>
+          {% if loop.index0 % 3 == 2 %}</tr>{% endif %}
           {% endfor %}
+          {% set link_count = section.extra.home_links | length %}
+          {% if link_count % 3 == 2 %}<td></td></tr>{% endif %}
+          {% if link_count % 3 == 1 %}<td></td><td></td></tr>{% endif %}
         </tbody>
       </table>
     </div>

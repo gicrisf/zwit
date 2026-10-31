@@ -20,7 +20,8 @@
   margin-block: var(--space-md);
 }
 
-.home-column .project-table {
+.home-column .project-table,
+.home-column .link-table {
   display: table;
   table-layout: fixed;
   width: 100%;
@@ -30,7 +31,8 @@
   vertical-align: top;
 }
 
-.project-table__language {
+.project-table__language,
+.link-table__category {
   color: var(--color-muted);
   display: block;
   font-family: var(--font-mono);
