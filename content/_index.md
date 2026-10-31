@@ -44,7 +44,7 @@ category = "photo"
 
 [[extra.pinned_projects]]
 name = "ox-zola"
-url = "https://github.com/gicrisf/ox-zola"
+url = "/projects/ox-zola/"
 language = "Emacs Lisp"
 
 [[extra.pinned_projects]]
@@ -54,21 +54,21 @@ language = "Rust"
 
 [[extra.pinned_projects]]
 name = "tochemfig"
-url = "https://github.com/gicrisf/tochemfig"
+url = "/projects/tochemfig/"
 language = "Emacs Lisp"
 
 [[extra.pinned_projects]]
 name = "qwen-asr-rs"
-url = "https://github.com/gicrisf/qwen-asr-rs"
+url = "/projects/qwen-asr-rs/"
 language = "Rust"
 
 [[extra.pinned_projects]]
 name = "emacs-indigo"
-url = "https://github.com/gicrisf/emacs-indigo"
+url = "/projects/emacs-indigo/"
 language = "Emacs Lisp"
 
 [[extra.pinned_projects]]
 name = "ox-skills"
-url = "https://github.com/gicrisf/ox-skills"
+url = "/projects/ox-skills/"
 language = "Emacs Lisp"
 +++
