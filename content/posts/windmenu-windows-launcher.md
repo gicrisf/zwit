@@ -8,6 +8,10 @@ draft = false
   projects = ["windmenu"]
 +++
 
+Windmenu exists to make launching a program feel like a direct extension of intent: press a hotkey, type, done. This post is the technical record of the first version, which tried to enforce that immediacy with pure Win32 APIs. For the general description of the project and where it went afterwards, see the [Windmenu project page](@/projects/windmenu.md).
+
+<!-- more -->
+
 ## Win32 UI
 
 I started from the UI. Creating windows, rendering text, drawing rectangles, managing keyboard input. It worked, but it was non-trivial and painful to do in Rust with a lot of unsafe calls. Then I found [wlines](https://github.com/JerwuQu/wlines) by JerwuQu: a dmenu-like launcher for Windows, written in pure C with only Win32 APIs. Exactly what I wanted.
