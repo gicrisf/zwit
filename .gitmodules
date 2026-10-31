@@ -1,4 +1,4 @@
 [submodule "themes/mono"]
 	path = themes/mono
-	url = git@github.com:gicrisf/mono.git
+	url = https://github.com/gicrisf/mono.git
 	branch = blog-only
