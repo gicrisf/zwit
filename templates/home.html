@@ -18,7 +18,9 @@
       {% endif %}
 
       {% if section.extra.secondary_url %}
-      <a class="button-secondary" href="{{ section.extra.secondary_url }}">{{ section.extra.secondary_label | default(value="Source →") }}</a>
+      <a class="button-secondary" href="{{ section.extra.secondary_url }}">{{ section.extra.secondary_label | default(value="Browse projects →") }}</a>
+      {% else %}
+      <a class="button-secondary" href="{{ get_url(path='projects', trailing_slash=true) }}">{{ section.extra.secondary_label | default(value="Browse projects →") }}</a>
       {% endif %}
     </p>
   </div>
