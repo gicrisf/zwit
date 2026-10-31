@@ -63,3 +63,34 @@
   {% endif %}
 </aside>
 {% endcomponent social.bluesky %}
+
+{% component social.thread(platform, label, author = "") %}
+<aside class="social-thread social-thread--{{ platform }}">
+  <p class="social-embed__label">{{ label }}</p>
+  {% if author %}<p class="social-thread__author">{{ author }}</p>{% endif %}
+  <div class="social-thread__posts">
+    {{ body | safe }}
+  </div>
+</aside>
+{% endcomponent social.thread %}
+
+{% component social.post(date = "", url = "", media = "", media_alt = "", media_caption = "") %}
+<article class="social-thread__post">
+  <p class="social-thread__reply">↳ reply</p>
+  <div class="social-thread__body">
+    {{ body | safe }}
+  </div>
+  {% if media %}
+  <figure class="social-embed__media">
+    <img src="{{ media }}" alt="{{ media_alt }}" loading="lazy">
+    {% if media_caption %}<figcaption>{{ media_caption }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
+  {% if date or url %}
+  <footer class="social-thread__meta">
+    {% if date %}<time datetime="{{ date }}">{{ date }}</time>{% endif %}
+    {% if url %}<a href="{{ url }}">Original ↗</a>{% endif %}
+  </footer>
+  {% endif %}
+</article>
+{% endcomponent social.post %}

@@ -80,14 +80,16 @@
   border: 5px solid var(--color-faint);
 }
 
-.social-embed {
+.social-embed,
+.social-thread {
   background: var(--color-tint);
   border: 1px solid var(--color-rule);
   margin-block: var(--space-lg);
   padding: var(--space-md);
 }
 
-.social-embed .social-embed__label {
+.social-embed .social-embed__label,
+.social-thread .social-embed__label {
   color: var(--color-muted);
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -135,6 +137,87 @@
 }
 
 .social-embed__meta a {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}
+
+.social-thread__author {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin: 0 0 var(--space-md);
+}
+
+.social-thread__posts {
+  margin-top: var(--space-md);
+  position: relative;
+}
+
+.social-thread__posts::before {
+  border-left: 1px dotted var(--color-rule);
+  bottom: 0.5rem;
+  content: "";
+  left: 0.25rem;
+  position: absolute;
+  top: 0.5rem;
+}
+
+.social-thread__post {
+  padding-left: var(--space-lg);
+  position: relative;
+}
+
+.social-thread__post + .social-thread__post {
+  border-top: 1px dashed var(--color-rule);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+}
+
+.social-thread__post::before {
+  background: var(--color-rule);
+  border-radius: 50%;
+  content: "";
+  height: 0.5rem;
+  left: 0;
+  position: absolute;
+  top: 0.5rem;
+  width: 0.5rem;
+}
+
+.social-thread__reply {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  margin: 0 0 var(--space-xs);
+}
+
+.social-thread__post:first-child .social-thread__reply {
+  display: none;
+}
+
+.social-thread__body > :first-child {
+  margin-top: 0;
+}
+
+.social-thread__body > :last-child {
+  margin-bottom: 0;
+}
+
+.social-thread__meta {
+  border-top: 1px dashed var(--color-rule);
+  color: var(--color-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+}
+
+.social-thread__meta a {
   color: inherit;
   text-decoration: underline dotted;
   text-underline-offset: 0.2em;
