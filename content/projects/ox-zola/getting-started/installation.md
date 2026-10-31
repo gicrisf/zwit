@@ -14,7 +14,32 @@ adapted_url = "https://ox-hugo.scripter.co/doc/installation/"
 
 Ox-Zola requires Emacs 27.2 or newer. It depends on [ox-hugo](https://github.com/kaushalmodi/ox-hugo), which is installed as a package dependency. You also need a Zola site to export into.
 
-## Install
+## Install from MELPA
+
+Ox-Zola is available on [MELPA](https://melpa.org/#/ox-zola). Install it with `package.el`:
+
+```elisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+```
+
+Then run:
+
+```text
+M-x package-install RET ox-zola RET
+```
+
+Or with `use-package`:
+
+```elisp
+(use-package ox-zola
+  :ensure t)
+```
+
+The ox-hugo dependency is installed automatically.
+
+## Alternative installations
 
 With `straight.el`:
 
