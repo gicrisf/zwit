@@ -69,6 +69,13 @@
   font-size: 0.875rem;
 }
 
+.project-timeline time {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-right: var(--space-xs);
+}
+
 .home-column__title {
   font-size: 1rem;
   line-height: 1.7;

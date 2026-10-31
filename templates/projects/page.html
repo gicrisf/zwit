@@ -16,7 +16,31 @@
       </header>
 
       <div class="prose">
+        {% if project_term and project_term.pages %}
+        {% set timeline %}
+        <section class="project-timeline" aria-label="Project notes">
+          <p>These project notes follow {{ page.title }} from its first implementation onward.</p>
+          <ol>
+            {% for post in project_term.pages | reverse %}
+            <li>
+              {% if post.date %}
+              <time datetime="{{ post.date }}">{{ post.date | date(format="%Y.%m.%d") }}</time>
+              {% endif %}
+              <a href="{{ post.permalink }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+          </ol>
+        </section>
+        {% endset %}
+        {% set content_parts = page.content | split(pat='<section class="footnotes">') %}
+        {{ content_parts[0] | safe }}
+        {{ timeline | safe }}
+        {% if content_parts | length > 1 %}
+        <section class="footnotes">{{ content_parts[1] | safe }}</section>
+        {% endif %}
+        {% else %}
         {{ page.content | safe }}
+        {% endif %}
       </div>
     </div>
 

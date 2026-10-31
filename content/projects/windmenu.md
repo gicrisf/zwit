@@ -35,8 +35,6 @@ This specific need actually drove the whole custom command system. If a launcher
 
 There are third-party launchers for Windows already: PowerToys Run has beautiful UI, but beauty wasn't the point. I wanted minimalism: do one thing (launch programs or scripts), do it well, do it fast. This meant building with pure Win32 APIs. No frameworks, no rendering engines, no external UI libraries. Something lean enough it could theoretically run on Windows 3.1.
 
-These project notes follow Windmenu from that first idea onward: the first implementation and the changes in direction that came later.
-
 [^1]: There's also [Copilot integration in the search](https://www.windowslatest.com/2025/10/19/microsoft-cant-fix-windows-11-search-so-its-handing-it-to-ask-copilot-on-the-taskbar/) now. Another AI layer sitting between you and your programs, analyzing search behavior to suggest actions. The taskbar search is being replaced with "Ask Copilot" - more processing, more latency, more things you didn't ask for.
 
 [^2]: Of course, ideas flourished while I was working on it and now I do many other things with it, but this illustrates the core need. (We'll talk about how I use Emacs on Windows another time, I don't want to go off topic).
