@@ -10,32 +10,24 @@ toc = true
 
 ## Requirements
 
-Ox-Zola requires Emacs 27.2 or newer and a Zola site. See [Installation](@/projects/ox-zola/getting-started/installation.md) for package setup.
+Ox-Zola requires Emacs 27.2 or newer and a Zola site.
 
 ## Install
 
-With `straight.el`:
+Ox-Zola is available on [MELPA](https://melpa.org/#/ox-zola). With MELPA configured:
+
+```text
+M-x package-install RET ox-zola RET
+```
+
+Or with `use-package`:
 
 ```elisp
 (use-package ox-zola
-  :straight (:host github :repo "gicrisf/ox-zola"))
+  :ensure t)
 ```
 
-With Emacs 29's built-in `:vc`:
-
-```elisp
-(use-package ox-zola
-  :vc (:url "https://github.com/gicrisf/ox-zola"
-            :rev :newest
-            :branch "main"))
-```
-
-With Doom Emacs:
-
-```elisp
-(package! ox-zola
-  :recipe (:host github :repo "gicrisf/ox-zola"))
-```
+The ox-hugo dependency is installed automatically. If MELPA is not configured yet, see the [MELPA getting-started guide](https://melpa.org/#/getting-started). For alternative installation methods, see [Installation](@/projects/ox-zola/getting-started/installation.md).
 
 ## Configure
 
