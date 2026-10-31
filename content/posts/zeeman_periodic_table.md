@@ -1,6 +1,6 @@
 +++
 title = "Zeeman: a minimalistic periodic table focused on isotopes"
-author = ["Giovanni Crisalfi"]
+authors = ["Giovanni Crisalfi"]
 date = 2025-06-15
 draft = false
 [taxonomies]

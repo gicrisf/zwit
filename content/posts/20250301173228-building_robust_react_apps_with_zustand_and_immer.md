@@ -1,6 +1,6 @@
 +++
 title = "Building Robust React Apps with Zustand and Immer"
-author = ["Giovanni Crisalfi"]
+authors = ["Giovanni Crisalfi"]
 date = 2025-03-10
 draft = false
 [taxonomies]

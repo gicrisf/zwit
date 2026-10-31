@@ -1,6 +1,6 @@
 +++
 title = "Windmenu: A Minimalist Windows Launcher"
-author = ["Giovanni Crisalfi"]
+authors = ["Giovanni Crisalfi"]
 date = 2025-10-28
 draft = false
 [taxonomies]

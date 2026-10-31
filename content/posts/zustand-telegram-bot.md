@@ -1,6 +1,6 @@
 +++
 title = "Building Testable Telegram Bots with Zustand"
-author = ["Giovanni Crisalfi"]
+authors = ["Giovanni Crisalfi"]
 date = 2025-08-04
 draft = false
 [taxonomies]
