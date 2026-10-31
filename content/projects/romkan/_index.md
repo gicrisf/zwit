@@ -2,6 +2,11 @@
 title = "Romkan.el"
 description = "Romaji/Kana conversion for Emacs Lisp."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 90
+
 [extra]
 repo = "https://github.com/gicrisf/romkan.el"
 language = ["Emacs Lisp"]
@@ -20,4 +25,4 @@ Romkan.el converts between Japanese romaji and kana inside Emacs Lisp. It suppor
 
 The package is designed as a library for other Emacs packages and custom functions rather than an interactive input method. Conversion tables are injected as static constants instead of being generated procedurally, trading some repetition for faster operations and more readable tables.
 
-It is based on the Ruby and Python Romkan implementations and is distributed under the BSD license. [Kaomel](@/projects/kaomel.md) uses it for Japanese romanization.
+It is based on the Ruby and Python Romkan implementations and is distributed under the BSD license. [Kaomel](@/projects/kaomel/_index.md) uses it for Japanese romanization.

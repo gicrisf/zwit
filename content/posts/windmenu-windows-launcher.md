@@ -8,7 +8,7 @@ draft = false
   projects = ["windmenu"]
 +++
 
-Windmenu exists to make launching a program feel like a direct extension of intent: press a hotkey, type, done. This post is the technical record of the first version, which tried to enforce that immediacy with pure Win32 APIs. For the general description of the project and where it went afterwards, see the [Windmenu project page](@/projects/windmenu.md).
+Windmenu exists to make launching a program feel like a direct extension of intent: press a hotkey, type, done. This post is the technical record of the first version, which tried to enforce that immediacy with pure Win32 APIs. For the general description of the project and where it went afterwards, see the [Windmenu project page](@/projects/windmenu/_index.md).
 
 <!-- more -->
 

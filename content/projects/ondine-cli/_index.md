@@ -2,6 +2,11 @@
 title = "Ondine CLI"
 description = "A native command-line front end for the Ondine Mermaid compiler."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 40
+
 [extra]
 repo = "https://github.com/gicrisf/ondine-cli"
 language = ["Rust"]

@@ -1,0 +1,35 @@
+<header class="page-header">
+  <p class="page-kicker">Project</p>
+  <h1>{{ section.title }}</h1>
+  {% if section.description %}
+  <p class="page-lede">{{ section.description }}</p>
+  {% endif %}
+</header>
+
+<div class="prose">
+  {% if project_term and project_term.pages %}
+  {% set timeline %}
+  <section class="project-timeline" aria-label="Project notes">
+    <p>These project notes follow {{ section.title }} from its first implementation onward.</p>
+    <ol>
+      {% for post in project_term.pages | reverse %}
+      <li>
+        {% if post.date %}
+        <time datetime="{{ post.date }}">{{ post.date | date(format="%Y.%m.%d") }}</time>
+        {% endif %}
+        <a href="{{ post.permalink }}">{{ post.title }}</a>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endset %}
+  {% set content_parts = section.content | split(pat='<section class="footnotes">') %}
+  {{ content_parts[0] | safe }}
+  {{ timeline | safe }}
+  {% if content_parts | length > 1 %}
+  <section class="footnotes">{{ content_parts[1] | safe }}</section>
+  {% endif %}
+  {% else %}
+  {{ section.content | safe }}
+  {% endif %}
+</div>

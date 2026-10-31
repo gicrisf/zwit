@@ -2,6 +2,11 @@
 title = "Tochemfig"
 description = "An Emacs interface to mol2chemfig for drawing chemical structures."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 110
+
 [extra]
 repo = "https://github.com/gicrisf/tochemfig"
 language = ["Emacs Lisp"]

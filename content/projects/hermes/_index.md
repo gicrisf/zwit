@@ -2,6 +2,11 @@
 title = "hermes.el"
 description = "An Org-mode client for the Hermes AI agent."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 20
+
 [extra]
 repo = "https://github.com/gicrisf/hermes.el"
 language = ["Emacs Lisp"]

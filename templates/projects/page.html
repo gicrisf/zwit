@@ -1,87 +1,42 @@
 {% extends "index.html" %}
 
 {% block main %}
-{% set project_term = get_taxonomy_term(kind="projects", term=page.slug, required=false) %}
-<article class="page-single project-page">
-  {{<breadcrumb.trail title={page.title} ancestors={page.ancestors} base_url={config.base_url} />}}
+{% set project_slug = section.path | trim_end(pat="/") | split(pat="/") | last %}
+{% set project_term = get_taxonomy_term(kind="projects", term=project_slug, required=false) %}
+{% set has_docs = (section.pages | length > 0) or (section.subsections | length > 0) %}
+<article class="page-single project-page{% if has_docs %} project-page--docs{% endif %}">
+  {{<breadcrumb.trail title={section.title} ancestors={section.ancestors} base_url={config.base_url} />}}
 
+  {% if has_docs %}
+  {% set docs_root = section %}
+  <div class="docs-layout project-docs-layout">
+    <aside class="docs-sidebar">
+      {% include "partials/docs/sidebar.html" %}
+    </aside>
+
+    <details class="docs-menu">
+      <summary class="docs-menu__toggle">Contents</summary>
+      {% include "partials/docs/sidebar.html" %}
+    </details>
+
+    <article class="docs-article project-docs-main">
+      {% include "partials/projects/main.html" %}
+    </article>
+
+    <aside class="project-sidebar project-docs-details" aria-label="Project details">
+      {% include "partials/projects/details.html" %}
+    </aside>
+  </div>
+  {% else %}
   <div class="home-columns project-columns">
     <div class="home-column project-main">
-      <header class="page-header">
-        <p class="page-kicker">Project</p>
-        <h1>{{ page.title }}</h1>
-        {% if page.description %}
-        <p class="page-lede">{{ page.description }}</p>
-        {% endif %}
-      </header>
-
-      <div class="prose">
-        {% if project_term and project_term.pages %}
-        {% set timeline %}
-        <section class="project-timeline" aria-label="Project notes">
-          <p>These project notes follow {{ page.title }} from its first implementation onward.</p>
-          <ol>
-            {% for post in project_term.pages | reverse %}
-            <li>
-              {% if post.date %}
-              <time datetime="{{ post.date }}">{{ post.date | date(format="%Y.%m.%d") }}</time>
-              {% endif %}
-              <a href="{{ post.permalink }}">{{ post.title }}</a>
-            </li>
-            {% endfor %}
-          </ol>
-        </section>
-        {% endset %}
-        {% set content_parts = page.content | split(pat='<section class="footnotes">') %}
-        {{ content_parts[0] | safe }}
-        {{ timeline | safe }}
-        {% if content_parts | length > 1 %}
-        <section class="footnotes">{{ content_parts[1] | safe }}</section>
-        {% endif %}
-        {% else %}
-        {{ page.content | safe }}
-        {% endif %}
-      </div>
+      {% include "partials/projects/main.html" %}
     </div>
 
     <aside class="home-column project-sidebar" aria-label="Project details">
-      <h2 class="post-toc__title">Project details</h2>
-      {% if page.extra.repo %}
-      <p class="project-sidebar__repo">
-        <a class="button-secondary" href="{{ page.extra.repo }}">Repository ↗</a>
-      </p>
-      {% endif %}
-      <dl class="project-meta">
-        {% if page.extra.language %}
-        <dt>Language</dt>
-        <dd>{{ page.extra.language | join(sep=", ") }}</dd>
-        {% endif %}
-        {% if page.extra.status %}
-        <dt>Status</dt>
-        <dd>{{ page.extra.status }}</dd>
-        {% endif %}
-      </dl>
-
-      <section class="project-notes" aria-label="Project notes">
-        <h2 class="post-toc__title">Project notes</h2>
-        {% if project_term and project_term.pages %}
-        <ul class="post-toc__links project-notes__list">
-          {% for post in project_term.pages %}
-          <li>
-            <a href="{{ post.permalink }}">
-              {% if post.date %}
-              <time datetime="{{ post.date }}">{{ post.date | date(format="%Y.%m.%d") }}</time>
-              {% endif %}
-              <span>{{ post.title }}</span>
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        <p class="project-notes__empty">No posts about this project yet.</p>
-        {% endif %}
-      </section>
+      {% include "partials/projects/details.html" %}
     </aside>
   </div>
+  {% endif %}
 </article>
 {% endblock main %}

@@ -2,6 +2,11 @@
 title = "Vocalis"
 description = "A Rust port of the GNOME sound recorder."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 120
+
 [extra]
 repo = "https://github.com/gicrisf/vocalis-rs"
 language = ["Rust"]

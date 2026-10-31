@@ -2,6 +2,11 @@
 title = "Zeeman"
 description = "A minimal periodic table focused on isotope data."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 140
+
 [extra]
 repo = "https://github.com/gicrisf/zeeman"
 language = ["JavaScript"]

@@ -2,6 +2,11 @@
 title = "SwapForQute"
 description = "A qutebrowser userscript for redirecting and cleaning URLs."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 100
+
 [extra]
 repo = "https://github.com/gicrisf/swapforqute"
 language = ["Python"]

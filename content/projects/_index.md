@@ -1,8 +1,7 @@
 +++
 title = "Projects"
-description = "Long-running tools and experiments, with the posts that document them."
+description = "Long-running tools and experiments, with documentation and notes."
 template = "projects/list.html"
-page_template = "projects/page.html"
-sort_by = "title"
+sort_by = "weight"
 insert_anchor_links = "right"
 +++

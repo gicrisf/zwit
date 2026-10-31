@@ -2,6 +2,11 @@
 title = "Windmenu"
 description = "A minimal, keyboard-driven application launcher for Windows."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 130
+
 [extra]
 repo = "https://github.com/gicrisf/windmenu"
 language = ["Rust"]

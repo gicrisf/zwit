@@ -2,6 +2,11 @@
 title = "Kaomel"
 description = "A keyboard-driven kaomoji picker for Emacs."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 30
+
 [extra]
 repo = "https://github.com/gicrisf/kaomel"
 language = ["Emacs Lisp"]

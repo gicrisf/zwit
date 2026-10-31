@@ -2,6 +2,11 @@
 title = "Emacs Indigo"
 description = "Emacs Lisp bindings for the Indigo cheminformatics library."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 10
+
 [extra]
 repo = "https://github.com/gicrisf/emacs-indigo"
 language = ["Emacs Lisp", "C"]

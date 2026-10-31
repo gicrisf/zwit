@@ -19,8 +19,10 @@
   {% endif %}
 
   <div class="cards">
-    {% for project in section.pages %}
-    {% set project_term = get_taxonomy_term(kind="projects", term=project.slug, required=false) %}
+    {% for path in section.subsections %}
+    {% set project = get_section(path=path) %}
+    {% set project_slug = project.path | trim_end(pat="/") | split(pat="/") | last %}
+    {% set project_term = get_taxonomy_term(kind="projects", term=project_slug, required=false) %}
     <div class="card project-card">
       <a class="card__link" href="{{ project.permalink }}">
         <span class="card__title">{{ project.title }} <span aria-hidden="true">→</span></span>
@@ -29,8 +31,11 @@
         {% endif %}
         <span class="project-card__meta">
           {% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}
+          {% if project.pages %}
+          {% if project.extra.language %} · {% endif %}{{ project.pages | length }} doc{{ project.pages | length | pluralize }}
+          {% endif %}
           {% if project_term %}
-          {% if project.extra.language %} · {% endif %}{{ project_term.page_count }} post{{ project_term.page_count | pluralize }}
+          {% if project.extra.language or project.pages %} · {% endif %}{{ project_term.page_count }} post{{ project_term.page_count | pluralize }}
           {% endif %}
         </span>
       </a>

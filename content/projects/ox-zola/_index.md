@@ -2,6 +2,11 @@
 title = "Ox-Zola"
 description = "An Org exporter backend for writing Zola posts in Org mode."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 60
+
 [extra]
 repo = "https://github.com/gicrisf/ox-zola"
 language = ["Emacs Lisp"]
@@ -13,4 +18,4 @@ Ox-Zola is an Org export backend that writes Markdown with TOML front matter for
 
 Exports follow the usual ox-hugo model: files, subtrees, and whole-file WIM exports. Org tags can create categories and tags, file-level `zola_categories` and `zola_tags` keywords set taxonomies directly, and page bundles are configured through the existing export properties. Since it builds on ox-hugo, its subtree exports, property inheritance, and WIM detection remain available.
 
-Configuration mirrors ox-hugo: point `ox-zola-base-dir` at the site and set the default section. The [repository](https://github.com/gicrisf/ox-zola) has the installation and migration notes.
+Configuration mirrors ox-hugo: point `ox-zola-base-dir` at the site and set the default section. Start with [Getting Started](@/projects/ox-zola/getting-started.md), then use the reference pages for links, components, and migration.

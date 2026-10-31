@@ -39,6 +39,10 @@ background_image = "bg.jpg"
 # Collapse the navigation into the Menu toggle at every width.
 compact_nav = true
 
+# Documentation navigation is scoped to each project subtree.
+docs_section = "projects"
+docs_scope = "subsection"
+
 # `section` marks the entry as current when the path starts with its URL.
 main_menu = [
   {url = "/posts/", name = "posts", section = "posts"},

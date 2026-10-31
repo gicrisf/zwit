@@ -2,6 +2,11 @@
 title = "Ox-Skills"
 description = "Write AI coding assistant skills in Org mode and export them to SKILL.md."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 50
+
 [extra]
 repo = "https://github.com/gicrisf/ox-skills"
 language = ["Emacs Lisp"]

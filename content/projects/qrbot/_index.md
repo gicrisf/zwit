@@ -2,6 +2,11 @@
 title = "QR Bot"
 description = "A QR code Telegram bot built on a vanilla Zustand store."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 70
+
 [extra]
 repo = "https://github.com/gicrisf/qrbot"
 language = ["TypeScript"]

@@ -1,0 +1,36 @@
+<h2 class="post-toc__title">Project details</h2>
+{% if section.extra.repo %}
+<div class="project-sidebar__links">
+  <a class="button-secondary" href="{{ section.extra.repo }}">Repository ↗</a>
+</div>
+{% endif %}
+<dl class="project-meta">
+  {% if section.extra.language %}
+  <dt>Language</dt>
+  <dd>{{ section.extra.language | join(sep=", ") }}</dd>
+  {% endif %}
+  {% if section.extra.status %}
+  <dt>Status</dt>
+  <dd>{{ section.extra.status }}</dd>
+  {% endif %}
+</dl>
+
+<section class="project-notes" aria-label="Project notes">
+  <h2 class="post-toc__title">Project notes</h2>
+  {% if project_term and project_term.pages %}
+  <ul class="post-toc__links project-notes__list">
+    {% for post in project_term.pages %}
+    <li>
+      <a href="{{ post.permalink }}">
+        {% if post.date %}
+        <time datetime="{{ post.date }}">{{ post.date | date(format="%Y.%m.%d") }}</time>
+        {% endif %}
+        <span>{{ post.title }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="project-notes__empty">No posts about this project yet.</p>
+  {% endif %}
+</section>

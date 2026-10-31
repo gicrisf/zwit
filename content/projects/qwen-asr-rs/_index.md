@@ -2,6 +2,11 @@
 title = "Qwen ASR RS"
 description = "A Rust port of Qwen3-ASR for CPU speech-to-text."
 
+template = "projects/page.html"
+page_template = "docs/page.html"
+sort_by = "weight"
+weight = 80
+
 [extra]
 repo = "https://github.com/gicrisf/qwen-asr-rs"
 language = ["Rust"]
