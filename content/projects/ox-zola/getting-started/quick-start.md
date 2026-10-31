@@ -6,8 +6,6 @@ weight = 10
 [extra]
 lead = "Create a Zola site, install ox-zola, and export a first Org subtree."
 toc = true
-adapted_from = "ox-hugo"
-adapted_url = "https://ox-hugo.scripter.co/doc/quick-start/"
 +++
 
 ## Requirements

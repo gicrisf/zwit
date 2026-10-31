@@ -6,8 +6,6 @@ weight = 40
 [extra]
 lead = "Subtrees are the preferred flow because they let Org manage metadata through inheritance and TODO states."
 toc = true
-adapted_from = "ox-hugo"
-adapted_url = "https://ox-hugo.scripter.co/doc/blogging-flow/"
 +++
 
 There are two main flows for writing with ox-zola.

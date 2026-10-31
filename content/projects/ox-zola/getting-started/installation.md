@@ -6,8 +6,6 @@ weight = 20
 [extra]
 lead = "Ox-Zola runs in Emacs and builds on ox-hugo; it has no separate runtime beyond Emacs and Zola."
 toc = true
-adapted_from = "ox-hugo"
-adapted_url = "https://ox-hugo.scripter.co/doc/installation/"
 +++
 
 ## Requirements

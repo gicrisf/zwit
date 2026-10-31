@@ -6,8 +6,6 @@ weight = 30
 [extra]
 lead = "Set the site root, mark valid posts with EXPORT_FILE_NAME, and choose an export command."
 toc = true
-adapted_from = "ox-hugo"
-adapted_url = "https://ox-hugo.scripter.co/doc/usage/"
 +++
 
 ## Before you export
