@@ -1,9 +1,15 @@
-{% component social.twitter(url = "", author = "", date = "") %}
+{% component social.twitter(url = "", author = "", date = "", media = "", media_alt = "", media_caption = "") %}
 <aside class="social-embed social-embed--twitter">
   <p class="social-embed__label">From Twitter</p>
   <div class="social-embed__body">
     {{ body | safe }}
   </div>
+  {% if media %}
+  <figure class="social-embed__media">
+    <img src="{{ media }}" alt="{{ media_alt }}" loading="lazy">
+    {% if media_caption %}<figcaption>{{ media_caption }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
   {% if author or date or url %}
   <footer class="social-embed__meta">
     {% if author %}<span>{{ author }}</span>{% endif %}
@@ -14,12 +20,18 @@
 </aside>
 {% endcomponent social.twitter %}
 
-{% component social.mastodon(url = "", author = "", date = "") %}
+{% component social.mastodon(url = "", author = "", date = "", media = "", media_alt = "", media_caption = "") %}
 <aside class="social-embed social-embed--mastodon">
   <p class="social-embed__label">From Mastodon</p>
   <div class="social-embed__body">
     {{ body | safe }}
   </div>
+  {% if media %}
+  <figure class="social-embed__media">
+    <img src="{{ media }}" alt="{{ media_alt }}" loading="lazy">
+    {% if media_caption %}<figcaption>{{ media_caption }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
   {% if author or date or url %}
   <footer class="social-embed__meta">
     {% if author %}<span>{{ author }}</span>{% endif %}
@@ -30,12 +42,18 @@
 </aside>
 {% endcomponent social.mastodon %}
 
-{% component social.bluesky(url = "", author = "", date = "") %}
+{% component social.bluesky(url = "", author = "", date = "", media = "", media_alt = "", media_caption = "") %}
 <aside class="social-embed social-embed--bluesky">
   <p class="social-embed__label">From Bluesky</p>
   <div class="social-embed__body">
     {{ body | safe }}
   </div>
+  {% if media %}
+  <figure class="social-embed__media">
+    <img src="{{ media }}" alt="{{ media_alt }}" loading="lazy">
+    {% if media_caption %}<figcaption>{{ media_caption }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
   {% if author or date or url %}
   <footer class="social-embed__meta">
     {% if author %}<span>{{ author }}</span>{% endif %}

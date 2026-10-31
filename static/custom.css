@@ -104,6 +104,24 @@
   margin-bottom: 0;
 }
 
+.social-embed__media {
+  margin: var(--space-md) 0 0;
+}
+
+.social-embed__media img {
+  border: 1px solid var(--color-faint);
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.social-embed__media figcaption {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-top: var(--space-xs);
+}
+
 .social-embed__meta {
   border-top: 1px dashed var(--color-rule);
   color: var(--color-muted);
