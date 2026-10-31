@@ -109,3 +109,8 @@
   position: relative;
   z-index: 1;
 }
+
+.site-footer__sep {
+  margin-inline: var(--space-sm);
+  opacity: 0.6;
+}

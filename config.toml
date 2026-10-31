@@ -48,6 +48,8 @@ main_menu = [
 
 github_url = "https://github.com/gicrisf"
 
+copyright = '2025-2026 <a href="https://fosstodon.org/@gicrisf">gicrisf</a> <span class="site-footer__sep" aria-hidden="true">·</span> Powered by <a href="https://www.getzola.org/">Zola</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://github.com/gicrisf/ox-zola">Ox-zola</a>'
+
 favicon = "logo/orbital-D-favicon.ico"
 apple_touch_icon = "logo/apple-touch-icon.png"
 
