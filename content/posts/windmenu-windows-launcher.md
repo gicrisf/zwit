@@ -256,7 +256,7 @@ font_size = 20
 
 The `theme.rs` module translates these descriptive field names into wlines's format and generates `wlines-config.txt` on startup. Windmenu's config re-implements all of wlines's configuration fields. No reason to manually edit the generated file.
 
-![Windmenu using the Catppuccin Mocha theme configured above](/img/mocha.png)
+![Windmenu launcher with the Catppuccin Mocha theme applied](/img/mocha.png)
 
 Themes become shareable: a `[theme]` section is just text. Copy someone's theme into your `windmenu.toml`, restart the daemon. Done.
 
@@ -337,7 +337,7 @@ Group Policy might block Task Scheduler but leave registry keys open. IT policie
 The graphical installer covers the basics: binaries, dependencies, startup method options, uninstall support, and Start Menu shortcuts. It cleans up all startup methods on uninstall while preserving user-edited configuration files.
 
 <!-- The image should be smaller -->
-![windmenu nsis](/img/windmenu-nsis.png)
+![Windmenu 0.1.0 installer showing component and auto-start options](/img/windmenu-nsis.png)
 
 For users who prefer manual control, windmenu's CLI offers the same functionality:
 

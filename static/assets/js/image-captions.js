@@ -18,12 +18,16 @@
 
   function wrapImage(image) {
     var alt = (image.getAttribute('alt') || '').trim();
-    if (!alt) return;
+    var title = (image.getAttribute('title') || '').trim();
+    var captionText = title || alt;
+    if (!captionText) return;
     if (image.closest('figure')) return;
     if (image.closest(SKIP_SELECTOR)) return;
 
     var paragraph = image.closest('p');
     if (!paragraph || !isStandaloneImage(paragraph, image)) return;
+
+    image.removeAttribute('title');
 
     var media = image.parentElement && image.parentElement.tagName === 'A'
       ? image.parentElement
@@ -33,8 +37,8 @@
     figure.appendChild(media);
 
     var caption = document.createElement('figcaption');
-    caption.textContent = alt;
-    caption.setAttribute('aria-hidden', 'true');
+    caption.textContent = captionText;
+    if (captionText === alt) caption.setAttribute('aria-hidden', 'true');
     figure.appendChild(caption);
 
     paragraph.replaceWith(figure);

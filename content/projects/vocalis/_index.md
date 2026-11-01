@@ -27,7 +27,7 @@ Upstream is the GNOME Vocalis project. This repository is the Rust port and keep
   author="Giovanni Crisalfi"
   date="2026-10-03"
   media="/img/vocalis-screenshot.png"
-  media_alt="screenshot of vocalis"
+  media_alt="Vocalis sound recorder showing three recordings, with waveform and playback controls for the selected recording"
 > %}
 Got back into #GTK development this weekend. I almost forgot how pleasant these libraries are. Just open-sourced my *unofficial* #rust port of Vocalis (#GNOME sound recorder). Still working on a few details, but I can now declare it functionally complete.
 

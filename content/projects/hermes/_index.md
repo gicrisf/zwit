@@ -29,7 +29,7 @@ The project works but is explicitly unstable and under active development. It re
   url="https://fosstodon.org/@gicrisf/116631430457560428"
   date="2026-05-24"
   media="/img/hermes-el-screenshot.png"
-  media_alt="screenshot of hermes.el"
+  media_alt="Hermes chat buffer in Doom Emacs showing a greeting and a Rust code"
 > %}
 sneak peek at my new emacs package (just open-sourced and still very unstable, but I'm too excited to not share anything about it)
 

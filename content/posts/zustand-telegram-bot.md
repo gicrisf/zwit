@@ -81,7 +81,7 @@ No hooks, no components, just pure state management.
 
 ## The code is TEA!
 
-![Anime character pouring tea into a cup](/img/anime-tea.gif)
+![Hands pours green tea from a teapot into a cup on a wooden tray](/img/anime-tea.gif)
 
 The bot follows a unidirectional data flow that any Elm developer would recognize:
 
@@ -117,9 +117,7 @@ bot.on('message', (msg) => {
 
 Instead of manually checking state or using callbacks, **the bot reacts to state changes**, like those mechanical turrets in Portal that snap the moment they detect your movements through the glass.
 
-> ![Portal turret detecting movement](/img/portal-turret.gif)
->
-> "Are you still there?"
+![Close-up of a white Portal turret with its red eye scanning for movement](/img/portal-turret.gif "“Are you still there?”")
 
 First, we set up a subscription that listens for any changes to the store:
 
