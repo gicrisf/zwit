@@ -110,6 +110,21 @@
   border: 0;
 }
 
+.prose figure:not(.social-embed__media) > a {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}
+
+.prose figure:not(.social-embed__media) > a img {
+  cursor: zoom-in;
+}
+
+.prose figure:not(.social-embed__media) > a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 .prose figure:not(.social-embed__media) > figcaption {
   background: var(--color-tint);
   border-top: 1px dashed var(--color-shade);
