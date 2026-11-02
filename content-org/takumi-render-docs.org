@@ -1,0 +1,473 @@
+#+title: Takumi Render Documentation
+#+zola_base_dir: ..
+#+zola_section: projects/takumi-render
+#+startup: overview
+#+options: toc:nil author:nil
+
+#+begin_comment
+  This is the Org source for the Takumi Render docs. It is not read by the
+  Zola build. Export it with `ox-zola-export-wim-to-md` with all subtrees (the
+  A command in the Org export dispatcher) to regenerate
+  content/projects/takumi-render/.
+
+  Subtree headings without EXPORT_FILE_NAME are organizational and are not
+  exported. Section indexes use EXPORT_FILE_NAME: _index.
+#+end_comment
+
+* Takumi Render
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/takumi-render
+  :EXPORT_ZOLA_WEIGHT: 65
+  :EXPORT_ZOLA_TEMPLATE: projects/page.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :extra '((repo . "https://github.com/gicrisf/takumi-render") (language . ("Rust")))
+:END:
+
+#+begin_description
+Native HTML/CSS to PNG rendering with Takumi, without Node.js.
+#+end_description
+
+Takumi Render is a native command-line front end for [[https://github.com/kane50613/takumi][Takumi]]'s Rust renderer. It reads HTML and CSS, registers the fonts you provide, and writes PNG files. It needs no Node.js, npm, or WebAssembly runtime.
+
+*** Why
+
+Takumi publishes a Rust engine and npm bindings, but no general-purpose PNG command-line tool. Takumi Render fills that gap for static-site builds, social-preview generation, and any workflow that already produces HTML and CSS.
+
+*** Advantages
+
+- *Native:* One Rust binary. No Node.js, npm, or WebAssembly at runtime.
+- *Focused:* It renders HTML to PNG and does not impose a template engine.
+- *Batch-friendly:* A manifest loads fonts once and renders many cards in order.
+- *Offline:* It makes no network requests.
+- *Predictable:* Width, height, fonts, inputs, and outputs are explicit.
+
+*** Scope
+
+This release renders one PNG per HTML input. It does not fetch remote images, generate social metadata, or know anything about a particular static site. Use data URLs for local images and keep the card layout in the calling project.
+
+Start with [[/projects/takumi-render/getting-started/quick-start/][Quick Start]], then use [[/projects/takumi-render/reference/batch-manifests/][Batch Manifests]] for multi-card builds.
+
+#+begin_src mermaid
+flowchart LR
+  accTitle: Takumi Render pipeline
+  accDescr: HTML, CSS, and fonts are rendered by the native Takumi engine to a PNG.
+  html[HTML and CSS] --> cli[takumi-render]
+  fonts[Fonts] --> cli
+  cli --> png[PNG]
+#+end_src
+
+*** Current release
+
+Version 0.1.0 targets Linux ~x86_64~ with a prebuilt musl binary. Building from source requires Rust 1.91 or newer.
+
+*** Credits
+
+This project exists because of [[https://github.com/kane50613/takumi][Takumi]]. It is independent and unofficial, and is not maintained by or affiliated with the Takumi project.
+
+*** License
+
+MIT. See the [[https://github.com/gicrisf/takumi-render/blob/main/LICENSE][license]].
+
+* Getting Started Group
+
+** Getting Started
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Install takumi-render, render a first card, and batch a set of HTML files.
+#+end_description
+
+Install the binary, provide a font directory, and render HTML to PNG.
+
+** Quick Start
+:PROPERTIES:
+  :EXPORT_FILE_NAME: quick-start
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Install takumi-render, write a card in HTML, and render it with a font directory.") (toc . true))
+:END:
+
+#+begin_description
+Install takumi-render and render a first HTML card to PNG.
+#+end_description
+
+*** Requirements
+
+The prebuilt binary targets Linux ~x86_64~. Building from source requires Rust 1.91 or newer.
+
+Takumi Render does not need Node.js, npm, or WebAssembly at runtime. It does need at least one font file because Takumi does not load system fonts.
+
+*** Install
+
+Download the latest Linux ~x86_64~ release from the [[https://github.com/gicrisf/takumi-render/releases][releases page]], or install from source:
+
+#+begin_src sh
+cargo install --git https://github.com/gicrisf/takumi-render --locked
+#+end_src
+
+See [[/projects/takumi-render/getting-started/installation/][Installation]] for manual download and verification steps.
+
+*** Write a card
+
+Create ~card.html~. Set explicit dimensions on the root element so the layout fills the image:
+
+#+begin_src html
+<!doctype html>
+<html>
+<body style="margin:0">
+  <div style="width:1200px;height:630px;display:flex;align-items:center;justify-content:center;background:#ececec;font-family:'IBM Plex Mono',monospace">
+    <h1 style="font-size:72px">Hello from Takumi</h1>
+  </div>
+</body>
+</html>
+#+end_src
+
+The font family name must match a font registered from ~--fonts-dir~.
+
+*** Render the card
+
+#+begin_src sh
+takumi-render render \
+  --html card.html \
+  --output card.png \
+  --fonts-dir path/to/fonts
+#+end_src
+
+The default image is 1200×630. Override it with ~--width~ and ~--height~:
+
+#+begin_src sh
+takumi-render render \
+  --html card.html \
+  --output card.png \
+  --width 800 \
+  --height 400 \
+  --fonts-dir path/to/fonts
+#+end_src
+
+To read HTML from standard input, use ~--html -~ or omit ~--html~:
+
+#+begin_src sh
+cat card.html | takumi-render render --output card.png --fonts-dir path/to/fonts
+#+end_src
+
+*** Batch mode
+
+For many cards, use a manifest so fonts load once:
+
+#+begin_src sh
+takumi-render batch cards.json --fonts-dir path/to/fonts
+#+end_src
+
+See [[/projects/takumi-render/reference/batch-manifests/][Batch Manifests]] for the JSON shape.
+
+*** Next steps
+
+- [[/projects/takumi-render/getting-started/installation/][Installation]]
+- [[/projects/takumi-render/getting-started/usage/][Usage]]
+- [[/projects/takumi-render/reference/batch-manifests/][Batch Manifests]]
+
+** Installation
+:PROPERTIES:
+  :EXPORT_FILE_NAME: installation
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Use a prebuilt Linux binary or build from source with Cargo.") (toc . true))
+:END:
+
+#+begin_description
+Install takumi-render from a release or from source.
+#+end_description
+
+*** Requirements
+
+The prebuilt binary targets ~x86_64-unknown-linux-musl~. Building from source requires Rust 1.91 or newer.
+
+Takumi Render does not need Node.js, npm, or WebAssembly at runtime.
+
+*** Prebuilt binary
+
+Download the archive from the [[https://github.com/gicrisf/takumi-render/releases][releases page]]. For version 0.1.0:
+
+#+begin_src sh
+version=0.1.0
+archive=takumi-render-v${version}-x86_64-unknown-linux-musl.tar.gz
+curl -fLO "https://github.com/gicrisf/takumi-render/releases/download/v${version}/${archive}"
+tar -xzf "${archive}"
+mkdir -p ~/.local/bin
+install "takumi-render-v${version}-x86_64-unknown-linux-musl/takumi-render" ~/.local/bin/
+#+end_src
+
+The release includes ~SHA256SUMS~; verify it before installing when the binary comes from a mirrored source.
+
+*** Cargo
+
+#+begin_src sh
+cargo install --git https://github.com/gicrisf/takumi-render --locked
+#+end_src
+
+The build uses the dependency versions pinned in ~Cargo.lock~.
+
+*** Verify
+
+#+begin_src sh
+takumi-render --version
+#+end_src
+
+Continue with [[/projects/takumi-render/getting-started/quick-start/][Quick Start]] or [[/projects/takumi-render/getting-started/usage/][Usage]].
+
+** Usage
+:PROPERTIES:
+  :EXPORT_FILE_NAME: usage
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Render one HTML file or a batch manifest, with explicit fonts, dimensions, and outputs.") (toc . true))
+:END:
+
+#+begin_description
+Render one HTML file or a batch manifest to PNG.
+#+end_description
+
+*** Render one file
+
+#+begin_src sh
+takumi-render render \
+  --html card.html \
+  --output card.png \
+  --width 1200 \
+  --height 630 \
+  --fonts-dir path/to/fonts
+#+end_src
+
+~--html~ defaults to ~-~, so standard input works without an extra flag:
+
+#+begin_src sh
+cat card.html | takumi-render render --output card.png --fonts-dir path/to/fonts
+#+end_src
+
+**** Render options
+
+| Option | Meaning |
+|--------+---------|
+| ~--html <FILE>~ | HTML file to read. Defaults to ~-~ for standard input. |
+| ~-o~, ~--output <FILE>~ | PNG file to write. Required. |
+| ~--width <PX>~ | Image width. Defaults to 1200. |
+| ~--height <PX>~ | Image height. Defaults to 630. |
+| ~--fonts-dir <DIR>~ | Font directory. Repeat for multiple directories. |
+| ~-h~, ~--help~ | Print usage. |
+| ~-V~, ~--version~ | Print the version. |
+
+*** Batch mode
+
+#+begin_src sh
+takumi-render batch cards.json --fonts-dir path/to/fonts
+#+end_src
+
+Batch mode loads the font set once and renders every card in order. Font directories from the command line and the manifest are combined.
+
+*** Paths
+
+Input, output, and manifest font paths are resolved from the current working directory. The command creates output directories as needed. Relative paths in a manifest are not resolved from the manifest location.
+
+*** Next steps
+
+- [[/projects/takumi-render/reference/batch-manifests/][Batch Manifests]]
+- [[/projects/takumi-render/reference/fonts-and-images/][Fonts and Images]]
+- [[/projects/takumi-render/reference/cli-reference/][CLI Reference]]
+
+* Reference Group
+
+** Reference
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/reference
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Batch manifests, fonts, images, CLI options, and error behavior.
+#+end_description
+
+Details for batch JSON, font registration, embedded images, command options, and exit behavior.
+
+** Batch Manifests
+:PROPERTIES:
+  :EXPORT_FILE_NAME: batch-manifests
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/reference
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Describe many HTML inputs and PNG outputs in one JSON file.") (toc . true))
+:END:
+
+#+begin_description
+Render many HTML files with one font load and ordered output.
+#+end_description
+
+A batch manifest is a JSON object with an optional ~fonts~ list and a required ~cards~ list:
+
+#+begin_src json
+{
+  "fonts": ["path/to/more/fonts"],
+  "cards": [
+    {
+      "input": "html/home.html",
+      "output": "static/og/home.png",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "input": "html/post.html",
+      "output": "static/og/post.png"
+    }
+  ]
+}
+#+end_src
+
+*** Fields
+
+| Field | Required | Meaning |
+|-------+----------+---------|
+| ~fonts~ | No | Additional font directories. |
+| ~cards~ | Yes | Ordered list of inputs and outputs. |
+| ~cards[].input~ | Yes | HTML file to read. |
+| ~cards[].output~ | Yes | PNG file to write. |
+| ~cards[].width~ | No | Image width. Defaults to 1200. |
+| ~cards[].height~ | No | Image height. Defaults to 630. |
+
+*** Fonts
+
+The ~--fonts-dir~ options and the manifest ~fonts~ list are combined. Fonts are loaded once before the first card, so a large batch does not re-register the same font files.
+
+See [[/projects/takumi-render/reference/fonts-and-images/][Fonts and Images]] for supported formats and registration behavior.
+
+*** Paths and output
+
+All paths are resolved from the current working directory. The command creates each output directory as needed.
+
+Cards render in list order. If a card fails, the command stops and exits with status 1. Earlier outputs remain on disk; remove stale output before a build if that matters.
+
+*** Example
+
+#+begin_src sh
+takumi-render batch cards.json --fonts-dir site/fonts
+#+end_src
+
+** Fonts and Images
+:PROPERTIES:
+  :EXPORT_FILE_NAME: fonts-and-images
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/reference
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Register local fonts and embed images so rendering needs no network access.") (toc . true))
+:END:
+
+#+begin_description
+Font formats, font directories, and data URLs for images.
+#+end_description
+
+*** Fonts
+
+Takumi does not load system fonts. Provide at least one font directory:
+
+#+begin_src sh
+takumi-render render \
+  --html card.html \
+  --output card.png \
+  --fonts-dir site/fonts \
+  --fonts-dir vendor/fonts
+#+end_src
+
+Font directories are read recursively. Supported files are TTF, OTF, TTC, WOFF, and WOFF2. Files are registered in directory order and then filename order.
+
+Use the registered family name in CSS:
+
+#+begin_src html
+<div style="font-family:'IBM Plex Mono',monospace">Card text</div>
+#+end_src
+
+If no font covers a character, rendering fails rather than drawing a fallback glyph.
+
+*** Images
+
+Embed local images as data URLs:
+
+#+begin_src html
+<img src="data:image/svg+xml;base64,..." width="42" height="42">
+
+<div style="background-image:url('data:image/jpeg;base64,...')"></div>
+#+end_src
+
+The renderer does not fetch remote images. Keep images local and inline them, or preload them into the HTML before rendering.
+
+*** HTML and CSS
+
+Takumi parses HTML and applies inline styles and ~<style>~ blocks. It is a rendering engine, not a browser: scripts, external stylesheets, and network requests are not part of the render.
+
+Use explicit pixel dimensions, flex layout, and data URLs for portable cards.
+
+*** Font weight
+
+Register the weights you use. A CSS ~font-weight:700~ needs a registered 700 face, not only the 400 face.
+
+** CLI Reference
+:PROPERTIES:
+  :EXPORT_FILE_NAME: cli-reference
+  :EXPORT_ZOLA_SECTION: projects/takumi-render/reference
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Commands, options, error reporting, and exit status.") (toc . true))
+:END:
+
+#+begin_description
+Every command and option, with diagnostics and exit status.
+#+end_description
+
+*** Commands
+
+| Command | Meaning |
+|---------+---------|
+| ~takumi-render render~ | Render one HTML file or standard input to PNG. |
+| ~takumi-render batch~ | Render a JSON manifest of HTML files. |
+
+*** Render options
+
+| Option | Meaning |
+|--------+---------|
+| ~--html <FILE>~ | HTML file to read. Defaults to ~-~ for standard input. |
+| ~-o~, ~--output <FILE>~ | PNG file to write. Required. |
+| ~--width <PX>~ | Image width. Defaults to 1200. |
+| ~--height <PX>~ | Image height. Defaults to 630. |
+| ~--fonts-dir <DIR>~ | Font directory. Repeatable. |
+| ~-h~, ~--help~ | Print usage. |
+| ~-V~, ~--version~ | Print the version. |
+
+*** Batch options
+
+| Option | Meaning |
+|--------+---------|
+| ~<MANIFEST>~ | JSON manifest to read. Required. |
+| ~--fonts-dir <DIR>~ | Additional font directory. Repeatable. |
+| ~-h~, ~--help~ | Print usage. |
+
+*** Exit status
+
+The command exits with 0 when every requested render succeeds. It exits with 1 when HTML parsing, font loading, image decoding, rendering, or file I/O fails. Invalid command-line arguments exit with 2 through the argument parser.
+
+*** Diagnostics
+
+Errors are written to standard error with a ~takumi-render:~ prefix. Batch mode stops at the first failing card and reports the failing input path.
+
+*** Constraints
+
+- At least one font directory is required.
+- Width and height must be positive integers.
+- Batch inputs and outputs are paths, not globs.
+- The command makes no network requests.
