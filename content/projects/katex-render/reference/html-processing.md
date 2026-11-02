@@ -1,6 +1,6 @@
 +++
 title = "HTML Processing"
-description = "DOM rewriting, serialization, runtime script removal, and error behavior."
+description = "DOM rewriting, serialization, asset boundaries, and error behavior."
 draft = false
 weight = 30
 [extra]
@@ -22,20 +22,14 @@ This preserves surrounding HTML and avoids treating markup or code as math.
 
 ## Serialization {#serialization}
 
-A page is serialized and written only when it has math to insert or runtime scripts to remove. Untouched pages are left byte-for-byte unchanged.
+A page is serialized and written only when it has math to insert. Untouched pages are left byte-for-byte unchanged.
 
 Serialization may normalize whitespace, attribute quoting, and HTML formatting on rewritten pages. The document structure and rendered content are preserved.
 
 
-## Runtime scripts {#runtime-scripts}
+## What it does not change {#what-it-does-not-change}
 
-With `--remove-runtime-scripts`, the tool removes script elements whose `src` points to:
-
--   `assets/katex/katex.min.js`
--   `assets/katex/auto-render.min.js`
--   `assets/js/math.js`
-
-It does not remove the KaTeX stylesheet or fonts. The site must keep those assets available.
+The tool does not add or remove scripts, stylesheets, fonts, or other assets. A site that wants to drop a browser renderer should remove its own runtime script tags and assets after rendering.
 
 
 ## Diagnostics {#diagnostics}

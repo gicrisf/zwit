@@ -39,7 +39,7 @@ fi
 
 export PATH="${destination}:${PATH}"
 
-katex_version="${KATEX_RENDER_VERSION:-0.1.0}"
+katex_version="${KATEX_RENDER_VERSION:-0.2.0}"
 katex_archive="katex-render-v${katex_version}-x86_64-unknown-linux-musl.tar.gz"
 katex_release="https://github.com/gicrisf/katex-render/releases/download/v${katex_version}"
 katex_destination="${cache_root}/katex-render/v${katex_version}"

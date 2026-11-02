@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -18,6 +19,12 @@ TEMPLATES = ROOT / "templates"
 THEMES = ROOT / "themes"
 ONDINE_URL = "https://github.com/gicrisf/ondine-cli"
 KATEX_RENDER_INSTALL_URL = "https://raw.githubusercontent.com/gicrisf/katex-render/main/install.sh"
+MATH_RUNTIME_SCRIPT = re.compile(
+    r'\s*<script\b[^>]*\bsrc="[^"]*'
+    r'(?:katex\.min\.js|auto-render\.min\.js|assets/js/math\.js)'
+    r'[^"]*"[^>]*>\s*</script>',
+    re.IGNORECASE,
+)
 
 
 def find_ondine() -> str:
@@ -106,10 +113,18 @@ def prepare_content(ondine: str) -> None:
 
 def render_math(katex_render: str) -> None:
     subprocess.run(
-        [katex_render, "--root", str(PUBLIC), "--remove-runtime-scripts"],
+        [katex_render, "--root", str(PUBLIC)],
         cwd=ROOT,
         check=True,
     )
+
+
+def strip_runtime_math_scripts() -> None:
+    for path in PUBLIC.rglob("*.html"):
+        source = path.read_text()
+        output = MATH_RUNTIME_SCRIPT.sub("", source)
+        if output != source:
+            path.write_text(output)
 
 
 def strip_runtime_math_assets() -> None:
@@ -138,6 +153,7 @@ def build(ondine: str, katex_render: str, args: list[str]) -> int:
         return code
 
     render_math(katex_render)
+    strip_runtime_math_scripts()
     strip_runtime_math_assets()
     return 0
 

@@ -43,10 +43,10 @@ The stylesheet path is the default marker. Pages without it are left alone.
 After building the site, run:
 
 ```sh
-katex-render --root public --remove-runtime-scripts
+katex-render --root public
 ```
 
-The command replaces the LaTeX with KaTeX HTML and MathML. With `--remove-runtime-scripts`, it also removes known KaTeX runtime `<script>` tags from processed pages.
+The command replaces the LaTeX with KaTeX HTML and MathML. It does not modify scripts, stylesheets, fonts, or other assets.
 
 
 ## Next steps {#next-steps}

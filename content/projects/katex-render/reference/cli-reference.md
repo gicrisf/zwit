@@ -17,13 +17,12 @@ katex-render [OPTIONS]
 
 ## Options {#options}
 
-| Option                     | Meaning                                                                              |
-|----------------------------|--------------------------------------------------------------------------------------|
-| `--root <DIR>`             | Directory containing built HTML. Defaults to `public`.                               |
-| `--marker <STRING>`        | Only process pages containing this string. Defaults to `assets/katex/katex.min.css`. |
-| `--remove-runtime-scripts` | Remove known KaTeX runtime script tags from processed pages.                         |
-| `-h`, `--help`             | Print usage.                                                                         |
-| `-V`, `--version`          | Print the version.                                                                   |
+| Option              | Meaning                                                                              |
+|---------------------|--------------------------------------------------------------------------------------|
+| `--root <DIR>`      | Directory containing built HTML. Defaults to `public`.                               |
+| `--marker <STRING>` | Only process pages containing this string. Defaults to `assets/katex/katex.min.css`. |
+| `-h`, `--help`      | Print usage.                                                                         |
+| `-V`, `--version`   | Print the version.                                                                   |
 
 
 ## Output summary {#output-summary}
@@ -48,4 +47,5 @@ The command exits with 0 when every processed page succeeds. It exits with 1 whe
 -   It processes only pages containing the marker.
 -   It writes only pages that changed.
 -   It fails on the first KaTeX parse error.
+-   It does not add or remove scripts, stylesheets, fonts, or other assets.
 -   It makes no network requests.

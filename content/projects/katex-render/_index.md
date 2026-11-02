@@ -1,7 +1,7 @@
 +++
 template = "projects/page.html"
 title = "KaTeX Render"
-description = "Build-time KaTeX rendering for static HTML, without runtime JavaScript."
+description = "Build-time KaTeX rendering for static HTML with pure Rust."
 draft = false
 weight = 67
 page_template = "docs/page.html"
@@ -11,17 +11,17 @@ sort_by = "weight"
   language = ["Rust"]
 +++
 
-KaTeX Render is a post-build HTML transformer. It finds LaTeX in pages that opt into math, renders it with [katex-rs](https://github.com/katex-rs/katex-rs), and writes KaTeX HTML and MathML into the page. The KaTeX JavaScript runtime can then be removed from production output.
+KaTeX Render is a post-build HTML transformer. It finds LaTeX in pages that opt into math, renders it with [katex-rs](https://github.com/katex-rs/katex-rs), and writes KaTeX HTML and MathML into the page. It only transforms math; CSS, fonts, scripts, and other assets remain the site's responsibility.
 
 
 ## Why {#why}
 
 KaTeX normally typesets math in the browser. Static sites pay for that with an extra JavaScript download, parsing, and layout work on every math page. KaTeX Render moves the work to the build:
 
--   no KaTeX JavaScript in production output
--   no Node.js, browser, or WebAssembly runtime
+-   no browser-side KaTeX rendering
+-   no Node.js, browser, or WebAssembly runtime in the tool
 -   HTML and MathML are present in the initial response
--   KaTeX CSS and fonts are still required for visual rendering
+-   CSS, fonts, scripts, and other assets remain the site's responsibility
 
 
 ## Advantages {#advantages}
@@ -30,13 +30,12 @@ KaTeX normally typesets math in the browser. Static sites pay for that with an e
 -   **Build-time:** Math is rendered once, not on every visit.
 -   **Opt-in:** Only pages marked with a KaTeX stylesheet link are touched.
 -   **Safe:** Code blocks, scripts, existing MathML, and existing KaTeX markup are skipped.
--   **Script-aware:** It can remove the KaTeX runtime script tags from processed pages.
 -   **Focused:** It does not impose a Markdown parser or a template engine.
 
 
 ## Scope {#scope}
 
-KaTeX Render works on built HTML. It does not parse Markdown, copy stylesheets or fonts, generate diagrams, or serve the site. It expects the KaTeX CSS and fonts to already be part of the site.
+KaTeX Render works on built HTML. It does not parse Markdown, copy stylesheets or fonts, remove scripts, manage assets, generate diagrams, or serve the site. It expects the page and its assets to already be part of the site.
 
 Rendering is opt-in. A page is processed only when it contains the configured marker, which defaults to `assets/katex/katex.min.css`.
 
@@ -54,7 +53,7 @@ flowchart LR
 
 ## Current release {#current-release}
 
-Version 0.1.0 targets Linux `x86_64` with a prebuilt musl binary. Building from source requires Rust 1.91 or newer.
+Version 0.2.0 targets Linux `x86_64` with a prebuilt musl binary. Building from source requires Rust 1.91 or newer.
 
 
 ## Credits {#credits}

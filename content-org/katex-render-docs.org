@@ -26,19 +26,19 @@
 :END:
 
 #+begin_description
-Build-time KaTeX rendering for static HTML, without runtime JavaScript.
+Build-time KaTeX rendering for static HTML with pure Rust.
 #+end_description
 
-KaTeX Render is a post-build HTML transformer. It finds LaTeX in pages that opt into math, renders it with [[https://github.com/katex-rs/katex-rs][katex-rs]], and writes KaTeX HTML and MathML into the page. The KaTeX JavaScript runtime can then be removed from production output.
+KaTeX Render is a post-build HTML transformer. It finds LaTeX in pages that opt into math, renders it with [[https://github.com/katex-rs/katex-rs][katex-rs]], and writes KaTeX HTML and MathML into the page. It only transforms math; CSS, fonts, scripts, and other assets remain the site's responsibility.
 
 *** Why
 
 KaTeX normally typesets math in the browser. Static sites pay for that with an extra JavaScript download, parsing, and layout work on every math page. KaTeX Render moves the work to the build:
 
-- no KaTeX JavaScript in production output
-- no Node.js, browser, or WebAssembly runtime
+- no browser-side KaTeX rendering
+- no Node.js, browser, or WebAssembly runtime in the tool
 - HTML and MathML are present in the initial response
-- KaTeX CSS and fonts are still required for visual rendering
+- CSS, fonts, scripts, and other assets remain the site's responsibility
 
 *** Advantages
 
@@ -46,12 +46,11 @@ KaTeX normally typesets math in the browser. Static sites pay for that with an e
 - *Build-time:* Math is rendered once, not on every visit.
 - *Opt-in:* Only pages marked with a KaTeX stylesheet link are touched.
 - *Safe:* Code blocks, scripts, existing MathML, and existing KaTeX markup are skipped.
-- *Script-aware:* It can remove the KaTeX runtime script tags from processed pages.
 - *Focused:* It does not impose a Markdown parser or a template engine.
 
 *** Scope
 
-KaTeX Render works on built HTML. It does not parse Markdown, copy stylesheets or fonts, generate diagrams, or serve the site. It expects the KaTeX CSS and fonts to already be part of the site.
+KaTeX Render works on built HTML. It does not parse Markdown, copy stylesheets or fonts, remove scripts, manage assets, generate diagrams, or serve the site. It expects the page and its assets to already be part of the site.
 
 Rendering is opt-in. A page is processed only when it contains the configured marker, which defaults to ~assets/katex/katex.min.css~.
 
@@ -68,7 +67,7 @@ flowchart LR
 
 *** Current release
 
-Version 0.1.0 targets Linux ~x86_64~ with a prebuilt musl binary. Building from source requires Rust 1.91 or newer.
+Version 0.2.0 targets Linux ~x86_64~ with a prebuilt musl binary. Building from source requires Rust 1.91 or newer.
 
 *** Credits
 
@@ -140,10 +139,10 @@ The stylesheet path is the default marker. Pages without it are left alone.
 After building the site, run:
 
 #+begin_src sh
-katex-render --root public --remove-runtime-scripts
+katex-render --root public
 #+end_src
 
-The command replaces the LaTeX with KaTeX HTML and MathML. With ~--remove-runtime-scripts~, it also removes known KaTeX runtime ~<script>~ tags from processed pages.
+The command replaces the LaTeX with KaTeX HTML and MathML. It does not modify scripts, stylesheets, fonts, or other assets.
 
 *** Next steps
 
@@ -181,10 +180,10 @@ This installs to =~/.local/bin=. Set ~KATEX_RENDER_INSTALL_DIR~ to choose anothe
 
 **** Manual download
 
-Download the archive from the [[https://github.com/gicrisf/katex-render/releases][releases page]]. For version 0.1.0:
+Download the archive from the [[https://github.com/gicrisf/katex-render/releases][releases page]]. For version 0.2.0:
 
 #+begin_src sh
-version=0.1.0
+version=0.2.0
 archive=katex-render-v${version}-x86_64-unknown-linux-musl.tar.gz
 curl -fLO "https://github.com/gicrisf/katex-render/releases/download/v${version}/${archive}"
 tar -xzf "${archive}"
@@ -225,7 +224,7 @@ Run katex-render after a static-site build.
 *** Basic command
 
 #+begin_src sh
-katex-render --root public --remove-runtime-scripts
+katex-render --root public
 #+end_src
 
 Without ~--root~, the command reads the ~public~ directory. It walks HTML files, processes pages that contain the marker, and writes only pages that changed.
@@ -246,18 +245,16 @@ katex-render --root public --marker /assets/katex/katex.min.css
 
 A page without the marker is not parsed or rewritten.
 
-*** Static-site integration
+*** Build integration
 
-Run the transformer after the generator writes HTML:
+Run the transformer after the build writes HTML:
 
 #+begin_src sh
-zola build
-katex-render --root public --remove-runtime-scripts
+# after the site build writes HTML
+katex-render --root public
 #+end_src
 
-~--remove-runtime-scripts~ removes known KaTeX runtime script tags from processed pages. It does not remove the KaTeX stylesheet or fonts.
-
-A local preview can keep runtime KaTeX while production output uses pre-rendered math. Run KaTeX Render against the production output directory, not the development server.
+The tool reads the built HTML and writes only pages that changed. It does not add or remove scripts, stylesheets, fonts, or other assets.
 
 *** Next steps
 
@@ -307,7 +304,6 @@ katex-render [OPTIONS]
 |--------+---------|
 | ~--root <DIR>~ | Directory containing built HTML. Defaults to ~public~. |
 | ~--marker <STRING>~ | Only process pages containing this string. Defaults to ~assets/katex/katex.min.css~. |
-| ~--remove-runtime-scripts~ | Remove known KaTeX runtime script tags from processed pages. |
 | ~-h~, ~--help~ | Print usage. |
 | ~-V~, ~--version~ | Print the version. |
 
@@ -331,6 +327,7 @@ The command exits with 0 when every processed page succeeds. It exits with 1 whe
 - It processes only pages containing the marker.
 - It writes only pages that changed.
 - It fails on the first KaTeX parse error.
+- It does not add or remove scripts, stylesheets, fonts, or other assets.
 - It makes no network requests.
 
 ** Delimiters
@@ -417,7 +414,7 @@ A backslash escapes the next character, so ~\$5~ is not treated as the start of 
 :END:
 
 #+begin_description
-DOM rewriting, serialization, runtime script removal, and error behavior.
+DOM rewriting, serialization, asset boundaries, and error behavior.
 #+end_description
 
 *** Marker detection
@@ -432,19 +429,13 @@ This preserves surrounding HTML and avoids treating markup or code as math.
 
 *** Serialization
 
-A page is serialized and written only when it has math to insert or runtime scripts to remove. Untouched pages are left byte-for-byte unchanged.
+A page is serialized and written only when it has math to insert. Untouched pages are left byte-for-byte unchanged.
 
 Serialization may normalize whitespace, attribute quoting, and HTML formatting on rewritten pages. The document structure and rendered content are preserved.
 
-*** Runtime scripts
+*** What it does not change
 
-With ~--remove-runtime-scripts~, the tool removes script elements whose ~src~ points to:
-
-- ~assets/katex/katex.min.js~
-- ~assets/katex/auto-render.min.js~
-- ~assets/js/math.js~
-
-It does not remove the KaTeX stylesheet or fonts. The site must keep those assets available.
+The tool does not add or remove scripts, stylesheets, fonts, or other assets. A site that wants to drop a browser renderer should remove its own runtime script tags and assets after rendering.
 
 *** Diagnostics
 

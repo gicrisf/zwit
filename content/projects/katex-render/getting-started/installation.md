@@ -28,10 +28,10 @@ This installs to `~/.local/bin`. Set `KATEX_RENDER_INSTALL_DIR` to choose anothe
 
 ### Manual download {#manual-download}
 
-Download the archive from the [releases page](https://github.com/gicrisf/katex-render/releases). For version 0.1.0:
+Download the archive from the [releases page](https://github.com/gicrisf/katex-render/releases). For version 0.2.0:
 
 ```sh
-version=0.1.0
+version=0.2.0
 archive=katex-render-v${version}-x86_64-unknown-linux-musl.tar.gz
 curl -fLO "https://github.com/gicrisf/katex-render/releases/download/v${version}/${archive}"
 tar -xzf "${archive}"
