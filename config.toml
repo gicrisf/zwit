@@ -36,6 +36,9 @@ logo_text = "Home"
 logo_home_link = "/"
 background_image = "bg.jpg"
 
+og_image_dir = "og"
+og_default_image = "og/default.png"
+
 # Collapse the navigation into the Menu toggle at every width.
 compact_nav = true
 

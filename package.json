@@ -1,0 +1,17 @@
+{
+  "name": "zwit",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "social:images": "tsx scripts/social-images.tsx"
+  },
+  "devDependencies": {
+    "react": "19.3.1",
+    "smol-toml": "1.9.1",
+    "takumi-js": "2.16.3",
+    "tsx": "4.23.15"
+  }
+}

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+npm ci --no-audit --no-fund
+
 version="${ONDINE_VERSION:-0.2.0}"
 archive="ondine-v${version}-x86_64-unknown-linux-musl.tar.gz"
 release="https://github.com/gicrisf/ondine-cli/releases/download/v${version}"

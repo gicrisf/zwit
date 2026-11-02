@@ -38,6 +38,19 @@ def is_markdown(path: Path) -> bool:
     return path.suffix.lower() in {".md", ".markdown"}
 
 
+def generate_social_images() -> None:
+    script = ROOT / "scripts" / "social-images.tsx"
+    tsx = ROOT / "node_modules" / ".bin" / "tsx"
+
+    if not tsx.exists():
+        raise SystemExit(
+            "social image generator is not installed. Run:\n"
+            "  npm ci"
+        )
+
+    subprocess.run([str(tsx), str(script)], cwd=ROOT, check=True)
+
+
 def link(path: Path, target: Path) -> None:
     if path.is_symlink() or path.is_file():
         path.unlink()
@@ -92,6 +105,7 @@ def zola(command: str, args: list[str]) -> int:
 
 
 def build(ondine: str, args: list[str]) -> int:
+    generate_social_images()
     ensure_root()
     prepare_content(ondine)
     return zola("build", ["--force", "--output-dir", str(PUBLIC), *args])
@@ -115,6 +129,7 @@ def snapshot() -> dict[Path, tuple[int, int]]:
 
 
 def serve(ondine: str, args: list[str]) -> int:
+    generate_social_images()
     ensure_root()
     prepare_content(ondine)
 
