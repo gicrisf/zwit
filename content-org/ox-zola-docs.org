@@ -1,0 +1,1818 @@
+#+title: Ox-Zola Documentation
+#+zola_base_dir: ..
+#+zola_section: projects/ox-zola
+#+startup: overview
+#+options: toc:nil author:nil
+
+#+begin_comment
+  This is an Org source for the Ox-Zola docs. It is not read by the Zola
+  build. Export it with `ox-zola-export-wim-to-md` with all subtrees (the A
+  command in the Org export dispatcher) to regenerate
+  content/projects/ox-zola/.
+
+  The committed docs are post-processed after export: heading anchors are
+  removed, links use Zola's @/ syntax, and tables/lists are normalized. Raw
+  export output will differ in those areas.
+
+  Subtree headings without EXPORT_FILE_NAME are organizational and are not
+  exported. Section indexes use EXPORT_FILE_NAME: _index.
+#+end_comment
+
+* Ox-Zola
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/ox-zola
+  :EXPORT_ZOLA_WEIGHT: 60
+  :EXPORT_ZOLA_TEMPLATE: projects/page.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :extra '((repo . "https://github.com/gicrisf/ox-zola") (language . ("Emacs Lisp")))
+:END:
+
+#+begin_description
+An Org exporter backend for writing Zola posts in Org mode.
+#+end_description
+
+Ox-Zola is an Org export backend that writes Markdown with TOML front matter for the Zola static site generator. It supports subtree and whole-file exports, Org tags as taxonomies, Zola internal links, page bundles, and Zola 0.23 components.
+
+*** What it handles
+
+Exports support files, subtrees, and whole-file WIM exports. Org tags create categories and tags, file-level ~zola_categories~ and ~zola_tags~ keywords set taxonomies directly, and page bundles are configured through export properties.
+
+Point ~ox-zola-base-dir~ at the site and set the default section. Start with [[/projects/ox-zola/getting-started/][Getting Started]], then use the reference pages for links, components, and migration.
+
+* Getting Started Group
+
+** Getting Started
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Install ox-zola, learn the blogging flow, and export a first post.
+#+end_description
+
+Install the package, point it at a Zola site, and choose the export flow that fits your writing.
+
+** Quick Start
+:PROPERTIES:
+  :EXPORT_FILE_NAME: quick-start
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Create a Zola site, install ox-zola, and export a first Org subtree.") (toc . true))
+:END:
+
+#+begin_description
+Create a Zola site and export a first Org post with ox-zola.
+#+end_description
+
+*** Requirements
+
+Ox-Zola requires Emacs 27.2 or newer and a Zola site.
+
+*** Install
+
+Ox-Zola is available on [[https://melpa.org/#/ox-zola][MELPA]]. With MELPA configured:
+
+#+begin_src text
+M-x package-install RET ox-zola RET
+#+end_src
+
+Or with ~use-package~:
+
+#+begin_src elisp
+(use-package ox-zola
+  :ensure t)
+#+end_src
+
+The ox-hugo dependency is installed automatically. If MELPA is not configured yet, see the [[https://melpa.org/#/getting-started][MELPA getting-started guide]]. For alternative installation methods, see [[/projects/ox-zola/getting-started/installation/][Installation]].
+
+*** Configure
+
+Point ox-zola at the Zola site and choose a default section:
+
+#+begin_src elisp
+(setq ox-zola-base-dir "~/my-zola-site")
+(setq ox-zola-section "posts")
+#+end_src
+
+The same values can be set per file:
+
+#+begin_src org
+,#+zola_base_dir: /path/to/your/zola/project
+,#+zola_section: posts
+#+end_src
+
+*** Write and export a post
+
+Write a post as an Org heading:
+
+#+begin_src org
+,* My First Post
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-first-post
+:END:
+This is my first post written in Org mode.
+#+end_src
+
+Export with ~M-x org-export-dispatch~ (~C-c C-e~). The Zola backend appears under ~Z~:
+
+#+begin_src text
+ [Z] Export to Zola Markdown
+     [z] Subtree or File to Md file
+     [Z] File to a temporary Md buffer
+     [O] Subtree or File to Md file and open
+     [f] File to Md file
+     [A] All subtrees (or File) to Md file(s)
+     [o] File to Md file and open
+#+end_src
+
+*** Taxonomies
+
+Use Org tags:
+
+#+begin_src org
+,* My First Post :@blogging:emacs:
+#+end_src
+
+This creates a category ~blogging~ and a tag ~emacs~. File-level keywords work too:
+
+#+begin_src org
+,#+zola_categories: blogging
+,#+zola_tags: emacs org-mode
+#+end_src
+
+Both produce Zola front matter:
+
+#+begin_src toml
+[taxonomies]
+categories = ["blogging"]
+tags = ["emacs", "org-mode"]
+#+end_src
+
+*** Page bundles
+
+Put a post and its assets in the same directory by exporting an ~index~ file:
+
+#+begin_src org
+,* My First Post :@blogging:emacs:
+:PROPERTIES:
+:EXPORT_ZOLA_SECTION: posts/my-first-post
+:EXPORT_FILE_NAME: index
+:END:
+#+end_src
+
+
+Next, see [[/projects/ox-zola/content/internal-links/][Internal Links]] and [[/projects/ox-zola/content/components/][Components and Special Blocks]].
+
+** Installation
+:PROPERTIES:
+  :EXPORT_FILE_NAME: installation
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/getting-started
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola runs in Emacs and builds on ox-hugo; it has no separate runtime beyond Emacs and Zola.") (toc . true))
+:END:
+
+#+begin_description
+Install ox-zola and connect it to a Zola site.
+#+end_description
+
+*** Requirements
+
+Ox-Zola requires Emacs 27.2 or newer. It depends on [[https://github.com/kaushalmodi/ox-hugo][ox-hugo]], which is installed as a package dependency. You also need a Zola site to export into.
+
+*** Install from MELPA
+
+Ox-Zola is available on [[https://melpa.org/#/ox-zola][MELPA]]. With MELPA configured, install it with:
+
+#+begin_src text
+M-x package-install RET ox-zola RET
+#+end_src
+
+Or with ~use-package~:
+
+#+begin_src elisp
+(use-package ox-zola
+  :ensure t)
+#+end_src
+
+The ox-hugo dependency is installed automatically. If MELPA is not configured yet, see the [[https://melpa.org/#/getting-started][MELPA getting-started guide]].
+
+*** Alternative installations
+
+With ~straight.el~:
+
+#+begin_src elisp
+(use-package ox-zola
+  :straight (:host github :repo "gicrisf/ox-zola"))
+#+end_src
+
+With Emacs 29's built-in ~:vc~:
+
+#+begin_src elisp
+(use-package ox-zola
+  :vc (:url "https://github.com/gicrisf/ox-zola"
+            :rev :newest
+            :branch "main"))
+#+end_src
+
+With Doom Emacs:
+
+#+begin_src elisp
+(package! ox-zola
+  :recipe (:host github :repo "gicrisf/ox-zola"))
+#+end_src
+
+After installation, require it so the Zola backend is available in the Org export dispatcher. With ~use-package~, this happens automatically; otherwise add:
+
+#+begin_src elisp
+(with-eval-after-load 'ox
+  (require 'ox-zola))
+#+end_src
+
+*** Connect it to a site
+
+Set the site root and the default section:
+
+#+begin_src elisp
+(setq ox-zola-base-dir "~/my-zola-site")
+(setq ox-zola-section "posts")
+#+end_src
+
+These can also be set per file:
+
+#+begin_src org
+,#+zola_base_dir: /path/to/your/zola/project
+,#+zola_section: posts
+#+end_src
+
+The Zola backend then appears under ~Z~ in ~M-x org-export-dispatch~ (~C-c C-e~). See [[/projects/ox-zola/getting-started/usage/][Usage]] for the export commands.
+
+** Usage
+:PROPERTIES:
+  :EXPORT_FILE_NAME: usage
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/getting-started
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Set the site root, mark valid posts with EXPORT_FILE_NAME, and choose an export command.") (toc . true))
+:END:
+
+#+begin_description
+Export Org subtrees or whole files to Zola Markdown.
+#+end_description
+
+*** Before you export
+
+Set ~ox-zola-base-dir~ or the ~ZOLA_BASE_DIR~ keyword. Set ~ox-zola-section~ or the matching section keyword for the default output section.
+
+For subtree exports, the post subtree must have ~EXPORT_FILE_NAME~. A subtree with ~EXPORT_FILE_NAME~ cannot contain another subtree with that property; post subtrees are leaves.
+
+*** Export commands
+
+The Zola backend is available under ~Z~ in ~M-x org-export-dispatch~ (~C-c C-e~):
+
+| Key | Action |
+| ~z~ | Export the current subtree or file |
+| ~O~ | Export the current subtree or file and open it |
+| ~A~ | Export all subtrees, or the whole file |
+| ~Z~ | Export the file to a temporary buffer |
+| ~f~ | Export the file to a Markdown file |
+| ~o~ | Export the file to a Markdown file and open it |
+
+The subtree/file command is the usual WIM export: if point is in a valid post subtree it exports that subtree; otherwise, if the file has a ~#+title~, it exports the whole file.
+
+*** Customization
+
+Use ~M-x customize-group RET ox-zola~ to inspect the available export options.
+
+** Blogging Flow
+:PROPERTIES:
+  :EXPORT_FILE_NAME: blogging-flow
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/getting-started
+  :EXPORT_ZOLA_WEIGHT: 40
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Subtrees are the preferred flow because they let Org manage metadata through inheritance and TODO states.") (toc . true))
+:END:
+
+#+begin_description
+Choose between one post per subtree and one post per file.
+#+end_description
+
+There are two main flows for writing with ox-zola.
+
+*** One post per Org subtree
+
+This is the preferred workflow. Each post is a subtree with ~EXPORT_FILE_NAME~, and you can either export the current subtree or all valid post subtrees at once.
+
+Subtree exports let you use Org's tag and property inheritance, TODO states for draft status, automatic weight calculation, and shared file-level configuration.
+
+*** One post per Org file
+
+This also works, but a whole-file export cannot take advantage of subtree inheritance or automatic weights and taxonomies. Metadata that would normally be inherited must be written explicitly with file-level keywords.
+
+For a first post, see [[/projects/ox-zola/getting-started/quick-start/][Quick Start]]. For Hugo migration details, see [[/projects/ox-zola/getting-started/migration-from-ox-hugo/][Migrating from ox-hugo]].
+
+** Migrating from ox-hugo
+:PROPERTIES:
+  :EXPORT_FILE_NAME: migration-from-ox-hugo
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/getting-started
+  :EXPORT_ZOLA_WEIGHT: 50
+  :EXPORT_ZOLA_ALIASES: /projects/ox-zola/migration-from-ox-hugo/
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Keep your Org files, switch the exporter, and update the few Hugo-specific constructs that Zola does not share.") (toc . true))
+:END:
+
+#+begin_description
+Move an Org-based blog from Hugo to Zola with ox-zola.
+#+end_description
+
+#+begin_export html
+{% raw %}
+#+end_export
+
+*** Quick start
+
+1. Install ox-zola alongside ox-hugo.
+2. Change the export command from ~org-hugo-export-*~ to ~ox-zola-export-*~.
+3. Export your posts. Most Org files need no changes.
+
+#+begin_src elisp
+;; Before, with ox-hugo
+(org-hugo-export-wim-to-md)
+
+;; After, with ox-zola
+(ox-zola-export-wim-to-md)
+#+end_src
+
+*** Keywords
+
+Both ~HUGO_*~ and ~ZOLA_*~ keywords are recognized. You can keep existing keywords or migrate gradually:
+
+#+begin_src org
+;; These are equivalent
+,#+hugo_base_dir: ~/myblog
+,#+zola_base_dir: ~/myblog
+
+,#+hugo_section: posts
+,#+zola_section: posts
+
+,#+hugo_tags: emacs org-mode
+,#+zola_tags: emacs org-mode
+#+end_src
+
+*** Subtree properties
+
+Both Hugo-named and Zola-named properties are accepted. New files should use the Zola names:
+
+| Hugo property | Zola property |
+| ~EXPORT_HUGO_SECTION~ | ~EXPORT_ZOLA_SECTION~ |
+| ~EXPORT_HUGO_SECTION_FRAG~ | ~EXPORT_ZOLA_SECTION_FRAG~ |
+| ~EXPORT_HUGO_BUNDLE~ | ~EXPORT_ZOLA_BUNDLE~ |
+| ~EXPORT_HUGO_TAGS~ | ~EXPORT_ZOLA_TAGS~ |
+| ~EXPORT_HUGO_CATEGORIES~ | ~EXPORT_ZOLA_CATEGORIES~ |
+| ~EXPORT_HUGO_WEIGHT~ | ~EXPORT_ZOLA_WEIGHT~ |
+| ~EXPORT_HUGO_LAYOUT~ | ~EXPORT_ZOLA_TEMPLATE~ |
+| ~EXPORT_HUGO_AUTO_SET_LASTMOD~ | ~EXPORT_ZOLA_AUTO_SET_LASTMOD~ |
+
+Additional Zola-named keywords include ~ZOLA_AUTO_SET_LASTMOD~, ~ZOLA_USE_CODE_FOR_KBD~, ~ZOLA_PREFER_HYPHEN_IN_TAGS~, ~ZOLA_ALLOW_SPACES_IN_TAGS~, ~ZOLA_BUNDLE~, ~ZOLA_DATE_FORMAT~, ~ZOLA_LEVEL_OFFSET~, ~ZOLA_CUSTOM_FRONT_MATTER~, and ~ZOLA_FRONT_MATTER_KEY_REPLACE~.
+
+*** Subtree and file export
+
+The WIM export detects whether to export the current subtree or the whole file.
+
+*** Front matter transformations
+
+Ox-Zola converts Hugo-specific front matter to Zola's shape:
+
+| Hugo | Zola | Notes |
+| ~lastmod~ | ~updated~ | Renamed |
+| ~layout~ | ~template~ | Renamed |
+| ~tags: [...]~ | ~[taxonomies]~ | Restructured |
+| ~categories: [...]~ | ~[taxonomies]~ | Restructured |
+| ~menu~, ~resources~, ~outputs~ | removed | Zola does not use them |
+
+Example:
+
+#+begin_src toml
+# Hugo front matter
++++
+title = "My Post"
+tags = ["emacs", "org"]
+categories = ["tutorials"]
+lastmod = 2024-01-15
+layout = "post"
++++
+#+end_src
+
+#+begin_src toml
+# Zola front matter
++++
+title = "My Post"
+updated = 2024-01-15
+template = "post.html"
+
+[taxonomies]
+tags = ["emacs", "org"]
+categories = ["tutorials"]
++++
+#+end_src
+
+*** Internal links
+
+Hugo's ~relref~ shortcode is replaced with Zola's ~@/~ path syntax:
+
+#+begin_src markdown
+# Hugo output
+[other post]({{< relref "other.md" >}})
+[heading]({{< relref "post.md#section" >}})
+
+# Zola output
+[other post](@/posts/other.md)
+[heading](@/posts/post.md#section)
+#+end_src
+
+*** Shortcodes and components
+
+Hugo shortcodes do not map directly to Zola 0.23 components. Convert each one manually.
+
+#+begin_src markdown
+# Hugo paired shortcode
+{{< quote >}}
+Content here
+{{< /quote >}}
+
+# Zola 0.22 legacy shortcode syntax
+{% quote() %}
+Content here
+{% end %}
+
+# Zola 0.23 component call
+{% <site.quote> %}
+Content here
+{% </site.quote> %}
+#+end_src
+
+#+begin_src markdown
+# Hugo inline shortcode
+{{< youtube abc123 >}}
+
+# Zola 0.22 legacy shortcode syntax
+{{ youtube(id="abc123") }}
+
+# Zola 0.23 component call
+{{<site.youtube id="abc123" />}}
+#+end_src
+
+If you still target Zola 0.22, ox-zola can emit the legacy shortcode syntax for Org special blocks. For 0.23 and newer, define and call Tera components instead. See [[/projects/ox-zola/content/components/][Components and Special Blocks]].
+
+*** Figures
+
+For Zola 0.23 and newer, use a figure component or plain HTML:
+
+#+begin_src html
+<figure>
+  <img src="/images/diagram.png" alt="Diagram">
+  <figcaption>A caption</figcaption>
+</figure>
+#+end_src
+
+The old Hugo and Zola shortcode forms are for legacy Zola versions only.
+
+*** Page bundles
+
+Hugo and Zola differ in page bundle conventions:
+
+| Hugo | Zola |
+| ~content/posts/my-post/index.md~ | ~content/posts/my-post/index.md~ |
+| Leaf bundle | Section with ~_index.md~ or a page |
+| ~resources~ front matter | Co-located assets |
+
+Simple bundles containing a post and images work similarly. Complex Hugo bundles with resource processing need manual adjustment.
+
+*** Manual changes
+
+- Replace Hugo-specific export snippets with HTML or component calls.
+- Rewrite custom Hugo shortcodes as Tera components.
+- Remove Hugo menu configuration; Zola navigation lives in the template configuration instead.
+
+*** Menus
+
+Hugo's menu system does not exist in Zola. Remove ~#+hugo_menu~ entries and configure navigation in ~config.toml~ or the site templates.
+
+#+begin_export html
+{% endraw %}
+#+end_export
+
+** Troubleshooting
+:PROPERTIES:
+  :EXPORT_FILE_NAME: troubleshooting
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/getting-started
+  :EXPORT_ZOLA_WEIGHT: 60
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Most export problems come from inconsistent file encodings or missing required metadata.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/troubleshooting/"))
+:END:
+
+#+begin_description
+Fix common export problems with line endings and metadata.
+#+end_description
+
+*** Mixed line endings
+
+If an Org file contains a mix of Unix (~\n~) and DOS/Windows (~\r\n~) line endings, the exported Markdown can lose paragraph breaks. This can happen when an attached file, such as an SVG, was created outside Emacs with different line endings.
+
+Make the line endings consistent in the source file, or align the export coding system with your buffer:
+
+#+begin_src elisp
+(setq org-export-coding-system 'utf-8-unix)
+#+end_src
+
+If you need to override it only during export:
+
+#+begin_src elisp
+(defun my/ox-zola-always-utf-8-unix (orig-fun &rest args)
+  (let ((org-export-coding-system 'utf-8-unix))
+    (apply orig-fun args)))
+
+(with-eval-after-load 'ox-zola
+  (advice-add 'ox-zola-export-to-md :around #'my/ox-zola-always-utf-8-unix))
+#+end_src
+
+*** Missing output or metadata
+
+Check that:
+
+- ~ox-zola-base-dir~ points at the Zola site root.
+- The section or ~EXPORT_FILE_NAME~ is set correctly.
+- A subtree export has ~EXPORT_FILE_NAME~ and does not nest another post subtree.
+- The exported Markdown passes ~zola check~.
+
+* Content Group
+
+** Content
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Front matter, formatting, media, and Org features in exported posts.
+#+end_description
+
+How Org elements become Zola Markdown and front matter, from metadata and dates to tables, images, source blocks, and components.
+
+** Front Matter
+:PROPERTIES:
+  :EXPORT_FILE_NAME: front-matter
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola writes Zola's TOML front matter from Org keywords, properties, and subtree metadata.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/org-meta-data-to-hugo-front-matter/"))
+:END:
+
+#+begin_description
+How Org metadata becomes Zola TOML front matter.
+#+end_description
+
+*** Subtree exports
+
+For subtree exports, the post heading and its property drawer provide most front matter values:
+
+| Zola field | Org source |
+| ~title~ | Subtree heading |
+| ~date~ | ~CLOSED~ property or ~EXPORT_DATE~ |
+| ~updated~ | ~ZOLA_UPDATED~ keyword, ~:LOGBOOK:~ history, or automatic tracking |
+| ~draft~ | ~TODO~ state or ~ZOLA_DRAFT~ keyword |
+| ~weight~ | ~EXPORT_ZOLA_WEIGHT~ |
+| ~taxonomies.tags~ | Subtree tags without ~@~ |
+| ~taxonomies.categories~ | Subtree tags with ~@~ |
+| ~path~ / output file | ~EXPORT_FILE_NAME~, section, and bundle properties |
+
+Zola uses TOML front matter.
+
+*** File exports
+
+For whole-file exports, use file-level keywords:
+
+#+begin_src org
+,#+title: My Post
+,#+date: 2026-10-31
+,#+zola_tags: emacs org-mode
+,#+zola_categories: blogging
+#+end_src
+
+Legacy ~HUGO_*~ keywords remain accepted; see [[/projects/ox-zola/getting-started/migration-from-ox-hugo/][Migrating from ox-hugo]] for compatibility details.
+
+*** Precedence
+
+Dates are resolved in this order:
+
+1. The first transition to a ~DONE~ state in the ~:LOGBOOK:~ drawer
+2. The ~CLOSED~ property
+3. ~EXPORT_DATE~
+4. The ~#+date:~ keyword
+
+~updated~ follows the ~:LOGBOOK:~ history when available, then automatic last-modified tracking, then an explicit ~ZOLA_UPDATED~ keyword.
+
+Fields that are not part of Zola's front matter (~publishDate~, ~expiryDate~, ~menu~, ~resources~) are not emitted.
+
+** Formatting
+:PROPERTIES:
+  :EXPORT_FILE_NAME: formatting
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Most Org inline markup maps directly to CommonMark.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/formatting/"))
+:END:
+
+#+begin_description
+Org markup and how it becomes Zola Markdown.
+#+end_description
+
+| Org | Markdown |
+| ~*bold*~ | ~**bold**~ |
+| ~/italics/~ | ~_italics_~ |
+| ~=monospace=~ | ~`monospace`~ |
+| ~~verbatim~~ | ~`verbatim`~ |
+| ~+strike-through+~ | ~~~strike-through~~~ |
+| ~_underline_~ | HTML ~span~ with an underline class |
+
+Lists, block quotes, tables, horizontal rules, links, images, source blocks, and footnotes are exported as CommonMark or HTML that Zola can render.
+
+For inline keyboard bindings, set ~#+zola_use_code_for_kbd: t~ to export ~<kbd>~ elements instead of code spans. Style the element in your site CSS if needed.
+
+Raw HTML from ~#+begin_export html~ blocks passes through to the exported Markdown.
+
+See [[/projects/ox-zola/content/source-blocks/][Source Blocks]] and [[/projects/ox-zola/content/images/][Images]] for the media-specific behavior.
+
+** Dates
+:PROPERTIES:
+  :EXPORT_FILE_NAME: dates
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola reads Org timestamps, CLOSED properties, and export properties when building date front matter.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/dates/"))
+:END:
+
+#+begin_description
+Set post dates and updated timestamps from Org.
+#+end_description
+
+*** Date formats
+
+Date properties accept RFC3339 date-times or ordinary Org timestamps:
+
+#+begin_src org
+:EXPORT_DATE: 2026-10-31
+:EXPORT_DATE: 2026-10-31T14:30:00
+:EXPORT_DATE: <2026-10-31 Sat>
+#+end_src
+
+Zola's ~date~ field controls post ordering. Use ~updated~ for a last-modified timestamp.
+
+*** Subtree dates
+
+When ~org-log-done~ records completion time, switching a post to ~DONE~ inserts a ~CLOSED~ property:
+
+#+begin_src org
+,* DONE My post
+CLOSED: [2026-10-31 Sat 14:10]
+#+end_src
+
+That timestamp becomes the post's ~date~. If ~CLOSED~ is absent, ~EXPORT_DATE~ is used, then the file-level ~#+date:~ keyword.
+
+~SCHEDULED~ is an Org planning timestamp and is not a Zola publishing date. Front matter does not schedule posts; use your site's publishing workflow if you need that.
+
+*** Last modified
+
+Set an explicit updated date:
+
+#+begin_src org
+,#+zola_updated: 2026-11-02
+#+end_src
+
+Or enable automatic tracking:
+
+#+begin_src org
+,#+zola_auto_set_lastmod: t
+#+end_src
+
+When ~:LOGBOOK:~ state changes are available, they take precedence over the automatic value.
+
+** Images
+:PROPERTIES:
+  :EXPORT_FILE_NAME: images
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 40
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Images in Zola are ordinary Markdown links to files under static/ or to colocated assets.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/image-links/"))
+:END:
+
+#+begin_description
+Link images, static assets, and figures in exported posts.
+#+end_description
+
+*** Images in static/
+
+An image at ~static/images/foo.png~ can be linked directly:
+
+#+begin_src org
+[[/images/foo.png]]
+#+end_src
+
+This exports as an inline image:
+
+#+begin_src markdown
+![foo](/images/foo.png)
+#+end_src
+
+To link a thumbnail to a larger image, use the image path in the link component and a ~file:~ description:
+
+#+begin_src org
+[[/images/foo.png][file:/images/foo-large.png]]
+#+end_src
+
+*** Links and descriptions
+
+A normal link to an image uses the description as link text:
+
+#+begin_src org
+[[/images/foo.png][Open the full image]]
+#+end_src
+
+This is useful when the image should not be embedded inline.
+
+*** Colocated assets
+
+For a Zola page bundle, put images next to the exported ~index.md~ and link them relatively:
+
+#+begin_src org
+[[file:diagram.png]]
+#+end_src
+
+The normal Markdown image link then resolves against the page bundle.
+
+*** Figures
+
+Use Markdown or plain HTML for figures:
+
+#+begin_src html
+<figure>
+  <img src="/images/foo.png" alt="Description">
+  <figcaption>A caption</figcaption>
+</figure>
+#+end_src
+
+Figure and table numbering are site-template concerns, not ox-zola front matter.
+
+** Source Blocks
+:PROPERTIES:
+  :EXPORT_FILE_NAME: source-blocks
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 50
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Org source blocks become fenced code blocks; line-number and highlight annotations are not portable to Zola.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/source-blocks/"))
+:END:
+
+#+begin_description
+Export code fences, line references, and source examples.
+#+end_description
+
+*** Code fences
+
+Org source blocks export as fenced code blocks whenever possible:
+
+#+begin_src org
+,#+begin_src emacs-lisp
+(message "Hello")
+,#+end_src
+#+end_src
+
+#+begin_src markdown
+```emacs-lisp
+(message "Hello")
+```
+#+end_src
+
+Zola's highlighter is configured in ~config.toml~; the exported fence language is preserved.
+
+*** Line numbers and highlighting
+
+Zola does not interpret line-number or line-highlight annotations on fenced code blocks. If a code block needs special presentation, use plain Markdown/HTML or handle it in the site template.
+
+*** Code references
+
+Org code references using ~(ref:name)~ continue to export as links to the labeled code line. Use them for prose that points at a specific line in a source block.
+
+*** Related
+
+For inline HTML examples, see [[/projects/ox-zola/content/components/][Components and Special Blocks]].
+
+** Equations
+:PROPERTIES:
+  :EXPORT_FILE_NAME: equations
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 60
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola preserves LaTeX fragments in Markdown; the Zola site supplies the math renderer.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/equations/"))
+:END:
+
+#+begin_description
+Export inline and display LaTeX for MathJax or KaTeX.
+#+end_description
+
+*** Inline equations
+
+Inline equations use ~\( ... \)~:
+
+#+begin_src org
+LaTeX equation: \( E = -J \sum_{i=1}^N s_i s_{i+1} \)
+#+end_src
+
+~$...$~ works too, but avoid spaces immediately inside the dollar delimiters.
+
+*** Display equations
+
+Display equations use ~\[ ... \]~ or ~$$ ... $$~:
+
+#+begin_src org
+\[
+a = +\sqrt{2}
+\]
+#+end_src
+
+LaTeX environments are also supported:
+
+#+begin_src org
+\begin{equation}
+\label{eq:capacity}
+C = W\log_{2} (1+\mathrm{SNR})
+\end{equation}
+#+end_src
+
+The exported Markdown contains the equation source. The Zola site must load MathJax or KaTeX to render it.
+
+*** Equation references
+
+~\label{...}~ and ~\ref{...}~ require a math renderer with equation referencing enabled. Zola itself does not provide that; configure MathJax on the site if you need cross-references.
+
+** Tags and Categories
+:PROPERTIES:
+  :EXPORT_FILE_NAME: tags-and-categories
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 70
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Subtree tags become Zola tags, and tags prefixed with @ become categories.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/tags-and-categories/"))
+:END:
+
+#+begin_description
+Map Org tags to Zola taxonomies.
+#+end_description
+
+*** Subtree exports
+
+Use ordinary Org tags for tags and ~@~-prefixed tags for categories:
+
+#+begin_src org
+,* My Post :emacs:org-mode:@blogging:
+#+end_src
+
+This produces:
+
+#+begin_src toml
+[taxonomies]
+tags = ["emacs", "org-mode"]
+categories = ["blogging"]
+#+end_src
+
+Tags and categories are inherited from parent headings and ~#+filetags~ according to ~org-use-tag-inheritance~. ~EXPORT_ZOLA_TAGS~ and ~EXPORT_ZOLA_CATEGORIES~ override the inherited values.
+
+*** File exports
+
+For whole-file exports, use file-level keywords:
+
+#+begin_src org
+,#+zola_tags: emacs org-mode
+,#+zola_categories: blogging
+#+end_src
+
+See [[/projects/ox-zola/getting-started/migration-from-ox-hugo/][Migrating from ox-hugo]] for legacy ~HUGO_*~ keyword compatibility.
+
+*** Names with spaces and hyphens
+
+Org tags cannot contain spaces. Ox-Zola transforms tags as follows:
+
+- ~abc_def~ becomes ~abc-def~
+- ~abc__def~ becomes ~abc def~
+- ~abc___def~ becomes ~abc_def~
+
+These transformations apply to ~#+filetags~ and heading tags. Explicit keyword values keep their underscores.
+
+The taxonomy must also be declared in the Zola site configuration before Zola builds the taxonomy pages.
+
+** Table of Contents
+:PROPERTIES:
+  :EXPORT_FILE_NAME: table-of-contents
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 80
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Zola generates a heading TOC automatically; Org can also export an inline TOC when you need control over placement.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/org-toc/"))
+:END:
+
+#+begin_description
+Use Zola's generated TOC or insert an Org-generated one.
+#+end_description
+
+*** Zola-generated TOC
+
+Zola builds a table of contents from the exported headings. Templates can read it through ~page.toc~ or ~section.toc~; nothing needs to be inserted into the Markdown unless you want a visible TOC in the content itself.
+
+The mono theme uses this for the docs outline and for optional post TOCs.
+
+*** Org-generated TOC
+
+To insert a TOC into the exported Markdown, use Org's ~#+toc~ keyword or export options:
+
+#+begin_src org
+,#+toc: headlines 2
+#+end_src
+
+or:
+
+#+begin_src org
+:EXPORT_OPTIONS: toc:t
+#+end_src
+
+The first form inserts the TOC where the keyword appears; the option form places it near the top of the exported content. Org-generated TOCs support headline depth, local TOCs, and numbered or unnumbered headings.
+
+** Table Styling
+:PROPERTIES:
+  :EXPORT_FILE_NAME: table-styling
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 90
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Standard Org tables become Markdown tables; style them with site CSS or raw HTML.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/table-styling/"))
+:END:
+
+#+begin_description
+Export Org tables and style them in the Zola site.
+#+end_description
+
+*** Standard tables
+
+Org tables export as Markdown tables, including alignment where possible:
+
+#+begin_src org
+| Name | Value |
+|------+-------|
+| A    | 1     |
+| B    | 2     |
+#+end_src
+
+*** Captions
+
+Markdown has no native table caption syntax. If you need a caption and a stable wrapper for styling, write raw HTML:
+
+#+begin_src html
+<table>
+  <caption>Results</caption>
+  <thead>
+    <tr><th>Name</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>A</td><td>1</td></tr>
+  </tbody>
+</table>
+#+end_src
+
+*** Styling
+
+Style tables with site CSS or write the HTML wrapper directly. This keeps the exported Markdown portable.
+
+** Details and Summary
+:PROPERTIES:
+  :EXPORT_FILE_NAME: details-and-summary
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 100
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "The details and summary special blocks produce plain HTML that works in Zola without any shortcode layer.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/details-and-summary/"))
+:END:
+
+#+begin_description
+Build disclosure widgets from Org special blocks.
+#+end_description
+
+*** Regular disclosure
+
+#+begin_src org
+,#+begin_details
+,#+begin_summary
+Why is this hidden?
+,#+end_summary
+The content appears when the disclosure is opened.
+,#+end_details
+#+end_src
+
+This exports as:
+
+#+begin_src html
+<details>
+<summary>Why is this hidden?</summary>
+The content appears when the disclosure is opened.
+</details>
+#+end_src
+
+*** Without a summary
+
+If the summary block is omitted, browsers use their default label:
+
+#+begin_src org
+,#+begin_details
+The details text.
+,#+end_details
+#+end_src
+
+*** Open by default
+
+Use ~#+attr_html~ with ~:open t~:
+
+#+begin_src org
+,#+attr_html: :open t
+,#+begin_details
+,#+begin_summary
+Open by default
+,#+end_summary
+The details are visible immediately.
+,#+end_details
+#+end_src
+
+Style ~details summary~ and ~details .details~ in the site CSS when you need custom presentation.
+
+These blocks are plain HTML, so they remain valid under Zola 0.23 without components or shortcodes.
+
+** Author
+:PROPERTIES:
+  :EXPORT_FILE_NAME: author
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 110
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Zola uses an authors array; set author metadata in Org and verify the exported front matter shape.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/author/"))
+:END:
+
+#+begin_description
+Carry author metadata into exported front matter.
+#+end_description
+
+*** Page authors
+
+Zola pages use ~authors = ["..."]~ in front matter. Set the author in the Org file or post subtree using Org's author metadata, then check the exported Markdown.
+
+For a whole file:
+
+#+begin_src org
+,#+author: Your Name
+#+end_src
+
+For a subtree export, use the author property supported by your export setup, or set a custom front-matter field and map it in the site templates.
+
+If your site uses a single global author, you can also keep the author out of each page and render it from the Zola configuration or template instead.
+
+*** Multiple authors
+
+Use a list in the exported front matter when more than one person contributed:
+
+#+begin_src toml
+authors = ["First Author", "Second Author"]
+#+end_src
+
+The mono theme renders the list as a comma-separated byline and uses the first author for feed metadata.
+
+If an export produces a single ~author~ key, normalize it to ~authors = [...]~ or handle it in the template layer.
+
+** Summary Splitter
+:PROPERTIES:
+  :EXPORT_FILE_NAME: summary-splitter
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 120
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Zola uses an HTML comment marker to split a post summary.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/hugo-summary-splitter/"))
+:END:
+
+#+begin_description
+Split a post summary for lists and feeds with Zola's more marker.
+#+end_description
+
+Zola uses:
+
+#+begin_src html
+<!-- more -->
+#+end_src
+
+In an Org file, export that marker as raw HTML:
+
+#+begin_src org
+My post summary.
+
+,#+begin_export html
+<!-- more -->
+,#+end_export
+
+The rest of the post.
+#+end_src
+
+or, for a short marker:
+
+#+begin_src org
+,#+html: <!-- more -->
+#+end_src
+
+The exported Markdown then contains the marker, and Zola uses the content before it as the post summary.
+
+** Drawers
+:PROPERTIES:
+  :EXPORT_FILE_NAME: drawers
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 130
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Drawers can feed dates and structured notes into front matter, but the rendering side must be written for Zola templates.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/drawers/"))
+:END:
+
+#+begin_description
+Export LOGBOOK notes and state-change timestamps.
+#+end_description
+
+*** LOGBOOK state changes
+
+When ~org-log-into-drawer~ is enabled and drawer export is active, ox-zola can read ~:LOGBOOK:~ state changes. The first transition to a ~DONE~ state supplies ~date~; later transitions and notes can supply ~updated~.
+
+Enable drawer export with:
+
+#+begin_src org
+,#+options: d:t
+#+end_src
+
+or in a subtree:
+
+#+begin_src org
+:EXPORT_OPTIONS: d:t
+#+end_src
+
+*** LOGBOOK notes
+
+Notes stored under a post heading are exported into structured front matter, grouped by heading. This preserves the note text and timestamps as data.
+
+Render that data with Zola templates. The data export is independent of the template layer; the rendering side is site-specific.
+
+*** Caveats
+
+The parsing behavior depends on the default ~org-log-note-headings~ format. If you customize that variable heavily, verify the exported date and note structure.
+
+** Anchors
+:PROPERTIES:
+  :EXPORT_FILE_NAME: anchors
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 140
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola derives stable heading anchors and supports custom IDs for cross-references.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/anchors/"))
+:END:
+
+#+begin_description
+Control heading IDs and link targets in exported Markdown.
+#+end_description
+
+*** Heading anchors
+
+Headings receive anchors in the exported Markdown. A custom ID can be set with ~:CUSTOM_ID:~:
+
+#+begin_src org
+,** Heading in a post
+:PROPERTIES:
+:CUSTOM_ID: heading-in-a-post
+:END:
+#+end_src
+
+Zola's Markdown parser also understands heading attributes, so an explicit ID can appear on the heading:
+
+#+begin_src markdown
+### Heading in a post {#heading-in-a-post}
+#+end_src
+
+*** Anchor precedence
+
+Ox-Zola derives heading anchors with this precedence:
+
+1. Page or bundle name from ~EXPORT_FILE_NAME~
+2. ~:CUSTOM_ID:~
+3. A slug derived from the heading text
+4. A short MD5-based fallback
+
+The anchor precedence can be customized, including making Org ~:ID:~ properties take precedence.
+
+*** Targets
+
+Org ~<<target>>~ links become HTML anchors. Prefix a target name with a dot (~<<.bar>>~) when you need an unprefixed HTML anchor for cross-page links.
+
+Links within a page use ordinary ~#anchor~ references; links across pages use Zola's ~@/~ path syntax. See [[/projects/ox-zola/content/internal-links/][Internal Links]].
+
+** Internal Links
+:PROPERTIES:
+  :EXPORT_FILE_NAME: internal-links
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 150
+  :EXPORT_ZOLA_ALIASES: /projects/ox-zola/internal-links/
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-zola turns Org links into Zola-compatible Markdown, including cross-file links and heading anchors.") (toc . true))
+:END:
+
+#+begin_description
+How ox-zola converts Org links to Zola's native path syntax.
+#+end_description
+
+#+begin_export html
+{% raw %}
+#+end_export
+
+Ox-Zola converts Org links to Zola's native ~@/~ path syntax. Cross-references between posts, same-file heading links, external URLs, and file attachments all produce Zola-compatible Markdown.
+
+*** Quick reference
+
+| Org link | Zola output |
+| ~[[*Some Heading]]~ | ~[Some Heading](#some-heading)~ |
+| ~[[#custom-id]]~ | ~[custom-id](#custom-id)~ |
+| ~[[id:uuid-here][Post]]~ | ~[Post](@/section/post.md)~ |
+| ~[[file:other.org][Other]]~ | ~[Other](@/section/other.md)~ |
+| ~[[file:other.org::*Heading][Link]]~ | ~[Link](@/section/other.md#heading)~ |
+| ~[[https://example.com][Site]]~ | ~[Site](https://example.com)~ |
+| ~[[file:image.png]]~ | ~![img](path/to/image.png)~ |
+
+*** Same-file links
+
+Links to headings within the same file use the standard ~#anchor~ format:
+
+#+begin_src org
+[[*Some Heading][link]]
+[[#custom-id][link]]
+#+end_src
+
+They become:
+
+#+begin_src markdown
+[link](#some-heading)
+[link](#custom-id)
+#+end_src
+
+*** Cross-file links
+
+Links to other Org files become Zola ~@/~ paths. The prefix resolves from the Zola content root:
+
+#+begin_src org
+,#+zola_section: posts
+[[file:other.org][other post]]
+#+end_src
+
+becomes:
+
+#+begin_src markdown
+[other post](@/posts/other.md)
+#+end_src
+
+Heading anchors and custom IDs are preserved:
+
+#+begin_src org
+[[file:other.org::*Some Heading][link]]
+[[file:other.org::#custom-intro][introduction]]
+#+end_src
+
+#+begin_src markdown
+[link](@/posts/other.md#some-heading)
+[introduction](@/posts/other.md#custom-intro)
+#+end_src
+
+Org ~id:~ links resolve to the target file automatically:
+
+#+begin_src org
+[[id:abc123-def456-ghij][related post]]
+#+end_src
+
+*** Section detection
+
+When the target file lives under the Zola ~content/~ directory, ox-zola extracts the correct section from the file's location. A file at:
+
+#+begin_src text
+~/mysite/content/tutorials/guide.org
+#+end_src
+
+with base directory ~~/mysite~ becomes:
+
+#+begin_src text
+@/tutorials/guide.md
+#+end_src
+
+If the section cannot be determined, the current document's section is used as a fallback.
+
+*** External URLs and attachments
+
+HTTP, HTTPS, FTP, and ~mailto:~ links pass through unchanged. Links to non-Org files such as images and PDFs are handled by the attachment rewrite mechanism.
+
+*** Images and figures
+
+Inline images use regular Markdown:
+
+#+begin_src markdown
+![alt](src)
+#+end_src
+
+For standalone figures, use raw HTML or a site-specific component.
+
+*** No more relref
+
+Internal references use Zola's native ~@/~ path syntax, so exported Markdown works directly with Zola.
+
+#+begin_export html
+{% endraw %}
+#+end_export
+
+** Components and Special Blocks
+:PROPERTIES:
+  :EXPORT_FILE_NAME: components
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/content
+  :EXPORT_ZOLA_WEIGHT: 160
+  :EXPORT_ZOLA_ALIASES: /projects/ox-zola/components/
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Zola 0.23 replaced shortcodes with Tera components. Here is what ox-zola handles directly and what needs a component.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/shortcodes/"))
+:END:
+
+#+begin_description
+How ox-zola handles Org special blocks in the Tera component era.
+#+end_description
+
+#+begin_export html
+{% raw %}
+#+end_export
+
+Zola 0.23 replaced shortcodes with Tera components. Ox-Zola still understands Org special blocks, but the output depends on the block type and the Zola version you target.
+
+*** Blocks handled directly
+
+Some special blocks do not become shortcodes at all:
+
+| Org block | Output |
+| ~description~ | Sets the ~description~ field in TOML front matter and is removed from the body |
+| ~details~ | Produces an HTML ~<details>~ element with an optional ~<summary>~ |
+| ~aside~ | Produces an HTML ~<aside>~ element |
+
+For example:
+
+#+begin_src org
+,#+begin_description
+This is the meta description for search engines.
+,#+end_description
+#+end_src
+
+#+begin_src org
+,#+begin_details
+Click to expand
+---
+Hidden content revealed on click.
+,#+end_details
+#+end_src
+
+becomes:
+
+#+begin_src html
+<details>
+<summary>Click to expand</summary>
+Hidden content revealed on click.
+</details>
+#+end_src
+
+*** Legacy shortcode output
+
+Zola 0.22 and earlier used shortcode syntax for reusable blocks. Zola 0.23 uses components instead. For migration details, see [[/projects/ox-zola/getting-started/migration-from-ox-hugo/][Migrating from ox-hugo]].
+
+*** Components in Zola 0.23
+
+Define a component in ~templates/components/~:
+
+#+begin_src jinja
+{% component ui.callout(tone = "note") %}
+<aside class="callout callout--{{ tone }}">{{ body | safe }}</aside>
+{% endcomponent ui.callout %}
+#+end_src
+
+Call it from Markdown with a body:
+
+#+begin_src markdown
+{% <ui.callout tone="tip"> %}
+The body still parses as **Markdown**.
+{% </ui.callout> %}
+#+end_src
+
+Or use a self-closing component:
+
+#+begin_src markdown
+{{<ui.card title="A card" to="/projects/" />}}
+#+end_src
+
+Component arguments use quoted strings for text and ~{...}~ for non-string values.
+
+*** Current behavior
+
+For Zola 0.23 and newer:
+
+- Use the ~description~, ~details~, and ~aside~ blocks, which produce front matter or plain HTML.
+- Write component calls directly in Markdown when you need reusable markup.
+
+#+begin_export html
+{% endraw %}
+#+end_export
+
+* Enhancements Group
+
+** Enhancements
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/enhancements
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Sections, bundles, custom front matter, multilingual sites, and workflow automation.
+#+end_description
+
+Features that go beyond a single post: site structure, page bundles, and multilingual content.
+
+** Sections and Bundles
+:PROPERTIES:
+  :EXPORT_FILE_NAME: sections-and-bundles
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/enhancements
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola controls where exported posts and assets land in the Zola content tree.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/hugo-section/"))
+:END:
+
+#+begin_description
+Control where exported posts and assets land in the Zola content tree.
+#+end_description
+
+*** Default section
+
+Exports go to ~content/<section>/~ under the site root. The default section is controlled by ~ox-zola-section~ or the ~ZOLA_SECTION~ keyword:
+
+#+begin_src org
+,#+zola_base_dir: .
+,#+zola_section: posts
+
+,* My post
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-post
+:END:
+#+end_src
+
+This exports to ~content/posts/my-post.md~.
+
+*** Override the section per post
+
+Use ~EXPORT_ZOLA_SECTION~ to override the file-level section:
+
+#+begin_src org
+,* My post
+:PROPERTIES:
+:EXPORT_ZOLA_SECTION: articles
+:EXPORT_FILE_NAME: my-post
+:END:
+#+end_src
+
+The property can be inherited by child subtrees, and ~EXPORT_ZOLA_SECTION_FRAG~ appends path fragments when you need nested section paths.
+
+*** Page bundles
+
+Zola page bundles use a directory containing ~index.md~ plus colocated assets. Export one with ~EXPORT_ZOLA_BUNDLE~ and ~EXPORT_FILE_NAME: index~:
+
+#+begin_src org
+,* Page title
+:PROPERTIES:
+:EXPORT_ZOLA_BUNDLE: xyz
+:EXPORT_FILE_NAME: index
+:END:
+#+end_src
+
+This produces ~content/xyz/index.md~.
+
+For a Zola section or branch bundle, export ~_index.md~ instead:
+
+#+begin_src org
+:EXPORT_ZOLA_BUNDLE: uvw
+:EXPORT_FILE_NAME: _index
+#+end_src
+
+The exported directory layout matches Zola's page-bundle and section conventions.
+
+** Multilingual
+:PROPERTIES:
+  :EXPORT_FILE_NAME: multilingual
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/enhancements
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola can translate the strings Org inserts during export; building a multilingual Zola site is a separate content-layout concern.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/multi-lingual-support/"))
+:END:
+
+#+begin_description
+Translation strings and Zola's per-language content model.
+#+end_description
+
+*** Translated export strings
+
+Ox-Zola uses Org's ~org-export-dictionary~ to translate strings that Org inserts into exported content, including:
+
+- Code snippet captions
+- Figure captions
+- Table captions
+- Table of contents headings
+- Bibliography headings
+
+Set the language with the ~#+language:~ keyword or the ~:EXPORT_LANGUAGE:~ subtree property:
+
+#+begin_src org
+,#+language: fr
+#+end_src
+
+The translation of these generated strings follows Org's export dictionary.
+
+*** Zola multilingual sites
+
+Zola's multilingual support is configured in ~config.toml~ with ~[languages]~, and content can be split per language with language-suffixed files such as ~_index.fr.md~ or ~page.fr.md~.
+
+Ox-Zola's language handling is about the Org export, not a full translation management layer. For a multilingual site, decide how translated Org sources map to those language-specific content files, and verify the resulting paths with ~zola build~.
+
+*** Scope
+
+This page covers translated export strings and language metadata. It does not promise automatic translation of post bodies or automatic generation of every Zola language variant.
+
+** Custom Front Matter
+:PROPERTIES:
+  :EXPORT_FILE_NAME: custom-front-matter
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/enhancements
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Use custom front matter when a Zola template needs a field that does not map to a standard Org keyword or property.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/custom-front-matter/"))
+:END:
+
+#+begin_description
+Add template-specific fields to exported Zola front matter.
+#+end_description
+
+*** File-wide custom front matter
+
+Use the ~ZOLA_CUSTOM_FRONT_MATTER~ keyword for the whole file:
+
+#+begin_src org
+,#+zola_custom_front_matter: :feature true
+,#+zola_custom_front_matter: :show_toc false
+#+end_src
+
+*** Subtree custom front matter
+
+Use ~EXPORT_ZOLA_CUSTOM_FRONT_MATTER~ for a post subtree, and append more values with the ~+~ property form:
+
+#+begin_src org
+,* My Post
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-post
+:EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :feature true
+:EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :show_toc false
+:END:
+#+end_src
+
+*** Values
+
+The property accepts scalars, lists, and maps of scalar or list values:
+
+#+begin_src org
+:EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :feature true
+:EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :animals '(dog cat "mountain gorilla")
+:EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :versions '((emacs . "29.4") (zola . "0.23.4"))
+#+end_src
+
+This exports as TOML:
+
+#+begin_src toml
+feature = true
+animals = ["dog", "cat", "mountain gorilla"]
+
+[versions]
+emacs = "29.4"
+zola = "0.23.4"
+#+end_src
+
+For template data, put the custom values under ~extra~:
+
+#+begin_src org
+:EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((feature . true) (show_toc . false))
+#+end_src
+
+#+begin_src toml
+[extra]
+feature = true
+show_toc = false
+#+end_src
+
+Maps of maps are not supported by this syntax. Keep custom front matter to the fields your Zola templates actually read.
+
+** Replace Front Matter Keys
+:PROPERTIES:
+  :EXPORT_FILE_NAME: replace-front-matter-keys
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/enhancements
+  :EXPORT_ZOLA_WEIGHT: 40
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Map exported front matter keys to the names your Zola template expects.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/replace-front-matter-keys/"))
+:END:
+
+#+begin_description
+Rename or remove exported front matter keys without editing the Org source.
+#+end_description
+
+*** Syntax
+
+Use the ~ZOLA_FRONT_MATTER_KEY_REPLACE~ keyword for the whole file:
+
+#+begin_src org
+,#+zola_front_matter_key_replace: oldkey>newkey
+#+end_src
+
+Or use the ~EXPORT_ZOLA_FRONT_MATTER_KEY_REPLACE~ subtree property:
+
+#+begin_src org
+,* My Post
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-post
+:EXPORT_ZOLA_FRONT_MATTER_KEY_REPLACE: oldkey>newkey
+:END:
+#+end_src
+
+Multiple mappings are space-separated.
+
+*** Rename a key
+
+For example, a template that expects ~summary~ instead of ~description~:
+
+#+begin_src org
+,#+zola_front_matter_key_replace: description>summary
+#+end_src
+
+*** Swap tags and categories
+
+#+begin_src org
+,#+zola_front_matter_key_replace: tags>categories categories>tags
+#+end_src
+
+*** Remove a key
+
+Use ~nil~ as the target to drop the key from the exported front matter:
+
+#+begin_src org
+,#+zola_front_matter_key_replace: aliases>nil
+#+end_src
+
+*** Rename authors
+
+If an older template expects a singular ~author~ field:
+
+#+begin_src org
+,#+zola_front_matter_key_replace: authors>author
+#+end_src
+
+Only the exported front matter changes; the Org source keeps its original keywords and properties.
+
+** Auto-export on Saving
+:PROPERTIES:
+  :EXPORT_FILE_NAME: auto-export-on-saving
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/enhancements
+  :EXPORT_ZOLA_WEIGHT: 50
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Ox-Zola does not ship a dedicated auto-export mode; a buffer-local save hook is enough.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/auto-export-on-saving/"))
+:END:
+
+#+begin_description
+Export the current Org post whenever you save it.
+#+end_description
+
+*** Define the export function
+
+Put this in your Emacs configuration:
+
+#+begin_src elisp
+(defun my/ox-zola-export-on-save ()
+  "Export the current Org post with ox-zola."
+  (when (derived-mode-p 'org-mode)
+    (ox-zola-export-wim-to-md)))
+#+end_src
+
+The function uses the normal WIM rules: it exports the current post subtree when point is in one, otherwise it exports the whole file.
+
+*** Enable it for a project
+
+Add a buffer-local hook through ~.dir-locals.el~:
+
+#+begin_src elisp
+((org-mode
+  . ((eval . (add-hook 'after-save-hook
+                       #'my/ox-zola-export-on-save
+                       nil t)))))
+#+end_src
+
+The final ~t~ makes the hook buffer-local, so it does not run for every Org file in Emacs.
+
+*** Enable it for one file
+
+Add a file-local block at the end:
+
+#+begin_src org
+# Local Variables:
+# eval: (add-hook 'after-save-hook #'my/ox-zola-export-on-save nil t)
+# End:
+#+end_src
+
+To disable it for a file in an enabled project:
+
+#+begin_src org
+# Local Variables:
+# eval: (remove-hook 'after-save-hook #'my/ox-zola-export-on-save t)
+# End:
+#+end_src
+
+*** Live preview
+
+Run Zola in the site root:
+
+#+begin_src sh
+zola serve
+#+end_src
+
+With the save hook active, saving the Org file exports the Markdown and the Zola server refreshes the preview.
+
+** Org Capture Setup
+:PROPERTIES:
+  :EXPORT_FILE_NAME: org-capture-setup
+  :EXPORT_ZOLA_SECTION: projects/ox-zola/enhancements
+  :EXPORT_ZOLA_WEIGHT: 60
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Generate the post heading and EXPORT_FILE_NAME automatically instead of typing them for every new entry.") (toc . true) (adapted_from . "ox-hugo") (adapted_url . "https://ox-hugo.scripter.co/doc/org-capture-setup/"))
+:END:
+
+#+begin_description
+Create new Zola posts with an Org capture template.
+#+end_description
+
+*** Capture template
+
+Define a template function and register it with ~org-capture-templates~:
+
+#+begin_src elisp
+(with-eval-after-load 'org-capture
+  (defun my/ox-zola-capture-template ()
+    "Return an `org-capture' template for a new Zola post."
+    (let* ((title (read-from-minibuffer "Post Title: "))
+           (fname (org-hugo-slug title)))
+      (mapconcat #'identity
+                 `(,(concat "* TODO " title)
+                   ":PROPERTIES:"
+                   ,(concat ":EXPORT_FILE_NAME: " fname)
+                   ":END:"
+                   "%?\n")
+                 "\n")))
+
+  (add-to-list 'org-capture-templates
+               '("z" "Zola post" entry
+                 (file+olp "all-posts.org" "Blog Ideas")
+                 (function my/ox-zola-capture-template))))
+#+end_src
+
+~org-hugo-slug~ is inherited from the exporter dependency and turns the title into the post slug.
+
+*** Page bundles
+
+For a Zola page bundle, export ~index.md~ inside a named directory:
+
+#+begin_src elisp
+(defun my/ox-zola-bundle-capture-template ()
+  "Return an `org-capture' template for a new Zola page bundle."
+  (let* ((title (read-from-minibuffer "Post Title: "))
+         (fname (org-hugo-slug title)))
+    (mapconcat #'identity
+               `(,(concat "* TODO " title)
+                 ":PROPERTIES:"
+                 ,(concat ":EXPORT_ZOLA_BUNDLE: " fname)
+                 ":EXPORT_FILE_NAME: index"
+                 ":END:"
+                 "%?\n")
+               "\n")))
+#+end_src
+
+Images and other assets can then live beside the exported ~index.md~.
+
+*** Dates
+
+If you log ~DONE~ timestamps, switch the new post to ~DONE~ and the ~CLOSED~ property supplies the date.
+
+If you do not use ~org-log-done~, insert an explicit date in the template:
+
+#+begin_src elisp
+(let* ((date (format-time-string (org-time-stamp-format :long :inactive)
+                                 (org-current-time)))
+       (title (read-from-minibuffer "Post Title: "))
+       (fname (org-hugo-slug title)))
+  (mapconcat #'identity
+             `(,(concat "* TODO " title)
+               ":PROPERTIES:"
+               ,(concat ":EXPORT_FILE_NAME: " fname)
+               ,(concat ":EXPORT_DATE: " date)
+               ":END:"
+               "%?\n")
+             "\n"))
+#+end_src
