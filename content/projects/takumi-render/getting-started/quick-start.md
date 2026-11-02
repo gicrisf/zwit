@@ -10,26 +10,20 @@ weight = 10
 
 ## Requirements {#requirements}
 
-The prebuilt binary targets Linux `x86_64`. Building from source requires Rust 1.91 or newer.
+You need Linux `x86_64` for the prebuilt binary, or Rust 1.91 or newer to build from source.
 
 Takumi Render does not need Node.js, npm, or WebAssembly at runtime. It does need at least one font file because Takumi does not load system fonts.
 
 
 ## Install {#install}
 
-Install the latest Linux `x86_64` binary with the installer:
+Install the latest Linux `x86_64` prebuilt binary with the installer:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/gicrisf/takumi-render/main/install.sh | bash
 ```
 
-This installs to `~/.local/bin`. Set `TAKUMI_RENDER_INSTALL_DIR` to choose another directory, or `TAKUMI_RENDER_VERSION` to pin a release. You can also install from source:
-
-```sh
-cargo install --git https://github.com/gicrisf/takumi-render --locked
-```
-
-See [Installation](/projects/takumi-render/getting-started/installation/) for manual download and verification steps.
+The installer places `takumi-render` in `~/.local/bin`. See [Installation](/projects/takumi-render/getting-started/installation/) for pinned versions, manual downloads, and other installation options.
 
 
 ## Write a card {#write-a-card}
