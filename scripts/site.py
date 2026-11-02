@@ -39,16 +39,8 @@ def is_markdown(path: Path) -> bool:
 
 
 def generate_social_images() -> None:
-    script = ROOT / "scripts" / "social-images.tsx"
-    tsx = ROOT / "node_modules" / ".bin" / "tsx"
-
-    if not tsx.exists():
-        raise SystemExit(
-            "social image generator is not installed. Run:\n"
-            "  npm ci"
-        )
-
-    subprocess.run([str(tsx), str(script)], cwd=ROOT, check=True)
+    script = ROOT / "scripts" / "social_images.py"
+    subprocess.run([sys.executable, str(script)], cwd=ROOT, check=True)
 
 
 def link(path: Path, target: Path) -> None:

@@ -2,6 +2,5 @@ public
 static/processed_images
 static/og
 .zola-build
-.cache/ondine
-node_modules
+.cache/
 __pycache__/
