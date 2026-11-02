@@ -6,6 +6,7 @@ weight = 20
 [extra]
   lead = "Supported math delimiters, skipped contexts, and known limitations."
   toc = true
+  math = true
 +++
 
 ## Supported delimiters {#supported-delimiters}
@@ -31,6 +32,19 @@ a = +\sqrt{2}
 \]
 </div>
 ```
+
+This page is itself an example: the math below was rendered by `katex-render` during the site build.
+
+<p>Rendered inline: \( E = mc^2 \)</p>
+<div>Rendered display:
+\[
+a = +\sqrt{2}
+\]</div>
+<p>Dollar inline: $a^2 + b^2 = c^2$</p>
+<div>Dollar display:
+$$
+\int_0^1 x^2\,dx = \frac{1}{3}
+$$</div>
 
 
 ## Skipped contexts {#skipped-contexts}

@@ -338,7 +338,7 @@ The command exits with 0 when every processed page succeeds. It exits with 1 whe
   :EXPORT_FILE_NAME: delimiters
   :EXPORT_ZOLA_SECTION: projects/katex-render/reference
   :EXPORT_ZOLA_WEIGHT: 20
-  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Supported math delimiters, skipped contexts, and known limitations.") (toc . true))
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Supported math delimiters, skipped contexts, and known limitations.") (toc . true) (math . true))
 :END:
 
 #+begin_description
@@ -367,6 +367,21 @@ a = +\sqrt{2}
 \]
 </div>
 #+end_src
+
+This page is itself an example: the math below was rendered by ~katex-render~ during the site build.
+
+#+begin_export html
+<p>Rendered inline: \( E = mc^2 \)</p>
+<div>Rendered display:
+\[
+a = +\sqrt{2}
+\]</div>
+<p>Dollar inline: $a^2 + b^2 = c^2$</p>
+<div>Dollar display:
+$$
+\int_0^1 x^2\,dx = \frac{1}{3}
+$$</div>
+#+end_export
 
 *** Skipped contexts
 
