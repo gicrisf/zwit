@@ -14,13 +14,11 @@ You need Linux `x86_64` for the prebuilt binary, or Rust 1.97.0 or newer to buil
 
 ## Install
 
-With Cargo:
-
 ```sh
-cargo install --git https://github.com/gicrisf/ondine-cli --locked --bin ondine
+curl -fsSL https://raw.githubusercontent.com/gicrisf/ondine-cli/main/install.sh | bash
 ```
 
-Prebuilt binaries are attached to each release. See [Installation](@/projects/ondine-cli/getting-started/installation.md) for the download and checksum commands.
+The installer places `ondine` in `~/.local/bin`. See [Installation](@/projects/ondine-cli/getting-started/installation.md) for manual downloads and other installation options.
 
 ## Render a diagram
 

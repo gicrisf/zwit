@@ -1,0 +1,519 @@
+#+title: Ondine CLI Documentation
+#+zola_base_dir: ..
+#+zola_section: projects/ondine-cli
+#+startup: overview
+#+options: toc:nil author:nil
+
+#+begin_comment
+  This is the Org source for the Ondine CLI docs. It is not read by the Zola
+  build. Export it with `ox-zola-export-wim-to-md` with all subtrees (the A
+  command in the Org export dispatcher) to regenerate
+  content/projects/ondine-cli/.
+
+  Subtree headings without EXPORT_FILE_NAME are organizational and are not
+  exported. Section indexes use EXPORT_FILE_NAME: _index.
+#+end_comment
+
+* Ondine CLI
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli
+  :EXPORT_ZOLA_WEIGHT: 40
+  :EXPORT_ZOLA_TEMPLATE: projects/page.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :extra '((repo . "https://github.com/gicrisf/ondine-cli") (language . ("Rust")))
+:END:
+
+#+begin_description
+A native command-line front end for the Ondine Mermaid compiler.
+#+end_description
+
+Ondine CLI is the native command-line front end for the Ondine compiler. It renders Mermaid diagrams to SVG or ASCII, and transforms Mermaid fences in Markdown into inline SVG in a separate output tree. The package is ~ondine-cli~; the installed binary is ~ondine~.
+
+*** Why
+
+The upstream Ondine toolchain runs through Node and npm. This front end keeps the same compiler and output but removes the Node startup and WebAssembly overhead: one native binary, no runtime, no network requests. It covers all 33 Ondine diagram types and fits into CI jobs, Makefiles, and static-site pipelines.
+
+*** Advantages
+
+- *Native:* One Rust binary. No Node.js or WebAssembly runtime is needed.
+- *Fast:* Avoids Node startup and WebAssembly compilation.
+- *Identical output:* Uses the same Ondine compiler and produces the same SVG.
+- *Complete:* All 33 Ondine diagram types.
+- *Markdown-aware:* Transforms fenced Mermaid blocks without modifying the source files.
+- *Build-friendly:* Fits CI jobs, Makefiles, and static-site pipelines.
+
+*** Performance
+
+Native startup is a few milliseconds. The table compares ASCII output against ~ondine@0.0.3~:
+
+| Workload                       |     Rust |      npm | Ratio |
+|--------------------------------+----------+----------+-------|
+| 522 diagrams, per-type batches |  0.292 s |  9.041 s |   31x |
+| 522 diagrams, one process      |  0.136 s |  0.959 s |    7x |
+| Per diagram, one process       | 0.261 ms | 1.836 ms |    7x |
+
+*** Scope
+
+This release renders SVG and ASCII, and transforms Markdown fences into a separate output tree. It does not edit Markdown in place, print terminal images, or produce JSON. ~--check~ verifies generated output. The compiler crate is pinned to a commit in ~wevm/ondine~ rather than a crates.io release, so compiler updates are deliberate.
+
+Start with [[/projects/ondine-cli/getting-started/quick-start/][Quick Start]], then read [[/projects/ondine-cli/reference/markdown-fences/][Markdown Fences]] for the full transformation behavior.
+
+#+begin_src mermaid
+flowchart LR
+  accTitle: Ondine CLI pipeline
+  accDescr: Markdown fences and .mmd sources render to inline SVG for a static site.
+  md[Markdown fence] --> cli[ondine markdown]
+  mmd[.mmd source] --> cli
+  cli --> svg[Inline SVG]
+  svg --> site[Static site]
+#+end_src
+
+#+begin_export html
+{% <social.mastodon
+  url="https://fosstodon.org/@gicrisf/117487710985692245"
+  author="Giovanni Crisalfi"
+  date="2026-10-23"
+> %}
+Ondine is a Rust/WASM port of Pele for rendering #Mermaid graphs in a monochromatic fashion. When I discovered it, I immediately found it beautiful, but I didn't want to use #npm just to generate some SVGs.
+
+So I wrapped their compiler and ported the #ASCII formatter into a pure #Rust CLI. No #Node or WASM at runtime, so it is also smaller and faster: ideal for a quick #cargo or #Nix install.
+
+If you need quick #diagrams, enjoy. Thanks to the Pele and Ondine folks.
+
+[github.com/gicrisf/ondine-cli](https://github.com/gicrisf/ondine-cli)
+{% </social.mastodon> %}
+#+end_export
+
+*** Credits
+
+This project exists because of [[https://ondine.sh][Ondine]], which ports [[https://github.com/obsidianmd/pele][Pele]]. It is independent and unofficial, and is not maintained by or affiliated with the Ondine project.
+
+*** License
+
+MIT. See the [[https://github.com/gicrisf/ondine-cli/blob/main/LICENSE][license]].
+
+* Getting Started Group
+
+** Getting Started
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Install ondine, render a diagram, and transform a Markdown tree.
+#+end_description
+
+Install the binary, render a first diagram, and choose the workflow that fits your project.
+
+** Quick Start
+:PROPERTIES:
+  :EXPORT_FILE_NAME: quick-start
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Install the binary, render a first diagram, and run the Markdown fence transformer.") (toc . true))
+:END:
+
+#+begin_description
+Install ondine, render a diagram, and transform a Markdown tree.
+#+end_description
+
+*** Requirements
+
+You need Linux ~x86_64~ for the prebuilt binary, or Rust 1.97.0 or newer to build from source. Ondine CLI has no Node.js, npm, or WebAssembly runtime dependency.
+
+*** Install
+
+#+begin_src sh
+curl -fsSL https://raw.githubusercontent.com/gicrisf/ondine-cli/main/install.sh | bash
+#+end_src
+
+The installer places ~ondine~ in =~/.local/bin=. See [[/projects/ondine-cli/getting-started/installation/][Installation]] for manual downloads and other installation options.
+
+*** Render a diagram
+
+Write Mermaid source in ~flow.mmd~:
+
+#+begin_src text
+flowchart LR
+  A[Input] --> B[SVG]
+#+end_src
+
+Render it beside the source file:
+
+#+begin_src sh
+ondine flow.mmd
+#+end_src
+
+This writes ~flow.svg~. To render standard input:
+
+#+begin_src sh
+cat flow.mmd | ondine > flow.svg
+#+end_src
+
+To print the diagram as ASCII text instead:
+
+#+begin_src sh
+ondine --ascii flow.mmd
+#+end_src
+
+*** Transform Markdown fences
+
+Put a Mermaid fence in Markdown:
+
+#+begin_src markdown
+```mermaid
+flowchart LR
+  A --> B
+```
+#+end_src
+
+Transform the Markdown tree without modifying the source:
+
+#+begin_src sh
+ondine markdown content --out-dir build/content
+#+end_src
+
+The output mirrors the input tree. Check that generated files are current:
+
+#+begin_src sh
+ondine markdown content --out-dir build/content --check
+#+end_src
+
+See [[/projects/ondine-cli/reference/markdown-fences/][Markdown Fences]] for the full behavior.
+
+*** Next steps
+
+- [[/projects/ondine-cli/getting-started/installation/][Installation]]
+- [[/projects/ondine-cli/getting-started/usage/][Usage]]
+- [[/projects/ondine-cli/reference/markdown-fences/][Markdown Fences]]
+
+** Installation
+:PROPERTIES:
+  :EXPORT_FILE_NAME: installation
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli/getting-started
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Use the prebuilt installer, build with Cargo, or run it through the Nix flake.") (toc . true))
+:END:
+
+#+begin_description
+Install ondine with the prebuilt installer, Cargo, or Nix.
+#+end_description
+
+*** Requirements
+
+The prebuilt binary targets ~x86_64-unknown-linux-musl~. Building from source requires Rust 1.97.0 or newer.
+
+Ondine CLI does not need Node.js, npm, or WebAssembly at runtime.
+
+*** Prebuilt binary
+
+Install the latest Linux ~x86_64~ binary with the installer:
+
+#+begin_src sh
+curl -fsSL https://raw.githubusercontent.com/gicrisf/ondine-cli/main/install.sh | bash
+#+end_src
+
+This installs to =~/.local/bin=. Set ~ONDINE_INSTALL_DIR~ to choose another directory, or ~ONDINE_VERSION~ to pin a release. Manual downloads are available from the [[https://github.com/gicrisf/ondine-cli/releases][releases page]].
+
+*** Cargo
+
+#+begin_src sh
+cargo install --git https://github.com/gicrisf/ondine-cli --locked --bin ondine
+#+end_src
+
+The build uses the compiler revision pinned in ~Cargo.lock~.
+
+*** Nix
+
+#+begin_src sh
+# Runs the command without installing it
+nix run github:gicrisf/ondine-cli -- flow.mmd
+
+# Builds the package
+nix build
+
+# Enters a development shell
+nix develop
+#+end_src
+
+*** Verify
+
+#+begin_src sh
+ondine --version
+#+end_src
+
+Continue with [[/projects/ondine-cli/getting-started/quick-start/][Quick Start]] or [[/projects/ondine-cli/getting-started/usage/][Usage]].
+
+** Usage
+:PROPERTIES:
+  :EXPORT_FILE_NAME: usage
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli/getting-started
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "The package is ondine-cli; the installed binary is ondine. This page covers both render modes and the Markdown transformer.") (toc . true))
+:END:
+
+#+begin_description
+Render diagrams and transform Markdown fences with the ondine command.
+#+end_description
+
+*** Render diagrams
+
+Render a ~.mmd~ or ~.mermaid~ file beside its source:
+
+#+begin_src sh
+ondine flow.mmd
+#+end_src
+
+Render every SVG into one directory:
+
+#+begin_src sh
+ondine diagrams/*.mmd --out-dir public/diagrams
+#+end_src
+
+Render standard input to standard output:
+
+#+begin_src sh
+cat flow.mmd | ondine > flow.svg
+#+end_src
+
+Print diagrams as ASCII text:
+
+#+begin_src sh
+ondine --ascii flow.mmd
+#+end_src
+
+With multiple files, ASCII output is concatenated in argument order. ~--out-dir~ is ignored in ASCII mode.
+
+**** Render options
+
+| Option | Meaning |
+|--------+---------|
+| ~-a~, ~--ascii~ | Print diagrams as ASCII text instead of writing SVG files. |
+| ~-o~, ~--out-dir <DIR>~ | Write every rendered SVG into one directory. |
+| ~-h~, ~--help~ | Print usage. |
+| ~-V~, ~--version~ | Print the version. |
+
+Files named ~.mmd~ or ~.mermaid~ replace that suffix with ~.svg~. Other names keep their extension, so ~flow.txt~ becomes ~flow.txt.svg~.
+
+*** Transform Markdown fences
+
+Transform a Markdown tree into a separate output tree:
+
+#+begin_src sh
+ondine markdown content --out-dir build/content
+#+end_src
+
+The source files are not modified. Directory inputs mirror their relative paths under the output directory.
+
+Check that generated Markdown is current:
+
+#+begin_src sh
+ondine markdown content --out-dir build/content --check
+#+end_src
+
+Write one transformed file to standard output:
+
+#+begin_src sh
+ondine markdown page.md --stdout
+#+end_src
+
+~--check~ writes nothing and exits with status 1 when output is missing or stale. It requires an existing ~--out-dir~. ~--stdout~ accepts exactly one Markdown file.
+
+**** Markdown options
+
+| Option | Meaning |
+|--------+---------|
+| ~-o~, ~--out-dir <DIR>~ | Write transformed Markdown to a separate tree. |
+| ~--check~ | Write nothing, and exit with 1 when output is missing or out of date. |
+| ~--stdout~ | Write one transformed Markdown file to standard output. |
+| ~-h~, ~--help~ | Print usage. |
+
+Unlike render ~--out-dir~, which collects SVG files into one directory, Markdown ~--out-dir~ preserves the input directory structure.
+
+Only fences tagged ~mermaid~ are transformed. See [[/projects/ondine-cli/reference/markdown-fences/][Markdown Fences]] for fence syntax, output shape, and accessibility. See [[/projects/ondine-cli/reference/output-and-errors/][Output and Errors]] for diagnostics and exit behavior.
+
+* Reference Group
+
+** Reference
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli/reference
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Markdown transformation behavior, output paths, errors, and compiler details.
+#+end_description
+
+Details for Markdown fences, output naming, diagnostics, and the pinned compiler revision.
+
+** Markdown Fences
+:PROPERTIES:
+  :EXPORT_FILE_NAME: markdown-fences
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli/reference
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "The Markdown transformer replaces Mermaid fences in an output tree, leaving the source files untouched.") (toc . true))
+:END:
+
+#+begin_description
+Transform fenced Mermaid blocks into inline SVG without editing the source.
+#+end_description
+
+*** What gets transformed
+
+A fenced code block tagged ~mermaid~ is replaced with inline SVG:
+
+#+begin_src markdown
+```mermaid
+flowchart LR
+  A --> B
+```
+#+end_src
+
+The generated Markdown contains:
+
+#+begin_src html
+<div class="mermaid-diagram">
+  <svg ...>...</svg>
+</div>
+#+end_src
+
+The transformer handles backtick and tilde fences, indented fences, and multiple diagrams in one file. Fences in other languages are left untouched. An unclosed fence is also left unchanged.
+
+*** Source files stay untouched
+
+Use ~--out-dir~ to write the transformed Markdown into a separate tree:
+
+#+begin_src sh
+ondine markdown content --out-dir build/content
+#+end_src
+
+Directory inputs mirror their relative paths under the output directory. For example, ~content/posts/example.md~ becomes ~build/content/posts/example.md~.
+
+The command writes Markdown only. Copy non-Markdown files from the source tree separately if your site needs colocated assets.
+
+*** Check generated output
+
+#+begin_src sh
+ondine markdown content --out-dir build/content --check
+#+end_src
+
+~--check~ writes nothing. It exits with status 1 when a generated file is missing or stale, which makes it suitable for CI. The output directory must already exist.
+
+*** Write one file to stdout
+
+#+begin_src sh
+ondine markdown page.md --stdout
+#+end_src
+
+~--stdout~ accepts exactly one Markdown file and writes the transformed Markdown to standard output.
+
+*** IDs and accessibility
+
+Ondine emits fixed ~ondine-title~ and ~ondine-desc~ IDs when the diagram source defines an accessibility title or description. The transformer namespaces those IDs per diagram, so multiple diagrams can share one page without collisions.
+
+Use Mermaid's ~accTitle~ and ~accDescr~ directives in the fence:
+
+#+begin_src markdown
+```mermaid
+flowchart LR
+  accTitle: Build pipeline
+  accDescr: Source is compiled to inline SVG.
+  A --> B
+```
+#+end_src
+
+There is no separate alt or caption metadata syntax. The fence source and the generated SVG carry the accessible information.
+
+*** Static site example
+
+A typical static-site pipeline is:
+
+#+begin_src sh
+ondine markdown content --out-dir build/content
+#+end_src
+
+Build the site from ~build/content~, or use the same directory as the content root of your generator. Keep the original ~content~ tree as the source of truth.
+
+** Output and Errors
+:PROPERTIES:
+  :EXPORT_FILE_NAME: output-and-errors
+  :EXPORT_ZOLA_SECTION: projects/ondine-cli/reference
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Where ondine writes files, how it reports failures, and which compiler revision it uses.") (toc . true))
+:END:
+
+#+begin_description
+File naming, diagnostics, exit codes, and compiler revision details.
+#+end_description
+
+*** Render output
+
+~.mmd~ and ~.mermaid~ sources replace their suffix with ~.svg~:
+
+#+begin_src text
+flow.mmd      -> flow.svg
+flow.mermaid  -> flow.svg
+#+end_src
+
+Other names keep their extension:
+
+#+begin_src text
+flow.txt      -> flow.txt.svg
+#+end_src
+
+Without ~--out-dir~, the SVG is written beside the source. With ~--out-dir~, every SVG is written into that directory. In ASCII mode, output goes to standard output instead.
+
+*** Markdown output
+
+~ondine markdown~ writes only Markdown files. Directory inputs preserve their relative structure under ~--out-dir~.
+
+A file with a failing Mermaid fence is not written. Other input files are still processed, and the command exits with status 1.
+
+*** Diagnostics
+
+Compiler errors use this format:
+
+#+begin_src text
+source:line:column: message
+#+end_src
+
+Errors without a position use:
+
+#+begin_src text
+source: message
+#+end_src
+
+For Markdown fences, line and column numbers are adjusted to the Markdown file. The opening fence line is the reference for the diagram source.
+
+*** ~--check~ failures
+
+When generated Markdown is missing or stale, ~--check~ prints:
+
+#+begin_src text
+path/to/output.md is out of date
+#+end_src
+
+It writes nothing and exits with status 1.
+
+*** Exit status
+
+The command exits with status 1 when any file fails to render or when ~--check~ finds stale output. It exits with status 0 when every requested operation succeeds.
+
+Unclosed fences and non-Mermaid fences are copied unchanged, not reported as errors.
+
+*** Compiler revision
+
+The compiler crate is pinned to a commit in ~wevm/ondine~ rather than a crates.io release. Update the ~rev~ in ~Cargo.toml~ deliberately, then run the test suite.
+
+Ondine CLI makes no network requests. The release binary needs no Node.js, npm, or WebAssembly runtime.

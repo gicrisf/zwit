@@ -1,10 +1,10 @@
 +++
 title = "Installation"
-description = "Install ondine from a release binary, Cargo, or Nix."
+description = "Install ondine with the prebuilt installer, Cargo, or Nix."
 weight = 20
 
 [extra]
-lead = "Use a prebuilt Linux binary, build with Cargo, or run it through the Nix flake."
+lead = "Use the prebuilt installer, build with Cargo, or run it through the Nix flake."
 toc = true
 +++
 
@@ -16,24 +16,13 @@ Ondine CLI does not need Node.js, npm, or WebAssembly at runtime.
 
 ## Prebuilt binary
 
-Download the release archive and checksums:
+Install the latest Linux `x86_64` binary with the installer:
 
 ```sh
-version=0.2.0
-base="https://github.com/gicrisf/ondine-cli/releases/download/v${version}"
-archive="ondine-v${version}-x86_64-unknown-linux-musl.tar.gz"
-
-curl -fsSLO "${base}/${archive}"
-curl -fsSLO "${base}/SHA256SUMS"
-grep "  ${archive}$" SHA256SUMS | sha256sum -c -
-tar -xzf "${archive}"
+curl -fsSL https://raw.githubusercontent.com/gicrisf/ondine-cli/main/install.sh | bash
 ```
 
-Install the binary somewhere on `PATH`:
-
-```sh
-install -m 0755 "ondine-v${version}-x86_64-unknown-linux-musl/ondine" ~/.local/bin/ondine
-```
+This installs to `~/.local/bin`. Set `ONDINE_INSTALL_DIR` to choose another directory, or `ONDINE_VERSION` to pin a release. Manual downloads are available from the [releases page](https://github.com/gicrisf/ondine-cli/releases).
 
 ## Cargo
 
