@@ -8,6 +8,7 @@ lead = "Ox-Zola preserves LaTeX fragments in Markdown; the Zola site supplies th
 toc = true
 adapted_from = "ox-hugo"
 adapted_url = "https://ox-hugo.scripter.co/doc/equations/"
+math = true
 +++
 
 ## Inline equations
@@ -20,6 +21,8 @@ LaTeX equation: \( E = -J \sum_{i=1}^N s_i s_{i+1} \)
 
 `$...$` works too, but avoid spaces immediately inside the dollar delimiters.
 
+<p>Rendered inline: \( E = -J \sum_{i=1}^N s_i s_{i+1} \)</p>
+
 ## Display equations
 
 Display equations use `\[ ... \]` or `$$ ... $$`:
@@ -30,6 +33,11 @@ a = +\sqrt{2}
 \]
 ```
 
+<div>Rendered display:
+\[
+a = +\sqrt{2}
+\]</div>
+
 LaTeX environments are also supported:
 
 ```org
@@ -39,7 +47,7 @@ C = W\log_{2} (1+\mathrm{SNR})
 \end{equation}
 ```
 
-The exported Markdown contains the equation source. The Zola site must load MathJax or KaTeX to render it.
+The exported Markdown contains the equation source. This site pre-renders it with KaTeX at build time; no runtime math JavaScript is loaded.
 
 ## Equation references
 

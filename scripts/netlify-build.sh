@@ -38,4 +38,23 @@ if [[ ! -x "${destination}/ondine" ]]; then
 fi
 
 export PATH="${destination}:${PATH}"
+
+katex_version="${KATEX_RENDER_VERSION:-0.1.0}"
+katex_archive="katex-render-v${katex_version}-x86_64-unknown-linux-musl.tar.gz"
+katex_release="https://github.com/gicrisf/katex-render/releases/download/v${katex_version}"
+katex_destination="${cache_root}/katex-render/v${katex_version}"
+
+if [[ ! -x "${katex_destination}/katex-render" ]]; then
+  mkdir -p "${katex_destination}"
+  temporary="$(mktemp -d)"
+  trap 'rm -rf "${temporary}"' EXIT
+
+  curl -fsSL "${katex_release}/${katex_archive}" -o "${temporary}/${katex_archive}"
+  curl -fsSL "${katex_release}/SHA256SUMS" -o "${temporary}/SHA256SUMS"
+  (cd "${temporary}" && grep "  ${katex_archive}$" SHA256SUMS | sha256sum -c -)
+  tar -xzf "${temporary}/${katex_archive}" -C "${katex_destination}" --strip-components=1
+fi
+
+export KATEX_RENDER_BIN="${katex_destination}/katex-render"
+
 python3 scripts/site.py build "$@"

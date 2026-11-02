@@ -17,6 +17,7 @@ STATIC = ROOT / "static"
 TEMPLATES = ROOT / "templates"
 THEMES = ROOT / "themes"
 ONDINE_URL = "https://github.com/gicrisf/ondine-cli"
+KATEX_RENDER_INSTALL_URL = "https://raw.githubusercontent.com/gicrisf/katex-render/main/install.sh"
 
 
 def find_ondine() -> str:
@@ -31,6 +32,21 @@ def find_ondine() -> str:
     raise SystemExit(
         "ondine not found. Set ONDINE_BIN or install it with:\n"
         f"  cargo install --git {ONDINE_URL} --locked --bin ondine"
+    )
+
+
+def find_katex_render() -> str:
+    override = os.environ.get("KATEX_RENDER_BIN")
+    if override:
+        return override
+
+    found = shutil.which("katex-render")
+    if found:
+        return found
+
+    raise SystemExit(
+        "katex-render not found. Set KATEX_RENDER_BIN or install it with:\n"
+        f"  curl -fsSL {KATEX_RENDER_INSTALL_URL} | bash"
     )
 
 
@@ -88,6 +104,23 @@ def prepare_content(ondine: str) -> None:
         raise subprocess.CalledProcessError(result.returncode, result.args)
 
 
+def render_math(katex_render: str) -> None:
+    subprocess.run(
+        [katex_render, "--root", str(PUBLIC), "--remove-runtime-scripts"],
+        cwd=ROOT,
+        check=True,
+    )
+
+
+def strip_runtime_math_assets() -> None:
+    for relative in (
+        "assets/katex/katex.min.js",
+        "assets/katex/auto-render.min.js",
+        "assets/js/math.js",
+    ):
+        (PUBLIC / relative).unlink(missing_ok=True)
+
+
 def zola(command: str, args: list[str]) -> int:
     result = subprocess.run(
         ["zola", "--root", str(BUILD), command, *args],
@@ -96,11 +129,17 @@ def zola(command: str, args: list[str]) -> int:
     return result.returncode
 
 
-def build(ondine: str, args: list[str]) -> int:
+def build(ondine: str, katex_render: str, args: list[str]) -> int:
     generate_social_images()
     ensure_root()
     prepare_content(ondine)
-    return zola("build", ["--force", "--output-dir", str(PUBLIC), *args])
+    code = zola("build", ["--force", "--output-dir", str(PUBLIC), *args])
+    if code:
+        return code
+
+    render_math(katex_render)
+    strip_runtime_math_assets()
+    return 0
 
 
 def check(ondine: str, args: list[str]) -> int:
@@ -158,7 +197,7 @@ def main() -> int:
     ondine = find_ondine()
 
     if parsed.command == "build":
-        return build(ondine, zola_args)
+        return build(ondine, find_katex_render(), zola_args)
     if parsed.command == "check":
         return check(ondine, zola_args)
     return serve(ondine, zola_args)
