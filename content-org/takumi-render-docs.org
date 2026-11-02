@@ -108,7 +108,13 @@ Takumi Render does not need Node.js, npm, or WebAssembly at runtime. It does nee
 
 *** Install
 
-Download the latest Linux ~x86_64~ release from the [[https://github.com/gicrisf/takumi-render/releases][releases page]], or install from source:
+Install the latest Linux ~x86_64~ binary with the installer:
+
+#+begin_src sh
+curl -fsSL https://raw.githubusercontent.com/gicrisf/takumi-render/main/install.sh | bash
+#+end_src
+
+This installs to =~/.local/bin=. Set ~TAKUMI_RENDER_INSTALL_DIR~ to choose another directory, or ~TAKUMI_RENDER_VERSION~ to pin a release. You can also install from source:
 
 #+begin_src sh
 cargo install --git https://github.com/gicrisf/takumi-render --locked
@@ -194,6 +200,16 @@ The prebuilt binary targets ~x86_64-unknown-linux-musl~. Building from source re
 Takumi Render does not need Node.js, npm, or WebAssembly at runtime.
 
 *** Prebuilt binary
+
+Install the latest Linux ~x86_64~ binary with the installer:
+
+#+begin_src sh
+curl -fsSL https://raw.githubusercontent.com/gicrisf/takumi-render/main/install.sh | bash
+#+end_src
+
+This installs to =~/.local/bin=. Set ~TAKUMI_RENDER_INSTALL_DIR~ to choose another directory, or ~TAKUMI_RENDER_VERSION~ to pin a release.
+
+**** Manual download
 
 Download the archive from the [[https://github.com/gicrisf/takumi-render/releases][releases page]]. For version 0.1.0:
 
