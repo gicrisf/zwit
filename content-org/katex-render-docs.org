@@ -1,0 +1,436 @@
+#+title: KaTeX Render Documentation
+#+zola_base_dir: ..
+#+zola_section: projects/katex-render
+#+startup: overview
+#+options: toc:nil author:nil
+
+#+begin_comment
+  This is the Org source for the KaTeX Render docs. It is not read by the
+  Zola build. Export it with `ox-zola-export-wim-to-md` with all subtrees (the
+  A command in the Org export dispatcher) to regenerate
+  content/projects/katex-render/.
+
+  Subtree headings without EXPORT_FILE_NAME are organizational and are not
+  exported. Section indexes use EXPORT_FILE_NAME: _index.
+#+end_comment
+
+* KaTeX Render
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/katex-render
+  :EXPORT_ZOLA_WEIGHT: 67
+  :EXPORT_ZOLA_TEMPLATE: projects/page.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :extra '((repo . "https://github.com/gicrisf/katex-render") (language . ("Rust")))
+:END:
+
+#+begin_description
+Build-time KaTeX rendering for static HTML, without runtime JavaScript.
+#+end_description
+
+KaTeX Render is a post-build HTML transformer. It finds LaTeX in pages that opt into math, renders it with [[https://github.com/katex-rs/katex-rs][katex-rs]], and writes KaTeX HTML and MathML into the page. The KaTeX JavaScript runtime can then be removed from production output.
+
+*** Why
+
+KaTeX normally typesets math in the browser. Static sites pay for that with an extra JavaScript download, parsing, and layout work on every math page. KaTeX Render moves the work to the build:
+
+- no KaTeX JavaScript in production output
+- no Node.js, browser, or WebAssembly runtime
+- HTML and MathML are present in the initial response
+- KaTeX CSS and fonts are still required for visual rendering
+
+*** Advantages
+
+- *Native:* One Rust binary built on ~katex-rs~.
+- *Build-time:* Math is rendered once, not on every visit.
+- *Opt-in:* Only pages marked with a KaTeX stylesheet link are touched.
+- *Safe:* Code blocks, scripts, existing MathML, and existing KaTeX markup are skipped.
+- *Script-aware:* It can remove the KaTeX runtime script tags from processed pages.
+- *Focused:* It does not impose a Markdown parser or a template engine.
+
+*** Scope
+
+KaTeX Render works on built HTML. It does not parse Markdown, copy stylesheets or fonts, generate diagrams, or serve the site. It expects the KaTeX CSS and fonts to already be part of the site.
+
+Rendering is opt-in. A page is processed only when it contains the configured marker, which defaults to ~assets/katex/katex.min.css~.
+
+This site uses KaTeX Render for the [[/projects/ox-zola/content/equations/][Equations]] documentation page.
+
+#+begin_src mermaid
+flowchart LR
+  accTitle: KaTeX Render pipeline
+  accDescr: Built HTML with LaTeX is transformed into HTML containing KaTeX markup and MathML.
+  html[Built HTML] --> cli[katex-render]
+  cli --> output[KaTeX HTML and MathML]
+  output --> site[Static site]
+#+end_src
+
+*** Current release
+
+Version 0.1.0 targets Linux ~x86_64~ with a prebuilt musl binary. Building from source requires Rust 1.91 or newer.
+
+*** Credits
+
+KaTeX Render is built on [[https://github.com/katex-rs/katex-rs][katex-rs]], a Rust implementation of [[https://katex.org/][KaTeX]]. It is independent and unofficial, and is not maintained by or affiliated with the KaTeX or katex-rs projects.
+
+*** License
+
+MIT. See the [[https://github.com/gicrisf/katex-render/blob/main/LICENSE][license]]. KaTeX CSS and fonts use their upstream licenses.
+
+* Getting Started Group
+
+** Getting Started
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/katex-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+Install katex-render, mark a page, and pre-render its math.
+#+end_description
+
+Install the binary, opt a page into KaTeX, and run the transformer after the site build.
+
+** Quick Start
+:PROPERTIES:
+  :EXPORT_FILE_NAME: quick-start
+  :EXPORT_ZOLA_SECTION: projects/katex-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Install katex-render, mark an HTML page, and replace its LaTeX with KaTeX markup.") (toc . true))
+:END:
+
+#+begin_description
+Install katex-render and pre-render a first page.
+#+end_description
+
+*** Requirements
+
+You need Linux ~x86_64~ for the prebuilt binary, or Rust 1.91 or newer to build from source. KaTeX Render does not need Node.js, npm, or WebAssembly.
+
+The page must already load KaTeX CSS and fonts. KaTeX Render does not copy them.
+
+*** Install
+
+Install the latest Linux ~x86_64~ prebuilt binary with the installer:
+
+#+begin_src sh
+curl -fsSL https://raw.githubusercontent.com/gicrisf/katex-render/main/install.sh | bash
+#+end_src
+
+The installer places ~katex-render~ in =~/.local/bin=. See [[/projects/katex-render/getting-started/installation/][Installation]] for pinned versions, manual downloads, and Cargo.
+
+*** Mark a page
+
+Add the KaTeX stylesheet and some LaTeX to an HTML page:
+
+#+begin_src html
+<link rel="stylesheet" href="/assets/katex/katex.min.css">
+<p>Inline: \( E = mc^2 \)</p>
+#+end_src
+
+The stylesheet path is the default marker. Pages without it are left alone.
+
+*** Render the math
+
+After building the site, run:
+
+#+begin_src sh
+katex-render --root public --remove-runtime-scripts
+#+end_src
+
+The command replaces the LaTeX with KaTeX HTML and MathML. With ~--remove-runtime-scripts~, it also removes known KaTeX runtime ~<script>~ tags from processed pages.
+
+*** Next steps
+
+- [[/projects/katex-render/getting-started/installation/][Installation]]
+- [[/projects/katex-render/getting-started/usage/][Usage]]
+- [[/projects/katex-render/reference/cli-reference/][CLI Reference]]
+
+** Installation
+:PROPERTIES:
+  :EXPORT_FILE_NAME: installation
+  :EXPORT_ZOLA_SECTION: projects/katex-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Use a prebuilt Linux binary or build from source with Cargo.") (toc . true))
+:END:
+
+#+begin_description
+Install katex-render from a release or from source.
+#+end_description
+
+*** Requirements
+
+The prebuilt binary targets ~x86_64-unknown-linux-musl~. Building from source requires Rust 1.91 or newer.
+
+KaTeX Render does not need Node.js, npm, or WebAssembly at runtime.
+
+*** Prebuilt binary
+
+Install the latest Linux ~x86_64~ binary with the installer:
+
+#+begin_src sh
+curl -fsSL https://raw.githubusercontent.com/gicrisf/katex-render/main/install.sh | bash
+#+end_src
+
+This installs to =~/.local/bin=. Set ~KATEX_RENDER_INSTALL_DIR~ to choose another directory, or ~KATEX_RENDER_VERSION~ to pin a release.
+
+**** Manual download
+
+Download the archive from the [[https://github.com/gicrisf/katex-render/releases][releases page]]. For version 0.1.0:
+
+#+begin_src sh
+version=0.1.0
+archive=katex-render-v${version}-x86_64-unknown-linux-musl.tar.gz
+curl -fLO "https://github.com/gicrisf/katex-render/releases/download/v${version}/${archive}"
+tar -xzf "${archive}"
+mkdir -p ~/.local/bin
+install "katex-render-v${version}-x86_64-unknown-linux-musl/katex-render" ~/.local/bin/
+#+end_src
+
+The release includes ~SHA256SUMS~; verify it before installing when the binary comes from a mirrored source.
+
+*** Cargo
+
+#+begin_src sh
+cargo install --git https://github.com/gicrisf/katex-render --locked
+#+end_src
+
+The build uses the dependency versions pinned in ~Cargo.lock~.
+
+*** Verify
+
+#+begin_src sh
+katex-render --version
+#+end_src
+
+Continue with [[/projects/katex-render/getting-started/quick-start/][Quick Start]] or [[/projects/katex-render/getting-started/usage/][Usage]].
+
+** Usage
+:PROPERTIES:
+  :EXPORT_FILE_NAME: usage
+  :EXPORT_ZOLA_SECTION: projects/katex-render/getting-started
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Run katex-render after the site build, with opt-in pages and explicit markers.") (toc . true))
+:END:
+
+#+begin_description
+Run katex-render after a static-site build.
+#+end_description
+
+*** Basic command
+
+#+begin_src sh
+katex-render --root public --remove-runtime-scripts
+#+end_src
+
+Without ~--root~, the command reads the ~public~ directory. It walks HTML files, processes pages that contain the marker, and writes only pages that changed.
+
+*** Opt-in pages
+
+A page opts in by containing the marker string. The default is:
+
+#+begin_src text
+assets/katex/katex.min.css
+#+end_src
+
+Set ~--marker~ when the stylesheet path differs:
+
+#+begin_src sh
+katex-render --root public --marker /assets/katex/katex.min.css
+#+end_src
+
+A page without the marker is not parsed or rewritten.
+
+*** Static-site integration
+
+Run the transformer after the generator writes HTML:
+
+#+begin_src sh
+zola build
+katex-render --root public --remove-runtime-scripts
+#+end_src
+
+~--remove-runtime-scripts~ removes known KaTeX runtime script tags from processed pages. It does not remove the KaTeX stylesheet or fonts.
+
+A local preview can keep runtime KaTeX while production output uses pre-rendered math. Run KaTeX Render against the production output directory, not the development server.
+
+*** Next steps
+
+- [[/projects/katex-render/reference/cli-reference/][CLI Reference]]
+- [[/projects/katex-render/reference/delimiters/][Delimiters]]
+- [[/projects/katex-render/reference/html-processing/][HTML Processing]]
+
+* Reference Group
+
+** Reference
+:PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_ZOLA_SECTION: projects/katex-render/reference
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_TEMPLATE: docs/section.html
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :page_template "docs/page.html"
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER+: :sort_by "weight"
+:END:
+
+#+begin_description
+CLI options, delimiters, HTML processing, errors, and output behavior.
+#+end_description
+
+Details for options, math delimiters, DOM rewriting, diagnostics, and exit status.
+
+** CLI Reference
+:PROPERTIES:
+  :EXPORT_FILE_NAME: cli-reference
+  :EXPORT_ZOLA_SECTION: projects/katex-render/reference
+  :EXPORT_ZOLA_WEIGHT: 10
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Options, output summary, diagnostics, and exit status.") (toc . true))
+:END:
+
+#+begin_description
+Every katex-render option, with output and exit behavior.
+#+end_description
+
+*** Synopsis
+
+#+begin_src text
+katex-render [OPTIONS]
+#+end_src
+
+*** Options
+
+| Option | Meaning |
+|--------+---------|
+| ~--root <DIR>~ | Directory containing built HTML. Defaults to ~public~. |
+| ~--marker <STRING>~ | Only process pages containing this string. Defaults to ~assets/katex/katex.min.css~. |
+| ~--remove-runtime-scripts~ | Remove known KaTeX runtime script tags from processed pages. |
+| ~-h~, ~--help~ | Print usage. |
+| ~-V~, ~--version~ | Print the version. |
+
+*** Output summary
+
+The command prints a summary:
+
+#+begin_src text
+katex-render: 2 equations on 1 of 99 pages
+#+end_src
+
+The first number is the rendered equation count. The second is the number of pages written. The third is the number of HTML files scanned.
+
+*** Exit status
+
+The command exits with 0 when every processed page succeeds. It exits with 1 when an HTML, KaTeX, or file I/O error occurs. Invalid command-line arguments exit with 2 through the argument parser.
+
+*** Behavior
+
+- It processes only files ending in ~.html~.
+- It processes only pages containing the marker.
+- It writes only pages that changed.
+- It fails on the first KaTeX parse error.
+- It makes no network requests.
+
+** Delimiters
+:PROPERTIES:
+  :EXPORT_FILE_NAME: delimiters
+  :EXPORT_ZOLA_SECTION: projects/katex-render/reference
+  :EXPORT_ZOLA_WEIGHT: 20
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "Supported math delimiters, skipped contexts, and known limitations.") (toc . true))
+:END:
+
+#+begin_description
+Supported math delimiters and contexts that are skipped.
+#+end_description
+
+*** Supported delimiters
+
+| Delimiter | Mode |
+|-----------+------|
+| ~$...$~ | Inline |
+| ~$$...$$~ | Display |
+| ~\(...\)~ | Inline |
+| ~\[...\]~ | Display |
+
+The content between delimiters is passed to ~katex-rs~ without the delimiters.
+
+*** Examples
+
+#+begin_src html
+<p>Inline: \( E = mc^2 \)</p>
+
+<div>
+\[
+a = +\sqrt{2}
+\]
+</div>
+#+end_src
+
+*** Skipped contexts
+
+Math is not processed inside:
+
+- ~code~
+- ~pre~
+- ~script~
+- ~style~
+- ~textarea~
+- ~option~
+- ~svg~
+- ~math~
+- existing ~.katex~ or ~.katex-display~ markup
+
+*** Escaped delimiters
+
+A backslash escapes the next character, so ~\$5~ is not treated as the start of inline math.
+
+*** Limitations
+
+- Bare LaTeX environments such as ~\begin{equation}...\end{equation}~ are not detected as delimiters. Wrap them in ~\[...\]~ or ~$$...$$~ if you need them rendered.
+- ~\label~ and ~\ref~ are not provided by KaTeX; use a renderer that supports equation references if you need them.
+- Inline dollar delimiters can match currency-like prose. Keep math pages opt-in and avoid paired dollar signs in ordinary text.
+- Only the delimiters listed above are recognized.
+
+** HTML Processing
+:PROPERTIES:
+  :EXPORT_FILE_NAME: html-processing
+  :EXPORT_ZOLA_SECTION: projects/katex-render/reference
+  :EXPORT_ZOLA_WEIGHT: 30
+  :EXPORT_ZOLA_CUSTOM_FRONT_MATTER: :extra '((lead . "How katex-render walks HTML, inserts KaTeX markup, and leaves untouched pages alone.") (toc . true))
+:END:
+
+#+begin_description
+DOM rewriting, serialization, runtime script removal, and error behavior.
+#+end_description
+
+*** Marker detection
+
+The tool first checks whether the page contains the configured marker. Pages without it are skipped before parsing.
+
+*** DOM rewrite
+
+Opted-in pages are parsed as HTML5 with ~html5ever~ through ~scraper~. The tool walks text nodes, ignoring skipped elements and existing KaTeX markup. Each math run is rendered with ~katex-rs~ and parsed as an HTML fragment. The resulting KaTeX node is inserted in place of the source text.
+
+This preserves surrounding HTML and avoids treating markup or code as math.
+
+*** Serialization
+
+A page is serialized and written only when it has math to insert or runtime scripts to remove. Untouched pages are left byte-for-byte unchanged.
+
+Serialization may normalize whitespace, attribute quoting, and HTML formatting on rewritten pages. The document structure and rendered content are preserved.
+
+*** Runtime scripts
+
+With ~--remove-runtime-scripts~, the tool removes script elements whose ~src~ points to:
+
+- ~assets/katex/katex.min.js~
+- ~assets/katex/auto-render.min.js~
+- ~assets/js/math.js~
+
+It does not remove the KaTeX stylesheet or fonts. The site must keep those assets available.
+
+*** Diagnostics
+
+KaTeX errors fail the command with the page path and equation source. The tool stops at the first failure. Pages written earlier in the same run remain on disk.
