@@ -1,7 +1,8 @@
 +++
-title = "Links"
+title = "Tree"
 description = "Places I publish, tools I follow, and things worth a click."
-template = "links/list.html"
+template = "tree/list.html"
+aliases = ["/links/"]
 
 [extra]
 pinned = [

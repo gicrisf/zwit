@@ -48,13 +48,13 @@
   <hr>
 
   <div class="home-columns">
-    {% set links_section = get_section(path="links/_index.md") %}
-    {% set home_links = links_section.extra.links | default(value=[]) %}
-    {% set pinned_link_slugs = links_section.extra.pinned | default(value=[]) %}
+    {% set tree_section = get_section(path="tree/_index.md") %}
+    {% set home_links = tree_section.extra.links | default(value=[]) %}
+    {% set pinned_link_slugs = tree_section.extra.pinned | default(value=[]) %}
     <div class="home-column">
       <div class="home-column__head">
         <p class="home-column__title">Pinned links</p>
-        <a class="home-column__more" href="{{ links_section.permalink }}">All links →</a>
+        <a class="home-column__more" href="{{ tree_section.permalink }}">All links →</a>
       </div>
       {% if pinned_link_slugs %}
       <ul class="cards">

@@ -327,7 +327,7 @@
   margin-top: auto;
 }
 
-.links-page {
+.tree-page {
   max-width: calc(var(--article-width) + 16rem + var(--space-xl));
 }
 
