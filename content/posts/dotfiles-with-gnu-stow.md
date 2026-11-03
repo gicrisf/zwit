@@ -38,40 +38,50 @@ It takes the files contained in its directories and automatically creates symlin
 Suppose your home directory looks like this:
 
 ```mermaid
+---
+config:
+  treeView:
+    showIcons: true
+---
 treeView-beta
     home/
         brandon/
-            .config/
-                uzbl/
+            .config/ ## per-application settings
+                uzbl/ ## browser configuration
                     ...
-            .local/
+            .local/ ## user data
                 share/
                     uzbl/
                         ...
-            .vim/
+            .vim/ ## Vim runtime files
                 ...
-            .bashrc
-            .bash_profile
-            .bash_logout
-            .vimrc
+            .bashrc :::highlight icon(logos:bash) ## shell startup
+            .bash_profile ## login shell
+            .bash_logout ## shell cleanup
+            .vimrc icon(logos:vim) ## Vim configuration
 ```
 
 What can we do to manage all these files?
 We take them and move them into a directory called `dotfiles`:
 
 ```mermaid
+---
+config:
+  treeView:
+    showIcons: true
+---
 treeView-beta
     home/
         brandon/
-            .config/
-            .local/
+            .config/ ## remaining configuration
+            .local/ ## remaining user data
                 share/
-            dotfiles/
-                bash/
-                    .bashrc
+            dotfiles/ :::highlight ## Stow package root
+                bash/ ## shell package
+                    .bashrc icon(logos:bash) ## shell entry point
                     .bash_profile
                     .bash_logout
-                uzbl/
+                uzbl/ ## browser package
                     .config/
                         uzbl/
                             ...
@@ -79,10 +89,10 @@ treeView-beta
                         share/
                             uzbl/
                                 ...
-                vim/
+                vim/ ## editor package
                     .vim/
                         ...
-                    .vimrc
+                    .vimrc icon(logos:vim) ## Vim configuration
 ```
 
 But now we are left without the dots where we need them!

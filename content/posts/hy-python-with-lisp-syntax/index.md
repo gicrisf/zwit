@@ -7,7 +7,7 @@ updated = 2026-11-03
 draft = false
 
 [taxonomies]
-  tags = ["hy", "python", "lisp", "macros"]
+  tags = ["python", "lisp", "macros", "data-viz"]
   categories = ["programming"]
 +++
 
