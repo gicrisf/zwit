@@ -359,11 +359,20 @@
   font-size: 1.0625rem;
 }
 
-.projects-pinned__index {
-  color: var(--color-accent);
+.pin-badge {
+  align-self: flex-start;
+  background: var(--color-chip);
+  border: 1px solid var(--color-rule);
+  color: var(--color-ink);
+  display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  padding-inline: var(--space-xs);
+  text-transform: uppercase;
+  width: max-content;
 }
 
 .projects-all {

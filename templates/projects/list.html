@@ -28,7 +28,7 @@
       {% set project_term = get_taxonomy_term(kind="projects", term=slug, required=false) %}
       <li class="card project-card project-card--pinned">
         <a class="card__link" href="{{ project.permalink }}">
-          <span class="projects-pinned__index" aria-hidden="true">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+          <span class="pin-badge" aria-hidden="true">Pin</span>
           <span class="card__title">{{ project.title }} <span aria-hidden="true">→</span></span>
           {% if project.description %}
           <span class="card__description">{{ project.description }}</span>
