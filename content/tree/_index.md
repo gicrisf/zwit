@@ -59,4 +59,48 @@ url = "https://unsplash.com/@gicrisf"
 category = "photo"
 description = "Photos I have shared."
 size = "wide"
+
+[[extra.links]]
+slug = "zola"
+label = "Zola"
+url = "https://www.getzola.org/"
+category = "tool"
+description = "The static site generator behind this site."
+size = "wide"
+
+[[extra.links]]
+slug = "emacs"
+label = "GNU Emacs"
+url = "https://www.gnu.org/software/emacs/"
+category = "tool"
+description = "The editor I live in."
+size = "wide"
+
+[[extra.links]]
+slug = "doom-emacs"
+label = "Doom Emacs"
+url = "https://github.com/doomemacs/doomemacs"
+category = "tool"
+description = "The Emacs configuration that shaped my workflow."
+
+[[extra.links]]
+slug = "eldev"
+label = "Eldev"
+url = "https://emacs-eldev.github.io/eldev/"
+category = "tool"
+description = "The Elisp project and test runner I use."
+
+[[extra.links]]
+slug = "d3"
+label = "D3.js"
+url = "https://d3js.org/"
+category = "tool"
+description = "Data visualisation for custom, hand-built charts."
+
+[[extra.links]]
+slug = "katex"
+label = "KaTeX"
+url = "https://katex.org/"
+category = "tool"
+description = "Fast math rendering for the web."
 +++
