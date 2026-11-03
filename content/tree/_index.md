@@ -42,14 +42,14 @@ slug = "bluesky"
 label = "Bluesky"
 url = "https://bsky.app/profile/gicrisf.bsky.social"
 category = "thoughts"
-description = "The same thoughts, another sky."
+description = "Other short thoughts and links."
 
 [[extra.links]]
 slug = "digressions"
 label = "Digressions"
 url = "https://digressions.zwit.link/"
 category = "blog"
-description = "A side blog for longer detours."
+description = "Archived old blog (mostly in Italian)."
 size = "wide"
 
 [[extra.links]]
@@ -57,7 +57,7 @@ slug = "unsplash"
 label = "Unsplash"
 url = "https://unsplash.com/@gicrisf"
 category = "photo"
-description = "Photos I have shared."
+description = "My molecular renders."
 size = "wide"
 
 [[extra.links]]
@@ -81,7 +81,7 @@ slug = "doom-emacs"
 label = "Doom Emacs"
 url = "https://github.com/doomemacs/doomemacs"
 category = "tool"
-description = "The Emacs configuration that shaped my workflow."
+description = "My Emacs distribution."
 
 [[extra.links]]
 slug = "eldev"
