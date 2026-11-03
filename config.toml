@@ -50,6 +50,7 @@ docs_scope = "subsection"
 main_menu = [
   {url = "/posts/", name = "posts", section = "posts"},
   {url = "/projects/", name = "projects", section = "projects"},
+  {url = "/links/", name = "links", section = "links"},
   {url = "/categories/", name = "categories", section = "categories"},
   {url = "/tags/", name = "tags", section = "tags"},
   {url = "atom.xml", name = "feed", trailing_slash = false},

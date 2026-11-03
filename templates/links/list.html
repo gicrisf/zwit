@@ -1,0 +1,63 @@
+{% extends "index.html" %}
+
+{% block main %}
+<article class="page-single links-page">
+  {{<breadcrumb.trail title={section.title} ancestors={section.ancestors} base_url={config.base_url} />}}
+
+  <header class="page-header">
+    <p class="page-kicker">Links</p>
+    <h1>{{ section.title }}</h1>
+    {% if section.description %}
+    <p class="page-lede">{{ section.description }}</p>
+    {% endif %}
+  </header>
+
+  {% if section.content %}
+  <div class="prose">
+    {{ section.content | safe }}
+  </div>
+  {% endif %}
+
+  {% set links = section.extra.links | default(value=[]) %}
+  {% set pinned_slugs = section.extra.pinned | default(value=[]) %}
+  {% set compact = false %}
+
+  {% if pinned_slugs %}
+  <section class="links-pinned" aria-labelledby="links-pinned-title">
+    <h2 class="links-section__title" id="links-pinned-title">Pinned links</h2>
+    <ol class="links-bento">
+      {% for slug in pinned_slugs %}
+      {% for candidate in links %}
+      {% if candidate.slug == slug %}
+      {% set link = candidate %}
+      {% set pinned = true %}
+      {% include "partials/links/card.html" %}
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  {% set_global has_unpinned = false %}
+  {% for link in links %}
+  {% if link.slug not in pinned_slugs %}
+  {% set_global has_unpinned = true %}
+  {% endif %}
+  {% endfor %}
+
+  {% if has_unpinned %}
+  <section class="links-all" aria-labelledby="links-all-title">
+    <h2 class="links-section__title" id="links-all-title">All links</h2>
+    <ul class="links-bento">
+      {% for link in links %}
+      {% if link.slug not in pinned_slugs %}
+      {% set pinned = false %}
+      {% include "partials/links/card.html" %}
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+</article>
+{% endblock main %}

@@ -1,0 +1,20 @@
+{% set compact_mode = compact | default(value=false) %}
+{% set tile_classes = "card link-tile" %}
+{% if compact_mode %}
+{% set tile_classes = tile_classes ~ " link-tile--compact" %}
+{% elif link.size %}
+{% set tile_classes = tile_classes ~ " link-tile--" ~ link.size %}
+{% endif %}
+{% if pinned and not compact_mode %}{% set tile_classes = tile_classes ~ " link-tile--pinned" %}{% endif %}
+<li class="{{ tile_classes }}">
+  <a class="card__link link-tile__link" href="{{ link.url }}" rel="noreferrer">
+    {% if pinned and not compact_mode %}<span class="pin-badge" aria-hidden="true">Pin</span>{% endif %}
+    <span class="card__title link-tile__title">{{ link.label }} <span aria-hidden="true">↗</span></span>
+    {% if not compact_mode and link.description %}
+    <span class="card__description">{{ link.description }}</span>
+    {% endif %}
+    {% if link.category %}
+    <span class="link-tile__category">{{ link.category }}</span>
+    {% endif %}
+  </a>
+</li>

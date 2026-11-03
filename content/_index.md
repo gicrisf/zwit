@@ -13,34 +13,4 @@ secondary_url = "/projects/"
 secondary_label = "Browse projects →"
 home_image = "me.jpg"
 home_image_alt = "Portrait of Giovanni Crisalfi"
-
-[[extra.home_links]]
-label = "GitHub"
-url = "https://github.com/gicrisf"
-category = "code"
-
-[[extra.home_links]]
-label = "Codeberg"
-url = "https://codeberg.org/gicrisf"
-category = "code"
-
-[[extra.home_links]]
-label = "Mastodon"
-url = "https://fosstodon.org/@gicrisf"
-category = "thoughts"
-
-[[extra.home_links]]
-label = "Bluesky"
-url = "https://bsky.app/profile/gicrisf.bsky.social"
-category = "thoughts"
-
-[[extra.home_links]]
-label = "Digressions"
-url = "https://digressions.zwit.link/"
-category = "blog"
-
-[[extra.home_links]]
-label = "Unsplash"
-url = "https://unsplash.com/@gicrisf"
-category = "photo"
 +++

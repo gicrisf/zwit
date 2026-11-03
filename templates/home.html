@@ -48,42 +48,50 @@
   <hr>
 
   <div class="home-columns">
-    <div class="home-column prose">
-      <p class="home-column__title">Find me outside:</p>
-      <table class="link-table">
-        <tbody>
-          {% for link in section.extra.home_links %}
-          {% if loop.index0 % 3 == 0 %}<tr>{% endif %}
-          <td>
-            <a href="{{ link.url }}">{{ link.label }}</a>
-            <span class="link-table__category">{{ link.category }}</span>
-          </td>
-          {% if loop.index0 % 3 == 2 %}</tr>{% endif %}
-          {% endfor %}
-          {% set link_count = section.extra.home_links | length %}
-          {% if link_count % 3 == 2 %}<td></td></tr>{% endif %}
-          {% if link_count % 3 == 1 %}<td></td><td></td></tr>{% endif %}
-        </tbody>
-      </table>
+    {% set links_section = get_section(path="links/_index.md") %}
+    {% set home_links = links_section.extra.links | default(value=[]) %}
+    {% set pinned_link_slugs = links_section.extra.pinned | default(value=[]) %}
+    <div class="home-column">
+      <div class="home-column__head">
+        <p class="home-column__title">Pinned links</p>
+        <a class="home-column__more" href="{{ links_section.permalink }}">All links →</a>
+      </div>
+      {% if pinned_link_slugs %}
+      <ul class="links-bento links-bento--compact">
+        {% for slug in pinned_link_slugs %}
+        {% for candidate in home_links %}
+        {% if candidate.slug == slug %}
+        {% set link = candidate %}
+        {% set pinned = true %}
+        {% set compact = true %}
+        {% include "partials/links/card.html" %}
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+      </ul>
+      {% endif %}
     </div>
 
     {% set projects_section = get_section(path="projects/_index.md") %}
     {% set pinned_slugs = projects_section.extra.pinned | default(value=[]) %}
-    <div class="home-column prose">
-      <p class="home-column__title">Pinned projects</p>
-      <table class="project-table">
-        <tbody>
-          {% for slug in pinned_slugs %}
-          {% set project = get_section(path="projects/" ~ slug ~ "/_index.md") %}
-          {% if loop.index0 % 3 == 0 %}<tr>{% endif %}
-          <td>
-            <a href="{{ project.permalink }}">{{ project.title }}</a>
-            <span class="project-table__language">{% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}</span>
-          </td>
-          {% if loop.index0 % 3 == 2 or loop.last %}</tr>{% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="home-column">
+      <div class="home-column__head">
+        <p class="home-column__title">Pinned projects</p>
+        <a class="home-column__more" href="{{ projects_section.permalink }}">All projects →</a>
+      </div>
+      <div class="cards">
+        {% for slug in pinned_slugs %}
+        {% set project = get_section(path="projects/" ~ slug ~ "/_index.md") %}
+        <div class="card project-card">
+          <a class="card__link" href="{{ project.permalink }}">
+            <span class="card__title">{{ project.title }} <span aria-hidden="true">→</span></span>
+            <span class="project-card__meta">
+              {% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}
+            </span>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </div>
