@@ -67,15 +67,18 @@
       </table>
     </div>
 
+    {% set projects_section = get_section(path="projects/_index.md") %}
+    {% set pinned_slugs = projects_section.extra.pinned | default(value=[]) %}
     <div class="home-column prose">
       <p class="home-column__title">Pinned projects</p>
       <table class="project-table">
         <tbody>
-          {% for project in section.extra.pinned_projects %}
+          {% for slug in pinned_slugs %}
+          {% set project = get_section(path="projects/" ~ slug ~ "/_index.md") %}
           {% if loop.index0 % 3 == 0 %}<tr>{% endif %}
           <td>
-            <a href="{{ project.url }}">{{ project.name }}</a>
-            <span class="project-table__language">{{ project.language }}</span>
+            <a href="{{ project.permalink }}">{{ project.title }}</a>
+            <span class="project-table__language">{% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}</span>
           </td>
           {% if loop.index0 % 3 == 2 or loop.last %}</tr>{% endif %}
           {% endfor %}

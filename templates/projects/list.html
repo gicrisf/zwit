@@ -18,29 +18,76 @@
   </div>
   {% endif %}
 
-  <div class="cards">
-    {% for path in section.subsections %}
-    {% set project = get_section(path=path) %}
-    {% set project_slug = project.path | trim_end(pat="/") | split(pat="/") | last %}
-    {% set project_term = get_taxonomy_term(kind="projects", term=project_slug, required=false) %}
-    <div class="card project-card">
-      <a class="card__link" href="{{ project.permalink }}">
-        <span class="card__title">{{ project.title }} <span aria-hidden="true">→</span></span>
-        {% if project.description %}
-        <span class="card__description">{{ project.description }}</span>
-        {% endif %}
-        <span class="project-card__meta">
-          {% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}
-          {% if project.pages %}
-          {% if project.extra.language %} · {% endif %}{{ project.pages | length }} doc{{ project.pages | length | pluralize }}
+  {% set pinned_slugs = section.extra.pinned | default(value=[]) %}
+  {% if pinned_slugs %}
+  <section class="projects-pinned" aria-labelledby="projects-pinned-title">
+    <h2 class="projects-section__title" id="projects-pinned-title">Pinned projects</h2>
+    <ol class="projects-pinned__grid">
+      {% for slug in pinned_slugs %}
+      {% set project = get_section(path="projects/" ~ slug ~ "/_index.md") %}
+      {% set project_term = get_taxonomy_term(kind="projects", term=slug, required=false) %}
+      <li class="card project-card project-card--pinned">
+        <a class="card__link" href="{{ project.permalink }}">
+          <span class="projects-pinned__index" aria-hidden="true">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+          <span class="card__title">{{ project.title }} <span aria-hidden="true">→</span></span>
+          {% if project.description %}
+          <span class="card__description">{{ project.description }}</span>
           {% endif %}
-          {% if project_term %}
-          {% if project.extra.language or project.pages %} · {% endif %}{{ project_term.page_count }} post{{ project_term.page_count | pluralize }}
+          <span class="project-card__meta">
+            {% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}
+            {% if project.pages %}
+            {% if project.extra.language %} · {% endif %}{{ project.pages | length }} doc{{ project.pages | length | pluralize }}
+            {% endif %}
+            {% if project_term %}
+            {% if project.extra.language or project.pages %} · {% endif %}{{ project_term.page_count }} post{{ project_term.page_count | pluralize }}
+            {% endif %}
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  {% set_global has_unpinned = false %}
+  {% for path in section.subsections %}
+  {% set project = get_section(path=path) %}
+  {% set project_slug = project.path | trim_end(pat="/") | split(pat="/") | last %}
+  {% if project_slug not in pinned_slugs %}
+  {% set_global has_unpinned = true %}
+  {% endif %}
+  {% endfor %}
+
+  {% if has_unpinned %}
+  <section class="projects-all" aria-labelledby="projects-all-title">
+    <h2 class="projects-section__title" id="projects-all-title">All projects</h2>
+    <div class="cards">
+      {% for path in section.subsections %}
+      {% set project = get_section(path=path) %}
+      {% set project_slug = project.path | trim_end(pat="/") | split(pat="/") | last %}
+      {% if project_slug not in pinned_slugs %}
+      {% set project_term = get_taxonomy_term(kind="projects", term=project_slug, required=false) %}
+      <div class="card project-card">
+        <a class="card__link" href="{{ project.permalink }}">
+          <span class="card__title">{{ project.title }} <span aria-hidden="true">→</span></span>
+          {% if project.description %}
+          <span class="card__description">{{ project.description }}</span>
           {% endif %}
-        </span>
-      </a>
+          <span class="project-card__meta">
+            {% if project.extra.language %}{{ project.extra.language | join(sep=", ") }}{% endif %}
+            {% if project.pages %}
+            {% if project.extra.language %} · {% endif %}{{ project.pages | length }} doc{{ project.pages | length | pluralize }}
+            {% endif %}
+            {% if project_term %}
+            {% if project.extra.language or project.pages %} · {% endif %}{{ project_term.page_count }} post{{ project_term.page_count | pluralize }}
+            {% endif %}
+          </span>
+        </a>
+      </div>
+      {% endif %}
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
+  </section>
+  {% endif %}
 </article>
 {% endblock main %}

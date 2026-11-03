@@ -43,34 +43,4 @@ category = "blog"
 label = "Unsplash"
 url = "https://unsplash.com/@gicrisf"
 category = "photo"
-
-[[extra.pinned_projects]]
-name = "ox-zola"
-url = "/projects/ox-zola/"
-language = "Emacs Lisp"
-
-[[extra.pinned_projects]]
-name = "windmenu"
-url = "/projects/windmenu/"
-language = "Rust"
-
-[[extra.pinned_projects]]
-name = "tochemfig"
-url = "/projects/tochemfig/"
-language = "Emacs Lisp"
-
-[[extra.pinned_projects]]
-name = "qwen-asr-rs"
-url = "/projects/qwen-asr-rs/"
-language = "Rust"
-
-[[extra.pinned_projects]]
-name = "emacs-indigo"
-url = "/projects/emacs-indigo/"
-language = "Emacs Lisp"
-
-[[extra.pinned_projects]]
-name = "ox-skills"
-url = "/projects/ox-skills/"
-language = "Emacs Lisp"
 +++
