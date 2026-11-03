@@ -57,7 +57,7 @@
         <a class="home-column__more" href="{{ links_section.permalink }}">All links →</a>
       </div>
       {% if pinned_link_slugs %}
-      <ul class="links-bento links-bento--compact">
+      <ul class="cards">
         {% for slug in pinned_link_slugs %}
         {% for candidate in home_links %}
         {% if candidate.slug == slug %}

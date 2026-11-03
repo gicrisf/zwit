@@ -9,6 +9,8 @@ pinned = [
   "codeberg",
   "mastodon",
   "bluesky",
+  "digressions",
+  "unsplash",
 ]
 
 [[extra.links]]
