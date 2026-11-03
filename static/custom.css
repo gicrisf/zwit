@@ -3,6 +3,22 @@
   transform: scale(1.06);
 }
 
+.nav-button[aria-current="page"] {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.nav-button[aria-current="page"]:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.nav-button[aria-current="page"]::before {
+  content: none;
+}
+
 .home-columns {
   align-items: start;
   display: grid;
