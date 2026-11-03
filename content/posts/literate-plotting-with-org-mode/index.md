@@ -78,7 +78,7 @@ except Exception as e:
 
 ## Math
 
-The Lorenz system of coupled, ordinary, first-order differential equations has chaotic solutions for certain parameter values \(\sigma\), \(\rho\), \(\beta\) and initial conditions: \(u(0)\), \(v(0)\) and \(\omega (0)\).&nbsp;[^fn:2]
+The Lorenz system of coupled, ordinary, first-order differential equations has chaotic solutions for certain parameter values $\sigma$, $\rho$, $\beta$ and initial conditions: $u(0)$, $v(0)$ and $\omega(0)$.&nbsp;[^fn:2]
 
 $$ \frac{du}{dt} = \sigma (v-u) $$
 
@@ -169,4 +169,4 @@ except Exception as e:
 
 ## EDIT: 2026-11-03
 
-The only update is in the code: the environment is now created and populated with `uv` to align the example with current Python tooling. The full Org source and generated figure are in the [org-lorenz-attractor repository](https://github.com/gicrisf/org-lorenz-attractor).
+The environment is now created and populated with `uv` to align the example with current Python tooling. The full Org source and generated figure are in the [org-lorenz-attractor repository](https://github.com/gicrisf/org-lorenz-attractor).
