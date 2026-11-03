@@ -3,6 +3,7 @@ title = "Zeeman: a minimalistic periodic table focused on isotopes"
 authors = ["Giovanni Crisalfi"]
 date = 2025-06-15
 draft = false
+
 [taxonomies]
   tags = ["react", "d3"]
   categories = ["web", "gui", "chem"]

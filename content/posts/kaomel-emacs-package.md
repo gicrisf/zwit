@@ -4,8 +4,10 @@ authors = ["Giovanni Crisalfi"]
 date = 2025-08-13
 updated = 2025-10-18
 draft = false
+
 [taxonomies]
   tags = ["emacs", "lisp"]
+  categories = ["emacs"]
   projects = ["kaomel"]
 +++
 

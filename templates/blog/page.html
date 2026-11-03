@@ -45,9 +45,9 @@
       {% if page.taxonomies.projects %}
       <span class="post-tags__group">
         {% for project in page.taxonomies.projects %}
-        {% set project_page = get_page(path="projects/" ~ project ~ ".md", allow_missing=true) %}
-        {% if project_page %}
-        <a class="post-project" href="{{ project_page.permalink }}">↳ {{ project_page.title }}</a>
+        {% set project_section = get_section(path="projects/" ~ project ~ "/_index.md", required=false) %}
+        {% if project_section %}
+        <a class="post-project" href="{{ project_section.permalink }}">↳ {{ project_section.title }}</a>
         {% endif %}
         {% endfor %}
       </span>
